@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0a0a0a">
+    <title>404 - Page Not Found | Karthik M Portfolio</title>
+    <meta name="description" content="Oops! The page you're looking for has drifted into space.">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#128640;</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+            overflow: hidden;
+            position: relative;
+        }
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(2px 2px at 20% 30%, white, transparent),
+                        radial-gradient(2px 2px at 60% 70%, white, transparent),
+                        radial-gradient(1px 1px at 50% 50%, white, transparent);
+            background-size: 200px 200px;
+            animation: stars 120s linear infinite;
+            z-index: -1;
+        }
+        @keyframes stars { from { transform: translateY(0); } to { transform: translateY(-1000px); } }
+        .astronaut { font-size: 5rem; animation: float 3s ease-in-out infinite; margin-bottom: 1rem; }
+        @keyframes float { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-20px) rotate(10deg); } }
+        .code {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(6rem, 20vw, 12rem);
+            font-weight: 900;
+            background: linear-gradient(135deg, #00ffff, #ff00ff, #ffff00);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradient 3s ease infinite;
+            margin-bottom: 0.5rem;
+        }
+        @keyframes gradient { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+        .title { font-family: 'Orbitron', sans-serif; font-size: clamp(1.5rem, 4vw, 2.5rem); color: #00ffff; margin-bottom: 1rem; text-shadow: 0 0 20px #00ffff; }
+        .msg { font-size: clamp(1rem, 2vw, 1.2rem); color: #ccc; max-width: 500px; margin: 0 auto 2rem; line-height: 1.6; }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 2.5rem;
+            background: linear-gradient(135deg, #00ffff, #ff00ff);
+            color: #000;
+            border: none;
+            border-radius: 50px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            text-decoration: none;
+            transition: all 0.3s;
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.4);
+        }
+        .btn:hover { transform: translateY(-5px) scale(1.05); box-shadow: 0 15px 40px rgba(0, 255, 255, 0.6); }
+        .fact { margin-top: 3rem; padding: 1.5rem; background: rgba(0, 255, 255, 0.05); border: 2px solid rgba(0, 255, 255, 0.2); border-radius: 15px; max-width: 400px; }
+        .fact h3 { color: #ffff00; font-size: 1rem; margin-bottom: 0.5rem; }
+        .fact p { color: #888; font-size: 0.9rem; }
+    </style>
+</head>
+<body>
+    <div class="stars"></div>
+    <div class="astronaut">&#128104;&#8205;&#128640;</div>
+    <div class="code">404</div>
+    <h1 class="title">Lost in Space!</h1>
+    <p class="msg">Houston, we have a problem! The page you're looking for has drifted into the cosmic void. Let's navigate back to safety.</p>
+    <a href="/" class="btn">&#128640; Return Home</a>
+    <div class="fact">
+        <h3>&#11088; Did you know?</h3>
+        <p id="funFact">Loading...</p>
+    </div>
+    <script>
+        const facts = [
+            "Space is completely silent.",
+            "A day on Venus is longer than its year!",
+            "Neutron stars can spin at 600 rotations per second.",
+            "There are more stars than grains of sand on Earth.",
+            "Footprints on the Moon last 100 million years.",
+            "The Sun holds 99.86% of solar system mass.",
+            "A NASA spacesuit costs about $12 million."
+        ];
+        document.getElementById('funFact').textContent = facts[Math.floor(Math.random() * facts.length)];
+    </script>
+</body>
+</html>
