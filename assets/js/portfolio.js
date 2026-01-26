@@ -11,27 +11,37 @@ function initGitHubStats() {
     
     if (!statsContainer) return;
     
-    statsContainer.innerHTML = `
-        <div class="github-stats-widget">
-            <div class="github-stats-card">
-                <img src="https://github-readme-stats.vercel.app/api?username=${username}&show_icons=true&theme=radical&hide_border=true&bg_color=0a0a0a&title_color=00ffff&icon_color=ff00ff&text_color=ffffff" 
-                     alt="GitHub Stats" 
-                     loading="lazy">
-            </div>
-            <div class="github-stats-card">
-                <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=${username}&layout=compact&theme=radical&hide_border=true&bg_color=0a0a0a&title_color=00ffff&text_color=ffffff" 
-                     alt="Top Languages" 
-                     loading="lazy">
-            </div>
-            <div class="github-stats-card">
-                <img src="https://github-readme-streak-stats.herokuapp.com/?user=${username}&theme=radical&hide_border=true&background=0a0a0a&ring=00ffff&fire=ff00ff&currStreakLabel=00ffff" 
-                     alt="GitHub Streak" 
-                     loading="lazy">
-            </div>
-        </div>
-    `;
+    // Show loading state
+    statsContainer.innerHTML = '<div class="github-stats-loading">Loading GitHub stats...</div>';
     
-    trackEvent('github_stats_loaded', { username });
+    try {
+        statsContainer.innerHTML = `
+            <div class="github-stats-widget">
+                <div class="github-stats-card">
+                    <img src="https://github-readme-stats.vercel.app/api?username=${username}&show_icons=true&theme=radical&hide_border=true&bg_color=0a0a0a&title_color=00ffff&icon_color=ff00ff&text_color=ffffff" 
+                         alt="GitHub Stats" 
+                         loading="lazy"
+                         onerror="this.parentElement.innerHTML='<p style=color:var(--text-muted)>Stats unavailable</p>'">
+                </div>
+                <div class="github-stats-card">
+                    <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=${username}&layout=compact&theme=radical&hide_border=true&bg_color=0a0a0a&title_color=00ffff&text_color=ffffff" 
+                         alt="Top Languages" 
+                         loading="lazy"
+                         onerror="this.parentElement.innerHTML='<p style=color:var(--text-muted)>Languages unavailable</p>'">
+                </div>
+                <div class="github-stats-card">
+                    <img src="https://github-readme-streak-stats.herokuapp.com/?user=${username}&theme=radical&hide_border=true&background=0a0a0a&ring=00ffff&fire=ff00ff&currStreakLabel=00ffff" 
+                         alt="GitHub Streak" 
+                         loading="lazy"
+                         onerror="this.parentElement.innerHTML='<p style=color:var(--text-muted)>Streak unavailable</p>'">
+                </div>
+            </div>
+        `;
+        trackEvent('github_stats_loaded', { username });
+    } catch (error) {
+        statsContainer.innerHTML = '<p style="color: var(--text-muted); text-align: center;">GitHub stats temporarily unavailable</p>';
+        console.error('GitHub stats error:', error);
+    }
 }
 
 // ==================== VISITOR COUNTER ====================
@@ -46,7 +56,8 @@ function initVisitorCounter() {
             <span>???</span>
             <img src="https://visitor-badge.laobi.icu/badge?page_id=${repoPath}" 
                  alt="Visitor count" 
-                 loading="lazy">
+                 loading="lazy"
+                 onerror="this.parentElement.innerHTML='<span style=\\'color:var(--text-muted)\\'>Visitor tracking unavailable</span>'">
         </div>
     `;
 }
@@ -63,11 +74,11 @@ function initSocialShare() {
     
     shareContainer.innerHTML = `
         <div class="social-share-container">
-            <a href="https://linkedin.com/in/karthik-m-9262a02b4" class="share-btn linkedin" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-                ?? LinkedIn
+            <a href="https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}" class="share-btn linkedin" target="_blank" rel="noopener noreferrer" aria-label="Share on LinkedIn">
+                ?? Share Portfolio
             </a>
-            <a href="https://wa.me/?text=${encodeURIComponent(text + ' ' + url)}" class="share-btn whatsapp" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
-                ?? WhatsApp
+            <a href="https://wa.me/?text=${encodeURIComponent(text + ' ' + url)}" class="share-btn whatsapp" target="_blank" rel="noopener noreferrer" aria-label="Share on WhatsApp">
+                ?? Share on WhatsApp
             </a>
         </div>
     `;
@@ -104,6 +115,10 @@ function initCopyEmailButton() {
     const copyBtns = document.querySelectorAll('.copy-email-btn');
     
     copyBtns.forEach(btn => {
+        // Prevent multiple listeners
+        if (btn.dataset.listenerAdded) return;
+        btn.dataset.listenerAdded = 'true';
+        
         btn.addEventListener('click', async function() {
             const success = await copyToClipboard(email, 'Email copied! ??');
             
@@ -183,6 +198,9 @@ function initPlayerProfileCard() {
     
     if (!xpDisplay) return;
     
+    // Check if card already exists
+    if (xpDisplay.querySelector('.player-profile-card')) return;
+    
     xpDisplay.classList.add('player-profile-trigger');
     
     const playerLevel = parseInt(safeGetItem('portfolioLevel', '1')) || 1;
@@ -192,6 +210,23 @@ function initPlayerProfileCard() {
     
     const profileCard = document.createElement('div');
     profileCard.className = 'player-profile-card';
+    
+    // Safely get achievements with CONFIG check
+    let badgesHTML = '';
+    if (achievements.length > 0 && typeof window.CONFIG !== 'undefined' && window.CONFIG.achievements) {
+        const badgesList = achievements.slice(0, 8).map(id => {
+            const ach = window.CONFIG.achievements[id];
+            return ach ? `<span class="profile-badge" title="${ach.name}">${ach.badge}</span>` : '';
+        }).filter(b => b).join('');
+        
+        badgesHTML = `
+            <div class="profile-badges">
+                ${badgesList}
+                ${achievements.length > 8 ? `<span class="profile-badge">+${achievements.length - 8}</span>` : ''}
+            </div>
+        `;
+    }
+    
     profileCard.innerHTML = `
         <div class="profile-header">
             <div class="profile-avatar">??</div>
@@ -214,16 +249,7 @@ function initPlayerProfileCard() {
                 <div class="profile-stat-label">Badges</div>
             </div>
         </div>
-        ${achievements.length > 0 ? `
-            <div class="profile-badges">
-                ${achievements.slice(0, 8).map(id => {
-                    const CONFIG = window.CONFIG || {};
-                    const ach = (CONFIG.achievements || {})[id];
-                    return ach ? `<span class="profile-badge" title="${ach.name}">${ach.badge}</span>` : '';
-                }).join('')}
-                ${achievements.length > 8 ? `<span class="profile-badge">+${achievements.length - 8}</span>` : ''}
-            </div>
-        ` : ''}
+        ${badgesHTML}
         <div style="margin-top: 1rem; text-align: center; font-size: 0.8rem; color: var(--text-muted);">
             ?? High Score: ${highScore}
         </div>
@@ -234,6 +260,9 @@ function initPlayerProfileCard() {
 
 // ==================== FLOATING ACTION BUTTON ====================
 function initFloatingActionButton() {
+    // Check if FAB already exists
+    if (document.getElementById('fabContainer')) return;
+    
     const fabHTML = `
         <div class="fab-container" id="fabContainer">
             <button class="fab-main" id="fabMain" aria-label="Quick actions">
@@ -282,60 +311,77 @@ function scrollToTop() {
 
 // ==================== MOBILE BOTTOM NAVIGATION ====================
 function initMobileBottomNav() {
-    if (window.innerWidth > 768) return;
-    
-    const navHTML = `
-        <nav class="mobile-bottom-nav" role="navigation" aria-label="Mobile navigation">
-            <a href="#about" class="mobile-nav-item">
-                <span class="icon">??</span>
-                <span>About</span>
-            </a>
-            <a href="#skills" class="mobile-nav-item">
-                <span class="icon">??</span>
-                <span>Skills</span>
-            </a>
-            <a href="#projects" class="mobile-nav-item">
-                <span class="icon">??</span>
-                <span>Projects</span>
-            </a>
-            <a href="#contact" class="mobile-nav-item">
-                <span class="icon">??</span>
-                <span>Contact</span>
-            </a>
-        </nav>
-    `;
-    
-    // Remove existing mobile nav if present
-    const existing = document.querySelector('.mobile-bottom-nav');
-    if (existing) existing.remove();
-    
-    document.body.insertAdjacentHTML('beforeend', navHTML);
-    
-    // Update active state on scroll
-    const navItems = document.querySelectorAll('.mobile-nav-item');
-    const sections = ['about', 'skills', 'projects', 'contact'];
-    
-    function updateActiveNav() {
-        let currentSection = sections[0];
+    function createMobileNav() {
+        if (window.innerWidth > 768) {
+            // Remove mobile nav on desktop
+            const existing = document.querySelector('.mobile-bottom-nav');
+            if (existing) existing.remove();
+            return;
+        }
         
-        sections.forEach(sectionId => {
-            const section = document.getElementById(sectionId);
-            if (section) {
-                const rect = section.getBoundingClientRect();
-                if (rect.top <= window.innerHeight / 2 && rect.bottom >= window.innerHeight / 2) {
-                    currentSection = sectionId;
+        // Remove existing mobile nav if present
+        const existing = document.querySelector('.mobile-bottom-nav');
+        if (existing) existing.remove();
+        
+        const navHTML = `
+            <nav class="mobile-bottom-nav" role="navigation" aria-label="Mobile navigation">
+                <a href="#about" class="mobile-nav-item">
+                    <span class="icon">??</span>
+                    <span>About</span>
+                </a>
+                <a href="#skills" class="mobile-nav-item">
+                    <span class="icon">??</span>
+                    <span>Skills</span>
+                </a>
+                <a href="#projects" class="mobile-nav-item">
+                    <span class="icon">??</span>
+                    <span>Projects</span>
+                </a>
+                <a href="#contact" class="mobile-nav-item">
+                    <span class="icon">??</span>
+                    <span>Contact</span>
+                </a>
+            </nav>
+        `;
+        
+        document.body.insertAdjacentHTML('beforeend', navHTML);
+        
+        // Update active state on scroll
+        const navItems = document.querySelectorAll('.mobile-nav-item');
+        const sections = ['about', 'skills', 'projects', 'contact'];
+        
+        function updateActiveNav() {
+            let currentSection = sections[0];
+            
+            sections.forEach(sectionId => {
+                const section = document.getElementById(sectionId);
+                if (section) {
+                    const rect = section.getBoundingClientRect();
+                    if (rect.top <= window.innerHeight / 2 && rect.bottom >= window.innerHeight / 2) {
+                        currentSection = sectionId;
+                    }
                 }
-            }
-        });
+            });
+            
+            navItems.forEach(item => {
+                const href = item.getAttribute('href').substring(1);
+                item.classList.toggle('active', href === currentSection);
+            });
+        }
         
-        navItems.forEach(item => {
-            const href = item.getAttribute('href').substring(1);
-            item.classList.toggle('active', href === currentSection);
-        });
+        window.addEventListener('scroll', throttle(updateActiveNav, 200));
+        updateActiveNav();
     }
     
-    window.addEventListener('scroll', throttle(updateActiveNav, 200));
-    updateActiveNav();
+    // Initial creation
+    createMobileNav();
+    
+    // Handle window resize
+    let resizeTimeout;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(createMobileNav, 250);
+    });
 }
 
 // ==================== FONT SIZE CONTROLS ====================
@@ -610,7 +656,7 @@ function initSwipeGestures() {
     let touchStartX = 0;
     let touchEndX = 0;
     
-    const sections = ['about', 'skills', 'experience', 'projects', 'contact'];
+    const sections = ['about', 'skills', 'projects', 'contact'];
     let currentSectionIndex = 0;
     
     function handleSwipe() {
