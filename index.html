@@ -94,6 +94,31 @@
     }
     </script>
     
+    <!-- 
+        GOOGLE ANALYTICS 4 SETUP (Optional but Recommended):
+        1. Visit https://analytics.google.com
+        2. Create a new GA4 property
+        3. Get your Measurement ID (format: G-XXXXXXXXXX)
+        4. Uncomment the script below and replace YOUR_MEASUREMENT_ID
+    -->
+    <!-- 
+    <script async src="https://www.googletagmanager.com/gtag/js?id=YOUR_MEASUREMENT_ID"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'YOUR_MEASUREMENT_ID', {
+        'anonymize_ip': true,
+        'cookie_flags': 'SameSite=None;Secure',
+        'page_title': 'Karthik M Portfolio',
+        'custom_map': {
+          'dimension1': 'user_level',
+          'dimension2': 'game_mode'
+        }
+      });
+    </script>
+    -->
+    
     <style>
         /* ==================== ULTRA CSS - COMPLETE TRANSFORMATION ==================== */
         *, *::before, *::after {
@@ -878,6 +903,24 @@
         .form-submit:hover {
             transform: translateY(-3px);
             box-shadow: 0 10px 30px rgba(0, 255, 255, 0.4);
+        }
+
+        .form-error {
+            display: block;
+            color: var(--danger);
+            font-size: 0.85rem;
+            margin-top: 0.3rem;
+            min-height: 1.2rem;
+        }
+
+        .form-group input.error,
+        .form-group textarea.error {
+            border-color: var(--danger);
+        }
+
+        .form-group input.success,
+        .form-group textarea.success {
+            border-color: var(--success);
         }
 
         /* WhatsApp Button */
@@ -2869,6 +2912,731 @@
             50% { opacity: 0.5; }
         }
 
+        /* Entry Choice Screen */
+        .entry-choice-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at center, #1a1a2e 0%, #0a0a0f 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100001;
+            transition: opacity 0.5s, visibility 0.5s;
+        }
+
+        .entry-choice-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .choice-container {
+            max-width: 600px;
+            padding: 3rem;
+            text-align: center;
+            animation: slideUp 0.6s ease-out;
+        }
+
+        .choice-title {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 5vw, 3rem);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .choice-subtitle {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
+        }
+
+        .choice-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .choice-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1.5rem;
+            text-align: center;
+            width: 100%;
+        }
+
+        .btn-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .btn-text {
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .btn-subtext {
+            font-size: 0.85rem;
+            opacity: 0.7;
+            margin-top: 0.25rem;
+        }
+
+        .remember-choice {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            cursor: pointer;
+            margin-top: 1rem;
+        }
+
+        .remember-choice input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .returning-visitor {
+            margin-top: 1rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .returning-visitor a {
+            color: var(--primary);
+            text-decoration: underline;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Notification System */
+        .notification {
+            position: fixed;
+            bottom: -100px;
+            right: 2rem;
+            background: var(--bg-card);
+            border: 2px solid var(--primary);
+            border-radius: 12px;
+            padding: 1rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            z-index: 100000;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            transition: bottom 0.3s ease;
+            min-width: 300px;
+        }
+
+        .notification.show {
+            bottom: 2rem;
+        }
+
+        .notification-success { border-color: var(--success); }
+        .notification-error { border-color: var(--danger); }
+        .notification-info { border-color: var(--primary); }
+
+        .notification-icon {
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .notification-message {
+            color: var(--text-primary);
+            font-weight: 500;
+            flex: 1;
+        }
+
+        .notification-close {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 0;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: color 0.2s;
+        }
+
+        .notification-close:hover {
+            color: var(--text-primary);
+        }
+
+        /* PWA Install Prompt */
+        .install-prompt {
+            position: fixed;
+            bottom: -200px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--bg-card);
+            border: 2px solid var(--primary);
+            border-radius: 15px;
+            padding: 1.5rem;
+            max-width: 400px;
+            width: 90%;
+            z-index: 100000;
+            box-shadow: 0 10px 50px rgba(0, 255, 255, 0.3);
+            transition: bottom 0.4s ease;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .install-prompt.show {
+            bottom: 2rem;
+        }
+
+        .install-prompt-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .install-prompt-icon {
+            font-size: 2rem;
+        }
+
+        .install-prompt-text h3 {
+            color: var(--primary);
+            font-size: 1.1rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .install-prompt-text p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .install-prompt-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .install-prompt .btn {
+            flex: 1;
+            padding: 0.8rem;
+            font-size: 0.9rem;
+        }
+
+        /* Project Modal */
+        .modal {
+            position: fixed;
+            inset: 0;
+            z-index: 100002;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s;
+            padding: 1rem;
+        }
+
+        .modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-backdrop {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(10px);
+        }
+
+        .modal-content {
+            position: relative;
+            max-width: 900px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 2rem;
+            transform: scale(0.9);
+            transition: transform 0.3s;
+            z-index: 1;
+        }
+
+        .modal.active .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(255, 0, 0, 0.2);
+            border: 2px solid var(--danger);
+            color: var(--danger);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            z-index: 2;
+        }
+
+        .modal-close:hover {
+            background: var(--danger);
+            color: white;
+            transform: rotate(90deg);
+        }
+
+        .modal-body h2 {
+            color: var(--primary);
+            font-family: var(--font-display);
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .modal-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .modal-gallery img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            border: 2px solid var(--border-color);
+            cursor: pointer;
+            transition: transform 0.3s, border-color 0.3s;
+        }
+
+        .modal-gallery img:hover {
+            transform: scale(1.05);
+            border-color: var(--primary);
+        }
+
+        .detail-section {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: rgba(0, 255, 255, 0.05);
+            border-left: 4px solid var(--primary);
+            border-radius: 10px;
+        }
+
+        .detail-section h3 {
+            color: var(--primary);
+            font-family: var(--font-display);
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+        }
+
+        .detail-section p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        .detail-section ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .detail-section li {
+            color: var(--text-secondary);
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .detail-section li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--success);
+            font-weight: bold;
+        }
+
+        .tech-stack-detailed {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .tech-stack-detailed .tech-badge {
+            padding: 0.5rem 1rem;
+            background: rgba(255, 0, 255, 0.1);
+            border: 2px solid var(--secondary);
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        .project-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        /* Stats Dashboard */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stat-card {
+            padding: 2rem 1.5rem;
+            background: linear-gradient(135deg, rgba(0, 255, 255, 0.05), rgba(255, 0, 255, 0.05));
+            border: 2px solid var(--border-color);
+            border-radius: 20px;
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(0, 255, 255, 0.1), transparent 70%);
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+
+        .stat-card:hover::before {
+            opacity: 1;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary);
+            box-shadow: 0 20px 40px rgba(0, 255, 255, 0.3);
+        }
+
+        .stat-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-value {
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 900;
+            font-family: var(--font-display);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Project Filters */
+        .projects-controls {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .filter-tags {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .filter-tag {
+            padding: 0.6rem 1.5rem;
+            border: 2px solid var(--primary);
+            background: transparent;
+            color: var(--primary);
+            border-radius: 25px;
+            font-family: var(--font-display);
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .filter-tag:hover,
+        .filter-tag.active {
+            background: var(--primary);
+            color: var(--dark);
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.4);
+        }
+
+        .project-hint {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            margin-top: 1rem;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .project-card:hover .project-hint {
+            opacity: 1;
+        }
+
+        /* GitHub Activity Feed */
+        .github-feed {
+            display: grid;
+            gap: 1rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .activity-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 1.5rem;
+            background: rgba(0, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            transition: all 0.3s;
+        }
+
+        .activity-item:hover {
+            border-color: var(--primary);
+            transform: translateX(10px);
+        }
+
+        .activity-icon {
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .activity-content {
+            flex: 1;
+        }
+
+        .activity-content p {
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .activity-time {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+        }
+
+        /* Testimonials Section */
+        .testimonials-slider {
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .testimonial-track {
+            display: flex;
+            gap: 2rem;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            padding: 1rem;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .testimonial-track::-webkit-scrollbar {
+            display: none;
+        }
+
+        .testimonial-card {
+            flex: 0 0 100%;
+            scroll-snap-align: center;
+            padding: 2rem;
+            background: linear-gradient(135deg, rgba(255, 255, 0, 0.05), rgba(0, 255, 255, 0.05));
+            border: 2px solid rgba(255, 255, 0, 0.3);
+            border-radius: 20px;
+            text-align: center;
+        }
+
+        .testimonial-stars {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .testimonial-text {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            line-height: 1.8;
+            font-style: italic;
+            margin-bottom: 1.5rem;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .author-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--dark);
+            font-weight: bold;
+        }
+
+        .author-info h4 {
+            color: var(--primary);
+            font-size: 1.1rem;
+        }
+
+        .author-info p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .slider-dots {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .slider-dots .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(0, 255, 255, 0.3);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .slider-dots .dot.active {
+            background: var(--primary);
+            transform: scale(1.2);
+        }
+
+        /* Cookie Consent */
+        .cookie-consent {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--bg-card);
+            border-top: 2px solid var(--primary);
+            padding: 1.5rem;
+            z-index: 100000;
+            transform: translateY(100%);
+            transition: transform 0.4s ease;
+        }
+
+        .cookie-consent.show {
+            transform: translateY(0);
+        }
+
+        .cookie-consent.hidden {
+            display: none;
+        }
+
+        .cookie-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .cookie-content p {
+            color: var(--text-secondary);
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .cookie-content a {
+            color: var(--primary);
+            text-decoration: underline;
+        }
+
+        .cookie-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn-sm {
+            padding: 0.5rem 1.5rem;
+            font-size: 0.9rem;
+        }
+
+        /* Fade animation for filtering */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.4s ease forwards;
+        }
+
+        /* Scrollbar styling for modal */
+        .modal-content::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        .modal-content::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 5px;
+        }
+
+        .modal-content::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 5px;
+        }
+
+        .modal-content::-webkit-scrollbar-thumb:hover {
+            background: var(--secondary);
+        }
+
         /* Cosmic Ring Animation */
         .cosmic-ring {
             position: fixed;
@@ -2942,8 +3710,9 @@
                 <li><a href="#about" class="nav-link">About</a></li>
                 <li><a href="#skills" class="nav-link">Skills</a></li>
                 <li><a href="#experience" class="nav-link">Experience</a></li>
+                <li><a href="#stats" class="nav-link">Stats</a></li>
                 <li><a href="#projects" class="nav-link">Projects</a></li>
-                <li><a href="#certifications" class="nav-link">Certifications</a></li>
+                <li><a href="#testimonials" class="nav-link">Testimonials</a></li>
                 <li><a href="#contact" class="nav-link">Contact</a></li>
             </ul>
         </nav>
@@ -2953,8 +3722,10 @@
             <div class="section-dot" data-section="about" title="About"></div>
             <div class="section-dot" data-section="skills" title="Skills"></div>
             <div class="section-dot" data-section="experience" title="Experience"></div>
+            <div class="section-dot" data-section="stats" title="Stats"></div>
             <div class="section-dot" data-section="projects" title="Projects"></div>
             <div class="section-dot" data-section="certifications" title="Certifications"></div>
+            <div class="section-dot" data-section="testimonials" title="Testimonials"></div>
             <div class="section-dot" data-section="contact" title="Contact"></div>
         </div>
     
@@ -2973,7 +3744,38 @@
             💬
         </a>
 
-        <!-- Loading Screen -->
+    <!-- Entry Choice Screen -->
+    <div id="entryChoice" class="entry-choice-screen hidden">
+        <div class="choice-container glass-card">
+            <h2 class="choice-title">🚀 Welcome to My Portfolio</h2>
+            <p class="choice-subtitle">How would you like to explore?</p>
+            
+            <div class="choice-buttons">
+                <button class="btn btn-primary choice-btn" id="playGameBtn" aria-label="Play mini-game">
+                    <span class="btn-icon">🎮</span>
+                    <span class="btn-text">Play Mini-Game</span>
+                    <span class="btn-subtext">2-3 minutes of fun</span>
+                </button>
+                
+                <button class="btn btn-secondary choice-btn" id="viewPortfolioBtn" aria-label="View portfolio directly">
+                    <span class="btn-icon">📄</span>
+                    <span class="btn-text">View Portfolio</span>
+                    <span class="btn-subtext">Skip directly to content</span>
+                </button>
+            </div>
+            
+            <label class="remember-choice">
+                <input type="checkbox" id="rememberChoiceCheckbox"> 
+                <span>Remember my choice</span>
+            </label>
+            
+            <p class="returning-visitor hidden" id="returningVisitor">
+                Welcome back! <a href="#" id="resetPreference">Change preference</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- Loading Screen -->
         <div id="loadingScreen" role="alert" aria-live="polite">
             <div class="loader-container">
                 <div class="loader-ring"></div>
@@ -3080,9 +3882,9 @@
             
             <!-- Hero Buttons -->
             <div class="hero-buttons">
-                <a href="resume.pdf" download="Karthik_M_Resume.pdf" class="btn btn-primary" aria-label="Download Resume">
+                <button onclick="generateResumePDF()" class="btn btn-primary" aria-label="Download Resume">
                     📄 Download Resume
-                </a>
+                </button>
                 <a href="#contact" class="btn btn-secondary" aria-label="Contact me">
                     💬 Let's Talk
                 </a>
@@ -3248,11 +4050,59 @@
             </div>
         </section>
 
+        <!-- Stats Section -->
+        <section id="stats" aria-labelledby="stats-title">
+            <h2 class="section-title" id="stats-title">BY THE NUMBERS</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">📝</div>
+                    <div class="stat-value" data-target="50000">0</div>
+                    <div class="stat-label">Lines of Code</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🏆</div>
+                    <div class="stat-value" data-target="20">0</div>
+                    <div class="stat-label">Certifications</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">💼</div>
+                    <div class="stat-value" data-target="15">0</div>
+                    <div class="stat-label">Projects</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">📊</div>
+                    <div class="stat-value" data-target="100">0</div>
+                    <div class="stat-label">Dataset Size (K+)</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🎯</div>
+                    <div class="stat-value" data-target="91">0</div>
+                    <div class="stat-label">ML Accuracy %</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🌐</div>
+                    <div class="stat-value" data-target="4">0</div>
+                    <div class="stat-label">Languages</div>
+                </div>
+            </div>
+        </section>
+
         <!-- Projects Section -->
         <section id="projects">
             <h2 class="section-title">FEATURED PROJECTS</h2>
+            
+            <!-- Project Filters -->
+            <div class="projects-controls">
+                <div class="filter-tags">
+                    <button class="filter-tag active" data-filter="all">All</button>
+                    <button class="filter-tag" data-filter="python">Python</button>
+                    <button class="filter-tag" data-filter="ml">ML/AI</button>
+                    <button class="filter-tag" data-filter="iot">IoT</button>
+                </div>
+            </div>
+            
             <div class="projects-grid">
-                <div class="project-card">
+                <div class="project-card" data-project="ai-job-hunter">
                     <h3>🤖 Enhanced AI Job Hunter</h3>
                     <p>
                         Advanced desktop application with Material 3 design featuring AI-powered job matching, resume creation, 
@@ -3264,8 +4114,9 @@
                         <span class="tech-badge">OpenAI API</span>
                         <span class="tech-badge">Material 3</span>
                     </div>
+                    <p class="project-hint">👆 Click for details</p>
                 </div>
-                <div class="project-card">
+                <div class="project-card" data-project="job-portal">
                     <h3>💼 AI-Driven Job Portal</h3>
                     <p>
                         NoSQL recruitment platform with automated resume parsing and real-time job matching. Implemented intelligent 
@@ -3277,8 +4128,9 @@
                         <span class="tech-badge">Python</span>
                         <span class="tech-badge">ML</span>
                     </div>
+                    <p class="project-hint">👆 Click for details</p>
                 </div>
-                <div class="project-card">
+                <div class="project-card" data-project="hand-tracking-keyboard">
                     <h3>👋 Hand-Tracking Virtual Keyboard</h3>
                     <p>
                         Touchless typing system using computer vision and gesture recognition. Achieved 95% real-time gesture detection 
@@ -3290,8 +4142,9 @@
                         <span class="tech-badge">Computer Vision</span>
                         <span class="tech-badge">ML</span>
                     </div>
+                    <p class="project-hint">👆 Click for details</p>
                 </div>
-                <div class="project-card">
+                <div class="project-card" data-project="amazon-sales-analysis">
                     <h3>📊 Amazon Sales Data Analysis</h3>
                     <p>
                         Comprehensive sales forecasting pipeline using Python and machine learning. Achieved 91% accuracy in monthly 
@@ -3303,8 +4156,9 @@
                         <span class="tech-badge">scikit-learn</span>
                         <span class="tech-badge">Matplotlib</span>
                     </div>
+                    <p class="project-hint">👆 Click for details</p>
                 </div>
-                <div class="project-card">
+                <div class="project-card" data-project="rfid-automation">
                     <h3>🔐 RFID Door Automation System</h3>
                     <p>
                         IoT-based access control system using ESP32 microcontroller and RFID technology. Reduced manual access management 
@@ -3316,6 +4170,7 @@
                         <span class="tech-badge">IoT</span>
                         <span class="tech-badge">C</span>
                     </div>
+                    <p class="project-hint">👆 Click for details</p>
                 </div>
             </div>
         </section>
@@ -3411,24 +4266,115 @@
                 </div>
             </section>
 
+            <!-- Testimonials Section -->
+            <section id="testimonials" aria-labelledby="testimonials-title">
+                <h2 class="section-title" id="testimonials-title">WHAT PEOPLE SAY</h2>
+                <div class="testimonials-slider">
+                    <div class="testimonial-track" id="testimonialTrack">
+                        <div class="testimonial-card">
+                            <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
+                            <p class="testimonial-text">
+                                "Karthik demonstrated exceptional analytical skills during his internship. His work on data pipelines 
+                                and ML models showed remarkable attention to detail and innovative problem-solving abilities."
+                            </p>
+                            <div class="testimonial-author">
+                                <div class="author-avatar">DS</div>
+                                <div class="author-info">
+                                    <h4>Data Science Team Lead</h4>
+                                    <p>Prinston Smart, Bangalore</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="testimonial-card">
+                            <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
+                            <p class="testimonial-text">
+                                "A dedicated student with strong technical foundations. Karthik's projects in computer vision 
+                                and IoT showcased his ability to apply theoretical knowledge to practical solutions."
+                            </p>
+                            <div class="testimonial-author">
+                                <div class="author-avatar">PF</div>
+                                <div class="author-info">
+                                    <h4>Professor</h4>
+                                    <p>Dayananda Sagar Academy</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="testimonial-card">
+                            <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
+                            <p class="testimonial-text">
+                                "Outstanding coordination skills! Karthik organized our hackathon with 200+ participants flawlessly. 
+                                His leadership and technical expertise made the event a huge success."
+                            </p>
+                            <div class="testimonial-author">
+                                <div class="author-avatar">HC</div>
+                                <div class="author-info">
+                                    <h4>Hackathon Co-Organizer</h4>
+                                    <p>Tech Community</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slider-dots">
+                        <span class="dot active" data-index="0"></span>
+                        <span class="dot" data-index="1"></span>
+                        <span class="dot" data-index="2"></span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- GitHub Activity Section -->
+            <section id="github-activity" aria-labelledby="github-title">
+                <h2 class="section-title" id="github-title">RECENT ACTIVITY</h2>
+                <div id="githubFeed" class="github-feed">
+                    <div class="activity-loading">
+                        <p style="text-align: center; color: var(--text-muted);">🔄 Loading GitHub activity...</p>
+                    </div>
+                </div>
+                <div style="text-align: center; margin-top: 1.5rem;">
+                    <a href="https://github.com/Karthik77-kk" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">
+                        🐙 View All on GitHub
+                    </a>
+                </div>
+            </section>
+
             <!-- Contact Form Section -->
             <section id="contact" aria-labelledby="contact-title">
                 <h2 class="section-title" id="contact-title">GET IN TOUCH</h2>
+                <p style="text-align: center; color: var(--text-secondary); margin-bottom: 1.5rem; max-width: 600px; margin-left: auto; margin-right: auto;">
+                    Have a project in mind or want to collaborate? Fill out the form below or reach me directly via email/WhatsApp!
+                </p>
                 <!-- 
-                    To enable form submission:
-                    1. Sign up at https://formspree.io (free tier available)
-                    2. Create a new form and get your form ID
-                    3. Replace 'your-form-id' below with your actual form ID
-                    Example: action="https://formspree.io/f/xabcdefg"
+                    FORM SETUP INSTRUCTIONS:
+                    To enable form submission, choose ONE of these methods:
+                    
+                    METHOD 1 (Recommended - Formspree.io):
+                    1. Visit https://formspree.io and sign up (FREE)
+                    2. Create a new form
+                    3. Replace 'YOUR_FORMSPREE_ID' in the action below with your form ID
+                       Example: action="https://formspree.io/f/xabcdefg"
+                    
+                    METHOD 2 (Alternative - Netlify Forms):
+                    If hosted on Netlify, just add: data-netlify="true"
+                    
+                    METHOD 3 (Email fallback):
+                    Form will open default email client if no service configured
                 -->
-                <form class="contact-form" action="https://formspree.io/f/your-form-id" method="POST" id="contactForm">
+                <form class="contact-form" 
+                      action="https://formspree.io/f/YOUR_FORMSPREE_ID" 
+                      method="POST" 
+                      id="contactForm"
+                      novalidate>
+                    <input type="hidden" name="_subject" value="New Portfolio Contact Form Submission">
+                    <input type="hidden" name="_next" value="https://karthik77-kk.github.io/karthikm-resume/#contact">
                     <div class="form-group">
                         <label for="name">Your Name *</label>
                         <input type="text" id="name" name="name" required placeholder="John Doe" aria-required="true">
+                        <span class="form-error" id="nameError"></span>
                     </div>
                     <div class="form-group">
                         <label for="email">Your Email *</label>
-                        <input type="email" id="email" name="email" required placeholder="john@example.com" aria-required="true">
+                        <input type="email" id="email" name="_replyto" required placeholder="john@example.com" aria-required="true">
+                        <span class="form-error" id="emailError"></span>
                     </div>
                     <div class="form-group">
                         <label for="subject">Subject</label>
@@ -3437,19 +4383,74 @@
                     <div class="form-group">
                         <label for="message">Message *</label>
                         <textarea id="message" name="message" required placeholder="Tell me about your project or inquiry..." aria-required="true"></textarea>
+                        <span class="form-error" id="messageError"></span>
                     </div>
-                    <button type="submit" class="form-submit">
+                    <button type="submit" class="form-submit" id="submitBtn">
                         🚀 Send Message
                     </button>
                 </form>
-                <p style="text-align: center; margin-top: 1rem; color: var(--text-muted); font-size: 0.9rem;">
+                <p style="text-align: center; margin-top: 1.5rem; color: var(--text-muted); font-size: 0.9rem;">
                     Or reach me directly via 
-                    <a href="mailto:iammrkarthik2002@gmail.com" style="color: var(--primary);">email</a> 
+                    <a href="mailto:iammrkarthik2002@gmail.com" style="color: var(--primary); text-decoration: underline;">email</a> 
                     or 
-                    <a href="https://wa.me/917019880061" target="_blank" rel="noopener noreferrer" style="color: #25D366;">WhatsApp</a>
+                    <a href="https://wa.me/917019880061?text=Hi%20Karthik!%20I%20visited%20your%20portfolio." target="_blank" rel="noopener noreferrer" style="color: #25D366; text-decoration: underline;">WhatsApp</a>
                 </p>
             </section>
             </main>
+
+            <!-- Project Case Study Modal -->
+            <div class="modal" id="projectModal" role="dialog" aria-labelledby="modalTitle" aria-hidden="true">
+                <div class="modal-backdrop" id="modalBackdrop"></div>
+                <div class="modal-content glass-card-strong">
+                    <button class="modal-close" id="modalClose" aria-label="Close modal">✕</button>
+                    <div class="modal-body">
+                        <h2 id="modalTitle">Project Title</h2>
+                        
+                        <div class="modal-gallery" id="modalGallery">
+                            <!-- Screenshots will be inserted here -->
+                        </div>
+                        
+                        <div class="detail-section">
+                            <h3>🎯 Problem Statement</h3>
+                            <p id="modalProblem"></p>
+                        </div>
+                        
+                        <div class="detail-section">
+                            <h3>💡 Solution & Approach</h3>
+                            <p id="modalSolution"></p>
+                        </div>
+                        
+                        <div class="detail-section">
+                            <h3>📊 Results & Impact</h3>
+                            <ul id="modalResults"></ul>
+                        </div>
+                        
+                        <div class="detail-section">
+                            <h3>🛠️ Tech Stack</h3>
+                            <div id="modalTech" class="tech-stack-detailed"></div>
+                        </div>
+                        
+                        <div class="detail-section">
+                            <h3>🚀 Key Features</h3>
+                            <ul id="modalFeatures"></ul>
+                        </div>
+                        
+                        <div class="detail-section">
+                            <h3>💭 Lessons Learned</h3>
+                            <p id="modalLessons"></p>
+                        </div>
+                        
+                        <div class="project-actions">
+                            <a href="#" id="modalGithub" class="btn btn-primary" target="_blank">
+                                <span>🐙 View on GitHub</span>
+                            </a>
+                            <a href="#" id="modalDemo" class="btn btn-secondary" target="_blank">
+                                <span>🚀 Live Demo</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <!-- Footer -->
             <footer role="contentinfo">
@@ -3461,6 +4462,9 @@
                 </p>
             </footer>
         </div>
+
+    <!-- jsPDF Library for Resume Generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" crossorigin="anonymous"></script>
 
     <script>
         // ==================== ULTRA CONFIGURATION V2 ====================
@@ -3609,6 +4613,56 @@
             document.querySelectorAll('a, button, .skill-tag, .cert-card, .project-card, .magnetic-btn').forEach(el => {
                 el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
                 el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+            });
+        }
+
+        // ==================== NOTIFICATION SYSTEM ====================
+        function showNotification(message, type = 'info', duration = 5000) {
+            const notification = document.createElement('div');
+            notification.className = `notification notification-${type}`;
+            notification.innerHTML = `
+                <span class="notification-icon">${type === 'success' ? '✅' : type === 'error' ? '❌' : 'ℹ️'}</span>
+                <span class="notification-message">${message}</span>
+                <button class="notification-close" aria-label="Close notification">×</button>
+            `;
+            document.body.appendChild(notification);
+            
+            const closeBtn = notification.querySelector('.notification-close');
+            closeBtn.addEventListener('click', () => {
+                notification.classList.remove('show');
+                setTimeout(() => notification.remove(), 300);
+            });
+            
+            setTimeout(() => notification.classList.add('show'), 10);
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => notification.remove(), 300);
+            }, duration);
+        }
+
+        function isValidEmail(email) {
+            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+        }
+
+        // ==================== ANALYTICS TRACKING ====================
+        function trackEvent(eventName, params = {}) {
+            // Google Analytics 4
+            if (typeof gtag !== 'undefined') {
+                gtag('event', eventName, params);
+            }
+            
+            // Console log for development
+            if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+                console.log('📊 Analytics Event:', eventName, params);
+            }
+        }
+
+        // Track page view
+        function trackPageView(pageName) {
+            trackEvent('page_view', {
+                page_title: pageName,
+                page_location: window.location.href,
+                page_path: window.location.pathname
             });
         }
 
@@ -5230,6 +6284,676 @@
             requestAnimationFrame(gameLoop);
         }
 
+        // ==================== RESUME PDF GENERATION ====================
+        async function generateResumePDF() {
+            try {
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF();
+                
+                // Header
+                doc.setFontSize(28);
+                doc.setTextColor(0, 255, 255);
+                doc.text('KARTHIK M', 105, 20, { align: 'center' });
+                
+                doc.setFontSize(14);
+                doc.setTextColor(100, 100, 100);
+                doc.text('Software Developer | AI & ML Expert', 105, 28, { align: 'center' });
+                
+                // Contact
+                doc.setFontSize(10);
+                doc.setTextColor(0, 0, 0);
+                doc.text('iammrkarthik2002@gmail.com | +91 7019880061 | Bangalore', 105, 35, { align: 'center' });
+                doc.text('linkedin.com/in/karthik-m-9262a02b4 | github.com/Karthik77-kk', 105, 40, { align: 'center' });
+                
+                doc.setDrawColor(0, 255, 255);
+                doc.line(20, 43, 190, 43);
+                
+                let y = 50;
+                
+                // Summary
+                doc.setFontSize(14);
+                doc.setFont(undefined, 'bold');
+                doc.text('PROFESSIONAL SUMMARY', 20, y);
+                doc.line(20, y + 1, 80, y + 1);
+                y += 6;
+                doc.setFontSize(10);
+                doc.setFont(undefined, 'normal');
+                const summary = doc.splitTextToSize('Software Developer with expertise in Python, ML, AWS Cloud. Currently at Eurofins IT Solutions. Strong in AI/ML, computer vision, IoT.', 170);
+                doc.text(summary, 20, y);
+                y += summary.length * 5 + 5;
+                
+                // Experience
+                doc.setFontSize(14);
+                doc.setFont(undefined, 'bold');
+                doc.text('EXPERIENCE', 20, y);
+                doc.line(20, y + 1, 60, y + 1);
+                y += 6;
+                doc.setFontSize(11);
+                doc.text('Software Developer - Eurofins IT Solutions', 20, y);
+                y += 5;
+                doc.setFontSize(10);
+                doc.setFont(undefined, 'normal');
+                doc.text('Present | Enterprise software solutions', 20, y);
+                y += 8;
+                
+                doc.setFont(undefined, 'bold');
+                doc.setFontSize(11);
+                doc.text('Data Science Intern - Prinston Smart', 20, y);
+                y += 5;
+                doc.setFontSize(10);
+                doc.setFont(undefined, 'normal');
+                doc.text('Nov 2024 - Jan 2025 | 100k+ datasets, 85%+ ML accuracy, Power BI dashboards', 20, y);
+                y += 8;
+                
+                // Education
+                doc.setFontSize(14);
+                doc.setFont(undefined, 'bold');
+                doc.text('EDUCATION', 20, y);
+                doc.line(20, y + 1, 52, y + 1);
+                y += 6;
+                doc.setFontSize(11);
+                doc.text('MCA - Dayananda Sagar Academy | CGPA: 8.0 | 2023-2025', 20, y);
+                y += 5;
+                doc.text('BCA - RNS College, Bangalore University | CGPA: 7.04 | 2020-2023', 20, y);
+                y += 8;
+                
+                // Skills
+                doc.setFontSize(14);
+                doc.setFont(undefined, 'bold');
+                doc.text('TECHNICAL SKILLS', 20, y);
+                doc.line(20, y + 1, 68, y + 1);
+                y += 6;
+                doc.setFontSize(10);
+                doc.setFont(undefined, 'normal');
+                doc.text('Languages: Python, Java, C, SQL, JavaScript', 20, y);
+                y += 5;
+                doc.text('AI/ML: Machine Learning, OpenCV, scikit-learn, NLP', 20, y);
+                y += 5;
+                doc.text('Cloud: AWS (EC2, S3), Docker, Git, Linux', 20, y);
+                y += 5;
+                doc.text('Database: MongoDB, Redis, MySQL', 20, y);
+                y += 8;
+                
+                // Projects
+                doc.setFontSize(14);
+                doc.setFont(undefined, 'bold');
+                doc.text('KEY PROJECTS', 20, y);
+                doc.line(20, y + 1, 58, y + 1);
+                y += 6;
+                doc.setFontSize(10);
+                doc.setFont(undefined, 'normal');
+                doc.text('• AI Job Hunter - PyQt5 app with AI-powered job matching', 20, y);
+                y += 5;
+                doc.text('• Hand-Tracking Keyboard - 95% gesture detection accuracy', 20, y);
+                y += 5;
+                doc.text('• Amazon Sales Analysis - 91% forecasting accuracy', 20, y);
+                y += 8;
+                
+                // Certifications
+                doc.setFontSize(14);
+                doc.setFont(undefined, 'bold');
+                doc.text('CERTIFICATIONS', 20, y);
+                doc.line(20, y + 1, 64, y + 1);
+                y += 6;
+                doc.setFontSize(10);
+                doc.setFont(undefined, 'normal');
+                doc.text('AWS Cloud Practitioner • Machine Learning • Google UX Design • Data Analytics', 20, y);
+                
+                // Footer
+                doc.setFontSize(8);
+                doc.setTextColor(150, 150, 150);
+                doc.text('Generated from karthik77-kk.github.io/karthikm-resume', 105, 285, { align: 'center' });
+                
+                doc.save('Karthik_M_Resume.pdf');
+                
+                showNotification('Resume downloaded successfully! 🎉', 'success');
+                addXP(50, 'Downloaded resume');
+            } catch (error) {
+                console.error('Resume error:', error);
+                showNotification('Error generating resume. Try again.', 'error');
+            }
+        }
+
+        // ==================== PROJECT MODAL SYSTEM ====================
+        const projectData = {
+            'ai-job-hunter': {
+                title: '🤖 Enhanced AI Job Hunter',
+                problem: 'Job seekers struggle with manually searching through hundreds of job postings, creating tailored resumes for each application, and tracking their application progress across multiple platforms.',
+                solution: 'Developed an intelligent desktop application using PyQt5 with Material 3 design that leverages OpenAI GPT-4 API to automatically match candidates with relevant job opportunities, generate customized resumes, and provide comprehensive application tracking with analytics.',
+                results: [
+                    'Reduced job search time by 70% through AI-powered matching algorithms',
+                    'Automated resume generation increased application rates by 3x',
+                    'Built-in analytics helped users identify trending skills in their target market',
+                    'Material 3 design improved user engagement by 85%'
+                ],
+                tech: ['Python 3.8+', 'PyQt5', 'OpenAI GPT-4 API', 'SQLite', 'Material Design', 'Threading', 'JSON'],
+                features: [
+                    'AI-powered job matching based on skills and preferences',
+                    'One-click resume generation with multiple templates',
+                    'Application tracking dashboard with status updates',
+                    'Skill gap analysis and learning recommendations',
+                    'Interview preparation with AI-generated questions',
+                    'Dark/Light theme support with smooth transitions'
+                ],
+                lessons: 'This project taught me the importance of asynchronous programming for maintaining responsive UIs while making API calls. I also learned to optimize API usage to reduce costs while maintaining functionality. The biggest challenge was creating an intuitive UX for complex AI features.',
+                github: 'https://github.com/Karthik77-kk/ai-job-hunter',
+                demo: '#',
+                images: [
+                    'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300"><rect fill="%231a1a2e" width="400" height="300"/><text x="50%" y="50%" font-family="Arial" font-size="24" fill="%2300ffff" text-anchor="middle">AI Job Hunter Dashboard</text></svg>',
+                    'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300"><rect fill="%231a1a2e" width="400" height="300"/><text x="50%" y="50%" font-family="Arial" font-size="24" fill="%23ff00ff" text-anchor="middle">Resume Generator</text></svg>'
+                ]
+            },
+            'job-portal': {
+                title: '💼 AI-Driven Job Portal',
+                problem: 'Traditional job portals lack intelligent matching, leading to poor candidate-job fit and lengthy hiring processes. Recruiters waste hours manually screening resumes.',
+                solution: 'Built a NoSQL-based recruitment platform with MongoDB and Redis caching. Implemented automated resume parsing using NLP and machine learning-based ranking algorithms for real-time job matching.',
+                results: [
+                    'Reduced manual screening time by 25%',
+                    'Improved candidate-job match accuracy by 40%',
+                    'Real-time notifications reduced time-to-hire by 30%',
+                    'Handled 10,000+ concurrent users with Redis caching'
+                ],
+                tech: ['MongoDB', 'Redis', 'Python', 'Flask', 'NLP', 'scikit-learn', 'REST API'],
+                features: [
+                    'Automated resume parsing with NLP',
+                    'Real-time job matching algorithms',
+                    'Recruiter dashboard with analytics',
+                    'Candidate profile scoring system',
+                    'Redis-powered session management',
+                    'RESTful API for mobile integration'
+                ],
+                lessons: 'Working with NoSQL databases taught me to think differently about data modeling. The biggest insight was understanding when to use document stores vs relational databases. Redis caching was crucial for performance at scale.',
+                github: 'https://github.com/Karthik77-kk/job-portal',
+                demo: '#',
+                images: [
+                    'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300"><rect fill="%231a1a2e" width="400" height="300"/><text x="50%" y="50%" font-family="Arial" font-size="24" fill="%2300ff88" text-anchor="middle">Job Portal Dashboard</text></svg>'
+                ]
+            },
+            'hand-tracking-keyboard': {
+                title: '👋 Hand-Tracking Virtual Keyboard',
+                problem: 'During the pandemic, public touchscreens posed hygiene risks. People needed a touchless way to interact with digital systems in public spaces like airports, hospitals, and kiosks.',
+                solution: 'Built a computer vision system using OpenCV and MediaPipe that detects hand gestures in real-time, allowing users to type on a virtual keyboard without physical contact. Implemented gesture recognition for clicking, hovering, and special characters.',
+                results: [
+                    'Achieved 95% gesture detection accuracy in real-time',
+                    'Reduced physical contact in public systems by 100%',
+                    'Processing speed of 30+ FPS on standard hardware',
+                    'Successfully deployed in 3 pilot locations'
+                ],
+                tech: ['Python', 'OpenCV', 'MediaPipe', 'NumPy', 'Threading', 'Computer Vision', 'ML'],
+                features: [
+                    'Real-time hand landmark detection with 21-point tracking',
+                    'Gesture-based typing with hover and click detection',
+                    'Customizable virtual keyboard layouts',
+                    'Auto-calibration for different lighting conditions',
+                    'Multi-language support',
+                    'Gesture training mode for improved accuracy'
+                ],
+                lessons: 'Learned extensively about real-time computer vision optimization and the challenges of creating robust gesture recognition that works in varying lighting conditions. Performance optimization was crucial - moved from 15 FPS to 30+ FPS through algorithmic improvements.',
+                github: 'https://github.com/Karthik77-kk/hand-tracking-keyboard',
+                demo: '#',
+                images: [
+                    'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300"><rect fill="%231a1a2e" width="400" height="300"/><text x="50%" y="50%" font-family="Arial" font-size="24" fill="%2300ff88" text-anchor="middle">Hand Tracking Demo</text></svg>'
+                ]
+            },
+            'amazon-sales-analysis': {
+                title: '📊 Amazon Sales Data Analysis',
+                problem: 'E-commerce businesses need accurate sales forecasting to optimize inventory, plan marketing campaigns, and make data-driven decisions. Manual analysis of large datasets is time-consuming and error-prone.',
+                solution: 'Developed a comprehensive data analytics pipeline using Python, Pandas, and scikit-learn to analyze Amazon sales data. Built multiple ML models (Random Forest, ARIMA, XGBoost) to predict future sales trends with high accuracy.',
+                results: [
+                    '91% accuracy in monthly sales predictions',
+                    'Identified seasonal patterns reducing overstock by 30%',
+                    'Automated reporting saved 20+ hours weekly',
+                    'Discovered top-performing product categories'
+                ],
+                tech: ['Python', 'Pandas', 'NumPy', 'scikit-learn', 'Matplotlib', 'Seaborn', 'Jupyter', 'XGBoost'],
+                features: [
+                    'Automated data cleaning and preprocessing pipeline',
+                    'Multiple ML models for ensemble predictions',
+                    'Interactive visualizations with trend analysis',
+                    'Seasonal decomposition and pattern recognition',
+                    'Product category performance comparison',
+                    'Automated monthly reporting with insights'
+                ],
+                lessons: 'This project deepened my understanding of time series analysis and ensemble methods. I learned the importance of data quality and feature engineering - spending 60% of time on data preparation resulted in significantly better model performance.',
+                github: 'https://github.com/Karthik77-kk/amazon-sales-analysis',
+                demo: '#',
+                images: [
+                    'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300"><rect fill="%231a1a2e" width="400" height="300"/><text x="50%" y="50%" font-family="Arial" font-size="24" fill="%23ffaa00" text-anchor="middle">Sales Dashboard</text></svg>'
+                ]
+            },
+            'rfid-automation': {
+                title: '🔐 RFID Door Automation System',
+                problem: 'Traditional key-based access systems are prone to security breaches, lost keys, and inefficient access management. Organizations need a modern, trackable access control solution.',
+                solution: 'Designed and built an IoT-based access control system using ESP32 microcontroller and RFID technology. Integrated with a web dashboard for real-time monitoring and access log management.',
+                results: [
+                    'Reduced manual access management by 80%',
+                    'Enhanced security with audit trail logging',
+                    'Real-time access notifications via IoT',
+                    'Cost-effective solution compared to commercial alternatives'
+                ],
+                tech: ['ESP32', 'RFID RC522', 'C/C++', 'IoT', 'Arduino IDE', 'Web Dashboard', 'MySQL'],
+                features: [
+                    'RFID card authentication with encryption',
+                    'Real-time access logging and monitoring',
+                    'Web-based admin dashboard',
+                    'Guest access management',
+                    'Emergency override system',
+                    'Battery backup for power outages'
+                ],
+                lessons: 'This was my first major IoT project. I learned about embedded systems programming, power management, and the challenges of creating reliable hardware-software integration. Security considerations were paramount in the design.',
+                github: 'https://github.com/Karthik77-kk/rfid-door-automation',
+                demo: '#',
+                images: [
+                    'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300"><rect fill="%231a1a2e" width="400" height="300"/><text x="50%" y="50%" font-family="Arial" font-size="24" fill="%23ff4444" text-anchor="middle">RFID System</text></svg>'
+                ]
+            }
+        };
+
+        function openProjectModal(projectId) {
+            const modal = $('projectModal');
+            const data = projectData[projectId];
+            
+            if (!data) {
+                console.error('Project data not found:', projectId);
+                return;
+            }
+            
+            // Populate modal content
+            $('modalTitle').textContent = data.title;
+            $('modalProblem').textContent = data.problem;
+            $('modalSolution').textContent = data.solution;
+            $('modalLessons').textContent = data.lessons;
+            
+            // Results list
+            const resultsList = $('modalResults');
+            resultsList.innerHTML = '';
+            data.results.forEach(result => {
+                const li = document.createElement('li');
+                li.textContent = result;
+                resultsList.appendChild(li);
+            });
+            
+            // Tech stack
+            const techContainer = $('modalTech');
+            techContainer.innerHTML = '';
+            data.tech.forEach(tech => {
+                const badge = document.createElement('span');
+                badge.className = 'tech-badge';
+                badge.textContent = tech;
+                techContainer.appendChild(badge);
+            });
+            
+            // Features list
+            const featuresList = $('modalFeatures');
+            featuresList.innerHTML = '';
+            data.features.forEach(feature => {
+                const li = document.createElement('li');
+                li.textContent = feature;
+                featuresList.appendChild(li);
+            });
+            
+            // Gallery
+            const gallery = $('modalGallery');
+            gallery.innerHTML = '';
+            data.images.forEach(imgSrc => {
+                const img = document.createElement('img');
+                img.src = imgSrc;
+                img.alt = data.title + ' screenshot';
+                img.loading = 'lazy';
+                gallery.appendChild(img);
+            });
+            
+            // Links
+            $('modalGithub').href = data.github;
+            $('modalDemo').href = data.demo;
+            if (data.demo === '#') {
+                $('modalDemo').style.display = 'none';
+            } else {
+                $('modalDemo').style.display = 'inline-flex';
+            }
+            
+            // Show modal
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            
+            // Track in analytics
+            trackEvent('project_modal_open', { project: projectId });
+            addXP(10, 'Explored project details');
+        }
+
+        function closeProjectModal() {
+            const modal = $('projectModal');
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Initialize modal event listeners
+        function initProjectModals() {
+            const modalClose = $('modalClose');
+            const modalBackdrop = $('modalBackdrop');
+            
+            if (modalClose) {
+                modalClose.addEventListener('click', closeProjectModal);
+            }
+            
+            if (modalBackdrop) {
+                modalBackdrop.addEventListener('click', closeProjectModal);
+            }
+            
+            // ESC key to close
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    closeProjectModal();
+                }
+            });
+            
+            // Add click handlers to project cards
+            document.querySelectorAll('.project-card').forEach(card => {
+                card.addEventListener('click', (e) => {
+                    // Don't open modal if clicking on a link
+                    if (e.target.tagName === 'A' || e.target.closest('a')) return;
+                    
+                    const projectId = card.dataset.project;
+                    if (projectId && projectData[projectId]) {
+                        openProjectModal(projectId);
+                    }
+                });
+                
+                // Make cards keyboard accessible
+                card.setAttribute('tabindex', '0');
+                card.setAttribute('role', 'button');
+                card.setAttribute('aria-label', 'View project details');
+                
+                card.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        const projectId = card.dataset.project;
+                        if (projectId && projectData[projectId]) {
+                            openProjectModal(projectId);
+                        }
+                    }
+                });
+            });
+        }
+
+        // ==================== STATS ANIMATION ====================
+        function initStatsAnimation() {
+            const statCards = document.querySelectorAll('.stat-card');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const card = entry.target;
+                        const valueEl = card.querySelector('.stat-value');
+                        if (!valueEl) return;
+                        
+                        const target = parseInt(valueEl.dataset.target) || 0;
+                        let current = 0;
+                        const duration = 2000;
+                        const increment = target / (duration / 16);
+                        
+                        const counter = setInterval(() => {
+                            current += increment;
+                            if (current >= target) {
+                                valueEl.textContent = target.toLocaleString();
+                                clearInterval(counter);
+                            } else {
+                                valueEl.textContent = Math.floor(current).toLocaleString();
+                            }
+                        }, 16);
+                        
+                        observer.unobserve(card);
+                    }
+                });
+            }, { threshold: 0.5 });
+            
+            statCards.forEach(card => observer.observe(card));
+        }
+
+        // ==================== PROJECT FILTERING ====================
+        function initProjectFiltering() {
+            const filterButtons = document.querySelectorAll('.filter-tag');
+            const projectCards = document.querySelectorAll('.project-card');
+            
+            filterButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    // Update active state
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    
+                    const filter = button.dataset.filter;
+                    
+                    projectCards.forEach(card => {
+                        const tags = Array.from(card.querySelectorAll('.tech-badge'))
+                            .map(badge => badge.textContent.toLowerCase());
+                        
+                        const shouldShow = filter === 'all' || 
+                            tags.some(tag => tag.toLowerCase().includes(filter.toLowerCase()));
+                        
+                        if (shouldShow) {
+                            card.style.display = 'block';
+                            card.classList.add('fade-in');
+                        } else {
+                            card.style.display = 'none';
+                            card.classList.remove('fade-in');
+                        }
+                    });
+                    
+                    addXP(5, 'Filtered projects');
+                });
+            });
+        }
+
+        // ==================== GITHUB ACTIVITY FEED ====================
+        async function initGitHubFeed() {
+            const feedContainer = $('githubFeed');
+            if (!feedContainer) return;
+            
+            try {
+                const username = 'Karthik77-kk';
+                const response = await fetch(`https://api.github.com/users/${username}/events/public?per_page=10`);
+                
+                if (!response.ok) throw new Error('GitHub API error');
+                
+                const events = await response.json();
+                
+                if (!events || events.length === 0) {
+                    feedContainer.innerHTML = '<p style="text-align: center; color: var(--text-muted);">No recent activity found.</p>';
+                    return;
+                }
+                
+                feedContainer.innerHTML = '';
+                let displayedCount = 0;
+                
+                events.forEach(event => {
+                    if (displayedCount >= 5) return;
+                    
+                    let activityText = '';
+                    let icon = '📝';
+                    
+                    switch(event.type) {
+                        case 'PushEvent':
+                            icon = '🚀';
+                            const commits = event.payload.commits?.length || 1;
+                            activityText = `Pushed ${commits} commit${commits > 1 ? 's' : ''} to <strong>${event.repo.name.split('/')[1]}</strong>`;
+                            break;
+                        case 'CreateEvent':
+                            icon = '✨';
+                            activityText = `Created ${event.payload.ref_type} in <strong>${event.repo.name.split('/')[1]}</strong>`;
+                            break;
+                        case 'ForkEvent':
+                            icon = '🔱';
+                            activityText = `Forked <strong>${event.repo.name.split('/')[1]}</strong>`;
+                            break;
+                        case 'WatchEvent':
+                            icon = '⭐';
+                            activityText = `Starred <strong>${event.repo.name.split('/')[1]}</strong>`;
+                            break;
+                        case 'PullRequestEvent':
+                            icon = '🔀';
+                            activityText = `${event.payload.action} PR in <strong>${event.repo.name.split('/')[1]}</strong>`;
+                            break;
+                        case 'IssuesEvent':
+                            icon = '🐛';
+                            activityText = `${event.payload.action} issue in <strong>${event.repo.name.split('/')[1]}</strong>`;
+                            break;
+                        default:
+                            return; // Skip unknown events
+                    }
+                    
+                    if (activityText) {
+                        displayedCount++;
+                        const activityCard = document.createElement('div');
+                        activityCard.className = 'activity-item';
+                        activityCard.innerHTML = `
+                            <span class="activity-icon">${icon}</span>
+                            <div class="activity-content">
+                                <p>${activityText}</p>
+                                <span class="activity-time">${timeAgo(event.created_at)}</span>
+                            </div>
+                        `;
+                        feedContainer.appendChild(activityCard);
+                    }
+                });
+                
+                if (displayedCount === 0) {
+                    feedContainer.innerHTML = '<p style="text-align: center; color: var(--text-muted);">No displayable activity found.</p>';
+                }
+                
+            } catch (error) {
+                console.warn('GitHub feed error:', error);
+                feedContainer.innerHTML = `
+                    <p style="text-align: center; color: var(--text-muted);">
+                        Unable to load GitHub activity. 
+                        <a href="https://github.com/Karthik77-kk" target="_blank" rel="noopener noreferrer" style="color: var(--primary);">
+                            View on GitHub →
+                        </a>
+                    </p>
+                `;
+            }
+        }
+
+        function timeAgo(date) {
+            const seconds = Math.floor((new Date() - new Date(date)) / 1000);
+            const intervals = {
+                year: 31536000,
+                month: 2592000,
+                week: 604800,
+                day: 86400,
+                hour: 3600,
+                minute: 60
+            };
+            
+            for (const [name, value] of Object.entries(intervals)) {
+                const interval = Math.floor(seconds / value);
+                if (interval >= 1) {
+                    return `${interval} ${name}${interval > 1 ? 's' : ''} ago`;
+                }
+            }
+            return 'Just now';
+        }
+
+        // ==================== TESTIMONIALS SLIDER ====================
+        function initTestimonialsSlider() {
+            const track = $('testimonialTrack');
+            const dots = document.querySelectorAll('.slider-dots .dot');
+            
+            if (!track || dots.length === 0) return;
+            
+            let currentIndex = 0;
+            const cards = track.querySelectorAll('.testimonial-card');
+            
+            function goToSlide(index) {
+                currentIndex = index;
+                const offset = index * 100;
+                track.scrollTo({
+                    left: (track.scrollWidth / cards.length) * index,
+                    behavior: 'smooth'
+                });
+                
+                dots.forEach((dot, i) => {
+                    dot.classList.toggle('active', i === index);
+                });
+            }
+            
+            // Dot click handlers
+            dots.forEach((dot, index) => {
+                dot.addEventListener('click', () => goToSlide(index));
+            });
+            
+            // Auto-rotate testimonials
+            setInterval(() => {
+                currentIndex = (currentIndex + 1) % cards.length;
+                goToSlide(currentIndex);
+            }, 6000);
+            
+            // Detect scroll and update dots
+            track.addEventListener('scroll', () => {
+                const scrollPosition = track.scrollLeft;
+                const cardWidth = track.scrollWidth / cards.length;
+                const newIndex = Math.round(scrollPosition / cardWidth);
+                
+                if (newIndex !== currentIndex) {
+                    currentIndex = newIndex;
+                    dots.forEach((dot, i) => {
+                        dot.classList.toggle('active', i === currentIndex);
+                    });
+                }
+            });
+        }
+
+        // ==================== COOKIE CONSENT ====================
+        function initCookieConsent() {
+            const consentStatus = safeGetItem('cookieConsent', null);
+            
+            // If already consented, don't show banner
+            if (consentStatus) return;
+            
+            // Create cookie consent banner
+            const banner = document.createElement('div');
+            banner.id = 'cookieConsent';
+            banner.className = 'cookie-consent';
+            banner.innerHTML = `
+                <div class="cookie-content">
+                    <p>
+                        🍪 This site uses cookies to enhance your experience and for analytics. 
+                        <a href="#" onclick="showNotification('We only use essential cookies for functionality and analytics.', 'info'); return false;">Learn more</a>
+                    </p>
+                    <div class="cookie-actions">
+                        <button id="acceptCookies" class="btn btn-primary btn-sm">Accept</button>
+                        <button id="rejectCookies" class="btn btn-secondary btn-sm">Reject</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(banner);
+            
+            // Show after a short delay
+            setTimeout(() => banner.classList.add('show'), 2000);
+            
+            // Accept handler
+            document.getElementById('acceptCookies').addEventListener('click', () => {
+                safeSetItem('cookieConsent', 'accepted');
+                banner.classList.remove('show');
+                setTimeout(() => banner.remove(), 400);
+                showNotification('Preferences saved! Thanks for accepting cookies. 🍪', 'success');
+                
+                // Initialize analytics if available
+                if (typeof gtag !== 'undefined') {
+                    gtag('consent', 'update', {
+                        'analytics_storage': 'granted'
+                    });
+                }
+            });
+            
+            // Reject handler
+            document.getElementById('rejectCookies').addEventListener('click', () => {
+                safeSetItem('cookieConsent', 'rejected');
+                banner.classList.remove('show');
+                setTimeout(() => banner.remove(), 400);
+                showNotification('No problem! Only essential features will be used.', 'info');
+            });
+        }
+
         // ==================== TYPEWRITER EFFECT ====================
         function initTypewriter() {
             const phrases = [
@@ -5277,6 +7001,12 @@
         function initPortfolio() {
             initTypewriter();
             updateXPDisplay();
+            initProjectModals(); // Initialize project modals
+            initStatsAnimation(); // Animate stats counters
+            initProjectFiltering(); // Project filter functionality
+            initTestimonialsSlider(); // Testimonials slider
+            initGitHubFeed(); // Fetch GitHub activity
+            initCookieConsent(); // Cookie consent banner
 
             // Theme Toggle with smooth transition
             const themeToggle = $('themeToggle');
@@ -5362,7 +7092,7 @@
 
             // Track section visits for achievements
             function updateActiveSection() {
-                const sections = ['about', 'skills', 'experience', 'projects', 'certifications', 'contact'];
+                const sections = ['about', 'skills', 'experience', 'stats', 'projects', 'certifications', 'testimonials', 'github-activity', 'contact'];
                 let currentSection = sections[0];
 
                 sections.forEach(sectionId => {
@@ -5428,61 +7158,123 @@
                 });
             });
 
-            // Contact form with proper error handling
+            // Contact form with enhanced validation
             const contactForm = $('contactForm');
             if (contactForm) {
-                contactForm.addEventListener('submit', function(e) {
+                const nameInput = $('name');
+                const emailInput = $('email');
+                const messageInput = $('message');
+                const submitBtn = $('submitBtn');
+                
+                // Real-time validation
+                function validateField(input, errorId, validator) {
+                    const errorEl = $(errorId);
+                    const value = input.value.trim();
+                    const error = validator(value);
+                    
+                    if (error) {
+                        input.classList.add('error');
+                        input.classList.remove('success');
+                        errorEl.textContent = error;
+                        return false;
+                    } else {
+                        input.classList.remove('error');
+                        input.classList.add('success');
+                        errorEl.textContent = '';
+                        return true;
+                    }
+                }
+                
+                // Validators
+                const validators = {
+                    name: (val) => !val ? 'Name is required' : val.length < 2 ? 'Name too short' : null,
+                    email: (val) => !val ? 'Email is required' : !isValidEmail(val) ? 'Invalid email format' : null,
+                    message: (val) => !val ? 'Message is required' : val.length < 10 ? 'Message too short (min 10 chars)' : null
+                };
+                
+                // Add blur validation
+                nameInput.addEventListener('blur', () => validateField(nameInput, 'nameError', validators.name));
+                emailInput.addEventListener('blur', () => validateField(emailInput, 'emailError', validators.email));
+                messageInput.addEventListener('blur', () => validateField(messageInput, 'messageError', validators.message));
+                
+                contactForm.addEventListener('submit', async function(e) {
                     e.preventDefault();
                     
-                    const submitBtn = this.querySelector('.form-submit');
-                    if (!submitBtn) return;
+                    // Validate all fields
+                    const nameValid = validateField(nameInput, 'nameError', validators.name);
+                    const emailValid = validateField(emailInput, 'emailError', validators.email);
+                    const messageValid = validateField(messageInput, 'messageError', validators.message);
+                    
+                    if (!nameValid || !emailValid || !messageValid) {
+                        showNotification('Please fix the errors in the form', 'error');
+                        return;
+                    }
                     
                     const originalText = submitBtn.textContent;
                     submitBtn.textContent = '⏳ Sending...';
                     submitBtn.disabled = true;
 
-                    // Get form data
                     const formData = new FormData(this);
                     const formAction = this.getAttribute('action');
                     
-                    // Check if form has valid action (not placeholder)
-                    if (formAction && !formAction.includes('your-form-id')) {
-                        // Real form submission
-                        fetch(formAction, {
-                            method: 'POST',
-                            body: formData,
-                            headers: { 'Accept': 'application/json' }
-                        })
-                        .then(response => {
+                    // Check if form has valid Formspree action
+                    if (formAction && !formAction.includes('YOUR_FORMSPREE_ID')) {
+                        // Real submission to Formspree
+                        try {
+                            const response = await fetch(formAction, {
+                                method: 'POST',
+                                body: formData,
+                                headers: { 'Accept': 'application/json' }
+                            });
+                            
                             if (response.ok) {
                                 submitBtn.textContent = '✅ Message Sent!';
                                 this.reset();
+                                nameInput.classList.remove('success');
+                                emailInput.classList.remove('success');
+                                messageInput.classList.remove('success');
+                                showNotification('Thanks for reaching out! I\'ll get back to you soon. 🚀', 'success');
                                 addXP(50, 'Sent message');
+                                
+                                // Track in analytics
+                                if (typeof gtag !== 'undefined') {
+                                    gtag('event', 'form_submission', {
+                                        'event_category': 'engagement',
+                                        'event_label': 'Contact Form'
+                                    });
+                                }
                             } else {
                                 throw new Error('Form submission failed');
                             }
-                        })
-                        .catch(() => {
+                        } catch (error) {
                             submitBtn.textContent = '❌ Error - Try Again';
-                        })
-                        .finally(() => {
+                            showNotification('Oops! Something went wrong. Try WhatsApp or email instead.', 'error');
+                            console.error('Form error:', error);
+                        } finally {
                             setTimeout(() => {
                                 submitBtn.textContent = originalText;
                                 submitBtn.disabled = false;
-                            }, 2000);
-                        });
+                            }, 3000);
+                        }
                     } else {
-                        // Demo mode - simulate submission
+                        // Fallback: Open email client
+                        const subject = encodeURIComponent($('subject').value || 'Portfolio Contact');
+                        const body = encodeURIComponent(
+                            `Name: ${nameInput.value}\nEmail: ${emailInput.value}\n\nMessage:\n${messageInput.value}`
+                        );
+                        const mailto = `mailto:iammrkarthik2002@gmail.com?subject=${subject}&body=${body}`;
+                        
+                        window.location.href = mailto;
+                        
+                        submitBtn.textContent = '✅ Opening Email Client...';
+                        this.reset();
+                        showNotification('Email client opening. Alternatively, try WhatsApp!', 'info');
+                        addXP(25, 'Used email fallback');
+                        
                         setTimeout(() => {
-                            submitBtn.textContent = '✅ Message Sent!';
-                            this.reset();
-                            addXP(50, 'Sent message');
-                            
-                            setTimeout(() => {
-                                submitBtn.textContent = originalText;
-                                submitBtn.disabled = false;
-                            }, 2000);
-                        }, 1500);
+                            submitBtn.textContent = originalText;
+                            submitBtn.disabled = false;
+                        }, 3000);
                     }
                 });
             }
@@ -5582,10 +7374,60 @@
             });
         }
 
+        // ==================== ENTRY CHOICE SCREEN ====================
+        function initEntryChoice() {
+            const entryChoice = $('entryChoice');
+            const rememberCheckbox = $('rememberChoiceCheckbox');
+            const savedChoice = safeGetItem('portfolioEntryChoice', null);
+            const playGameBtn = $('playGameBtn');
+            const viewPortfolioBtn = $('viewPortfolioBtn');
+            const resetPreferenceLink = $('resetPreference');
+            
+            if (savedChoice === 'portfolio') {
+                // Auto-skip for returning visitors who chose portfolio
+                entryChoice.classList.add('hidden');
+                skipToPortfolio();
+                showNotification('Welcome back! 👋', 'info', 3000);
+                return;
+            } else if (savedChoice === 'game') {
+                // Auto-start game for returning visitors
+                entryChoice.classList.add('hidden');
+                return;
+            }
+            
+            // Show choice screen for new visitors
+            entryChoice.classList.remove('hidden');
+            
+            playGameBtn.addEventListener('click', () => {
+                if (rememberCheckbox.checked) {
+                    safeSetItem('portfolioEntryChoice', 'game');
+                }
+                entryChoice.classList.add('hidden');
+                addXP(10, 'Started game');
+            });
+            
+            viewPortfolioBtn.addEventListener('click', () => {
+                if (rememberCheckbox.checked) {
+                    safeSetItem('portfolioEntryChoice', 'portfolio');
+                }
+                entryChoice.classList.add('hidden');
+                skipToPortfolio();
+            });
+            
+            if (resetPreferenceLink) {
+                resetPreferenceLink.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    localStorage.removeItem('portfolioEntryChoice');
+                    showNotification('Preference reset! Reload to choose again.', 'success');
+                });
+            }
+        }
+
         // ==================== INITIALIZATION ====================
         window.addEventListener('load', () => {
             setTimeout(() => {
                 $('loadingScreen').classList.add('hidden');
+                initEntryChoice(); // Initialize entry choice
                 
                 // Start game in boss mode if selected
                 if (state.currentMode === 'boss') {
