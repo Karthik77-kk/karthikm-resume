@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="theme-color" content="#0a0a0a">
     <title>Karthik M | Software Developer | AI & ML Expert | Portfolio</title>
     
@@ -2819,6 +2819,9 @@
 
             .timeline-content::before {
                 left: -42px !important;
+                right: auto !important;
+                width: 16px;
+                height: 16px;
             }
 
             .moon {
@@ -2831,6 +2834,75 @@
             .planet-1, .planet-2 {
                 width: 40px;
                 height: 40px;
+            }
+            
+            /* Safe area support for notched devices */
+            body {
+                padding-left: env(safe-area-inset-left, 0);
+                padding-right: env(safe-area-inset-right, 0);
+            }
+            
+            .nav-header {
+                padding-left: calc(1rem + env(safe-area-inset-left, 0));
+                padding-right: calc(1rem + env(safe-area-inset-right, 0));
+            }
+            
+            /* Better touch targets on mobile */
+            .btn {
+                min-height: 44px;
+                padding: 0.8rem 1.5rem;
+            }
+            
+            .badge {
+                min-height: 44px;
+                display: inline-flex;
+                align-items: center;
+            }
+            
+            /* Prevent horizontal scroll on small screens */
+            section {
+                overflow-x: hidden;
+            }
+            
+            /* Improve notification positioning on mobile */
+            .notification {
+                left: 1rem;
+                right: 1rem;
+                bottom: -100px;
+                min-width: auto;
+            }
+            
+            .notification.show {
+                bottom: calc(5rem + env(safe-area-inset-bottom, 0));
+            }
+        }
+        
+        /* Extra small screens (320px) */
+        @media (max-width: 360px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .section-title {
+                font-size: 1.5rem;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+            }
+            
+            .contact-badges {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .skills-grid,
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .certs-grid {
+                grid-template-columns: repeat(2, 1fr);
             }
         }
 
@@ -3673,10 +3745,10 @@
     <div class="cursor-dot" id="cursorDot"></div>
 
     <!-- XP System -->
-    <div class="xp-bar-container">
+    <div class="xp-bar-container" role="progressbar" aria-label="Experience progress" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
         <div class="xp-bar-fill" id="xpBarFill"></div>
     </div>
-    <div class="xp-display" id="xpDisplay">
+    <div class="xp-display" id="xpDisplay" role="status" aria-live="polite">
         <span class="xp-level">⭐ Level <span id="playerLevel">1</span></span>
         <span class="xp-points"><span id="playerXP">0</span> XP</span>
     </div>
@@ -3877,12 +3949,11 @@
             <h1 class="hero-title">KARTHIK M</h1>
             <p class="hero-subtitle"><span class="typewriter" id="typewriter"></span></p>
             <div class="company-badge">
-                🏢 Currently @ Eurofins IT Solutions India Pvt Ltd
+                Currently @ Eurofins IT Solutions India Pvt Ltd
             </div>
             
-            <!-- New Features: Open to Work Badge & Social Share -->
+            <!-- Status badges container (populated via JS) -->
             <div id="openToWorkBadge"></div>
-            <div id="socialShare"></div>
             
             <p class="hero-tagline">
                 Passionate software engineer crafting innovative solutions with Python, Machine Learning, and Cloud Technologies. 
@@ -3892,19 +3963,23 @@
             <!-- Hero Buttons -->
             <div class="hero-buttons">
                 <button onclick="generateResumePDF()" class="btn btn-primary" aria-label="Download Resume">
-                    📄 Download Resume
+                    Download Resume
                 </button>
                 <a href="#contact" class="btn btn-secondary" aria-label="Contact me">
-                    💬 Let's Talk
+                    Let's Talk
                 </a>
             </div>
             
+            <!-- Unified Contact Section -->
             <div class="contact-badges">
-                <a href="mailto:iammrkarthik2002@gmail.com" class="badge" aria-label="Send email">📧 Email</a>
-                <a href="tel:+917019880061" class="badge" aria-label="Call phone">📱 +91 7019880061</a>
-                <a href="https://linkedin.com/in/karthik-m-9262a02b4" class="badge" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile">💼 LinkedIn</a>
-                <a href="https://github.com/Karthik77-kk" class="badge" target="_blank" rel="noopener noreferrer" aria-label="GitHub profile">🐙 GitHub</a>
+                <a href="mailto:iammrkarthik2002@gmail.com" class="badge" aria-label="Send email">Email</a>
+                <a href="tel:+917019880061" class="badge" aria-label="Call phone">+91 7019880061</a>
+                <a href="https://linkedin.com/in/karthik-m-9262a02b4" class="badge" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile">LinkedIn</a>
+                <a href="https://github.com/Karthik77-kk" class="badge" target="_blank" rel="noopener noreferrer" aria-label="GitHub profile">GitHub</a>
             </div>
+            
+            <!-- Social Share - placed after main contacts -->
+            <div id="socialShare" style="margin-top: 1rem;"></div>
             
             <div class="scroll-indicator">Scroll to explore</div>
         </header>
@@ -4334,12 +4409,12 @@
                 <h2 class="section-title" id="github-title">RECENT ACTIVITY</h2>
                 <div id="githubFeed" class="github-feed">
                     <div class="activity-loading">
-                        <p style="text-align: center; color: var(--text-muted);">🔄 Loading GitHub activity...</p>
+                        <p style="text-align: center; color: var(--text-muted);">Loading GitHub activity...</p>
                     </div>
                 </div>
                 <div style="text-align: center; margin-top: 1.5rem;">
                     <a href="https://github.com/Karthik77-kk" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">
-                        🐙 View All on GitHub
+                        View All on GitHub
                     </a>
                 </div>
             </section>
@@ -4393,7 +4468,7 @@
                         <span class="form-error" id="messageError"></span>
                     </div>
                     <button type="submit" class="form-submit" id="submitBtn">
-                        🚀 Send Message
+                        Send Message
                     </button>
                 </form>
                 <p style="text-align: center; margin-top: 1.5rem; color: var(--text-muted); font-size: 0.9rem;">
@@ -4403,10 +4478,10 @@
                     <a href="https://wa.me/917019880061?text=Hi%20Karthik!%20I%20visited%20your%20portfolio." target="_blank" rel="noopener noreferrer" style="color: #25D366; text-decoration: underline;">WhatsApp</a>
                 </p>
                 
-                <!-- New Features: Copy Email & QR Code -->
-                <div style="text-align: center; margin-top: 1.5rem;">
-                    <button class="copy-email-btn">📧 Copy Email</button>
-                    <button onclick="showQRCode()" class="btn btn-secondary" style="margin-left: 0.5rem;">📱 Show QR Code</button>
+                <!-- Quick Actions: Copy Email & QR Code -->
+                <div style="text-align: center; margin-top: 1.5rem; display: flex; justify-content: center; gap: 0.5rem; flex-wrap: wrap;">
+                    <button class="copy-email-btn" aria-label="Copy email address">Copy Email</button>
+                    <button onclick="showQRCode()" class="btn btn-secondary" aria-label="Show QR code to connect">Show QR Code</button>
                 </div>
             </section>
             </main>
@@ -4455,10 +4530,10 @@
                         
                         <div class="project-actions">
                             <a href="#" id="modalGithub" class="btn btn-primary" target="_blank">
-                                <span>🐙 View on GitHub</span>
+                                <span>View on GitHub</span>
                             </a>
                             <a href="#" id="modalDemo" class="btn btn-secondary" target="_blank">
-                                <span>🚀 Live Demo</span>
+                                <span>Live Demo</span>
                             </a>
                         </div>
                     </div>
@@ -4467,16 +4542,16 @@
 
             <!-- Footer -->
             <footer role="contentinfo">
-                <p>© 2025 Karthik M. Crafted with 💙 in Bangalore. All Rights Reserved.</p>
+                <p>© 2025 Karthik M. Crafted with love in Bangalore. All Rights Reserved.</p>
                 <p style="margin-top: 1rem;">Powered by Pure HTML, CSS & JavaScript | Optimized for All Devices</p>
                 
-                <!-- New Features: Visitor Counter & Last Updated -->
+                <!-- Visitor Counter & Last Updated -->
                 <div id="visitorCounter" style="margin-top: 1rem;"></div>
                 <div class="last-updated-container"></div>
                 
-                <p class="version-info">Version 4.1.0 ULTRA+ | Last Updated: January 2025</p>
+                <p class="version-info">Version 4.1.2 ULTRA+ | Last Updated: January 2025</p>
                 <p style="margin-top: 0.5rem; font-size: 0.7rem; color: var(--text-muted);">
-                    🎮 Try the Konami Code: ↑↑↓↓←→←→BA | 🌊 Wave System | 👹 Boss Shooting | 🧲 Power-ups
+                    Try the Konami Code for a surprise! | Wave System | Boss Battles | Power-ups
                 </p>
             </footer>
         </div>

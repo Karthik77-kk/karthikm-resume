@@ -1,8 +1,8 @@
 /**
- * Portfolio Features & Initialization
- * Version 4.1.0
- * Requires: utils.js
- */
+* Portfolio Features & Initialization
+* Version 4.1.2
+* Requires: utils.js
+*/
 
 // ==================== GITHUB STATS WIDGET ====================
 function initGitHubStats() {
@@ -11,37 +11,46 @@ function initGitHubStats() {
     
     if (!statsContainer) return;
     
-    // Show loading state
-    statsContainer.innerHTML = '<div class="github-stats-loading">Loading GitHub stats...</div>';
+    // Show skeleton loading state
+    statsContainer.innerHTML = `
+        <div class="github-stats-skeleton" aria-label="Loading GitHub statistics">
+            <div class="skeleton-stat-card"></div>
+            <div class="skeleton-stat-card"></div>
+        </div>
+        <p class="github-stats-loading">Loading GitHub stats...</p>
+    `;
     
-    try {
-        statsContainer.innerHTML = `
-            <div class="github-stats-widget">
-                <div class="github-stats-card">
-                    <img src="https://github-readme-stats.vercel.app/api?username=${username}&show_icons=true&theme=radical&hide_border=true&bg_color=0a0a0a&title_color=00ffff&icon_color=ff00ff&text_color=ffffff" 
-                         alt="GitHub Stats" 
-                         loading="lazy"
-                         onerror="this.parentElement.innerHTML='<p style=color:var(--text-muted)>Stats unavailable</p>'">
+    // Load actual content after brief delay for skeleton visibility
+    setTimeout(() => {
+        try {
+            // Only show the two reliable stat cards (stats and languages)
+            // Removed streak stats due to API reliability issues
+            statsContainer.innerHTML = `
+                <div class="github-stats-widget" role="region" aria-label="GitHub Statistics">
+                    <div class="github-stats-card">
+                        <img src="https://github-readme-stats.vercel.app/api?username=${username}&show_icons=true&theme=radical&hide_border=true&bg_color=0a0a0a&title_color=00ffff&icon_color=ff00ff&text_color=ffffff&count_private=true" 
+                             alt="GitHub Stats for ${username}" 
+                             loading="lazy"
+                             onerror="this.parentElement.innerHTML='<div class=\\'error-state\\'><p style=\\'color:var(--text-muted);text-align:center;padding:2rem\\'>Stats temporarily unavailable</p></div>'">
+                    </div>
+                    <div class="github-stats-card">
+                        <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=${username}&layout=compact&theme=radical&hide_border=true&bg_color=0a0a0a&title_color=00ffff&text_color=ffffff&langs_count=8" 
+                             alt="Top Languages for ${username}" 
+                             loading="lazy"
+                             onerror="this.parentElement.innerHTML='<div class=\\'error-state\\'><p style=\\'color:var(--text-muted);text-align:center;padding:2rem\\'>Languages unavailable</p></div>'">
+                    </div>
                 </div>
-                <div class="github-stats-card">
-                    <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=${username}&layout=compact&theme=radical&hide_border=true&bg_color=0a0a0a&title_color=00ffff&text_color=ffffff" 
-                         alt="Top Languages" 
-                         loading="lazy"
-                         onerror="this.parentElement.innerHTML='<p style=color:var(--text-muted)>Languages unavailable</p>'">
+            `;
+            trackEvent('github_stats_loaded', { username });
+        } catch (error) {
+            statsContainer.innerHTML = `
+                <div class="error-state" style="text-align: center; padding: 2rem;">
+                    <p style="color: var(--text-muted);">GitHub stats temporarily unavailable</p>
                 </div>
-                <div class="github-stats-card">
-                    <img src="https://github-readme-streak-stats.herokuapp.com/?user=${username}&theme=radical&hide_border=true&background=0a0a0a&ring=00ffff&fire=ff00ff&currStreakLabel=00ffff" 
-                         alt="GitHub Streak" 
-                         loading="lazy"
-                         onerror="this.parentElement.innerHTML='<p style=color:var(--text-muted)>Streak unavailable</p>'">
-                </div>
-            </div>
-        `;
-        trackEvent('github_stats_loaded', { username });
-    } catch (error) {
-        statsContainer.innerHTML = '<p style="color: var(--text-muted); text-align: center;">GitHub stats temporarily unavailable</p>';
-        console.error('GitHub stats error:', error);
-    }
+            `;
+            console.error('GitHub stats error:', error);
+        }
+    }, 500);
 }
 
 // ==================== VISITOR COUNTER ====================
@@ -52,12 +61,12 @@ function initVisitorCounter() {
     
     const repoPath = 'Karthik77-kk/karthikm-resume';
     counterContainer.innerHTML = `
-        <div class="visitor-counter">
+        <div class="visitor-counter" role="status" aria-label="Visitor count">
             <span>???</span>
             <img src="https://visitor-badge.laobi.icu/badge?page_id=${repoPath}" 
                  alt="Visitor count" 
                  loading="lazy"
-                 onerror="this.parentElement.innerHTML='<span style=\\'color:var(--text-muted)\\'>Visitor tracking unavailable</span>'">
+                 onerror="this.onerror=null; this.parentElement.innerHTML='<span style=\\'color:var(--text-muted)\\'>??? Visitor tracking unavailable</span>'">
         </div>
     `;
 }
@@ -69,16 +78,29 @@ function initSocialShare() {
     if (!shareContainer) return;
     
     const url = window.location.href;
-    const title = 'Check out Karthik M\'s Portfolio - Software Developer | AI & ML Expert';
-    const text = 'Impressive portfolio showcasing Python, ML, AWS projects and more!';
+    const text = 'Check out this impressive portfolio showcasing Python, ML, AWS projects!';
     
     shareContainer.innerHTML = `
         <div class="social-share-container">
-            <a href="https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}" class="share-btn linkedin" target="_blank" rel="noopener noreferrer" aria-label="Share on LinkedIn">
-                ?? Share Portfolio
+            <a href="https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}" 
+               class="share-btn linkedin" 
+               target="_blank" 
+               rel="noopener noreferrer" 
+               aria-label="Share on LinkedIn">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 6px; vertical-align: middle;">
+                    <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                </svg>
+                Share on LinkedIn
             </a>
-            <a href="https://wa.me/?text=${encodeURIComponent(text + ' ' + url)}" class="share-btn whatsapp" target="_blank" rel="noopener noreferrer" aria-label="Share on WhatsApp">
-                ?? Share on WhatsApp
+            <a href="https://wa.me/?text=${encodeURIComponent(text + ' ' + url)}" 
+               class="share-btn whatsapp" 
+               target="_blank" 
+               rel="noopener noreferrer" 
+               aria-label="Share on WhatsApp">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 6px; vertical-align: middle;">
+                    <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
+                </svg>
+                Share on WhatsApp
             </a>
         </div>
     `;
@@ -98,7 +120,7 @@ function initOpenToWorkBadge() {
     if (!badgeContainer) return;
     
     // Set this to true/false based on availability
-    const isOpenToWork = true;
+    const isOpenToWork = false; // Currently not open to work
     
     if (isOpenToWork) {
         badgeContainer.innerHTML = `
@@ -106,6 +128,8 @@ function initOpenToWorkBadge() {
                 <span>Open to Work</span>
             </div>
         `;
+    } else {
+        badgeContainer.innerHTML = ''; // Clear the container
     }
 }
 
@@ -265,20 +289,20 @@ function initFloatingActionButton() {
     
     const fabHTML = `
         <div class="fab-container" id="fabContainer">
-            <button class="fab-main" id="fabMain" aria-label="Quick actions">
+            <button class="fab-main" id="fabMain" aria-label="Quick actions menu" aria-expanded="false" aria-controls="fabActions">
                 +
             </button>
-            <div class="fab-actions">
-                <a href="#" class="fab-action" onclick="scrollToTop(); return false;" title="Scroll to top">
+            <div class="fab-actions" id="fabActions" role="menu">
+                <a href="#" class="fab-action" onclick="scrollToTop(); return false;" title="Scroll to top" role="menuitem">
                     ?
                 </a>
-                <a href="mailto:iammrkarthik2002@gmail.com" class="fab-action" title="Send email">
+                <a href="mailto:iammrkarthik2002@gmail.com" class="fab-action" title="Send email" role="menuitem">
                     ??
                 </a>
-                <button class="fab-action" onclick="generateResumePDF()" title="Download resume">
+                <button class="fab-action" onclick="generateResumePDF()" title="Download resume" role="menuitem">
                     ??
                 </button>
-                <a href="#contact" class="fab-action" title="Contact">
+                <a href="#contact" class="fab-action" title="Contact" role="menuitem">
                     ??
                 </a>
             </div>
@@ -291,8 +315,14 @@ function initFloatingActionButton() {
     const fabContainer = document.getElementById('fabContainer');
     
     fabMain.addEventListener('click', () => {
-        fabContainer.classList.toggle('open');
+        const isOpen = fabContainer.classList.toggle('open');
         fabMain.classList.toggle('open');
+        fabMain.setAttribute('aria-expanded', isOpen.toString());
+        
+        // Announce state change to screen readers
+        if (typeof announceToScreenReader === 'function') {
+            announceToScreenReader(isOpen ? 'Quick actions menu opened' : 'Quick actions menu closed');
+        }
     });
     
     // Close FAB when clicking outside
@@ -300,6 +330,17 @@ function initFloatingActionButton() {
         if (!fabContainer.contains(e.target)) {
             fabContainer.classList.remove('open');
             fabMain.classList.remove('open');
+            fabMain.setAttribute('aria-expanded', 'false');
+        }
+    });
+    
+    // Keyboard support for closing with Escape
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && fabContainer.classList.contains('open')) {
+            fabContainer.classList.remove('open');
+            fabMain.classList.remove('open');
+            fabMain.setAttribute('aria-expanded', 'false');
+            fabMain.focus();
         }
     });
 }
@@ -442,28 +483,26 @@ function initHighContrastToggle() {
 
 // ==================== QR CODE FOR CONTACT ====================
 function showQRCode() {
-    const vCardData = `BEGIN:VCARD
-VERSION:3.0
-FN:Karthik M
-EMAIL:iammrkarthik2002@gmail.com
-TEL:+917019880061
-URL:https://karthik77-kk.github.io/karthikm-resume/
-END:VCARD`;
+    // Create QR code URL using a reliable API
+    const portfolioUrl = 'https://karthik77-kk.github.io/karthikm-resume/';
+    const qrImageUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(portfolioUrl)}&bgcolor=ffffff&color=000000`;
     
     const modal = document.createElement('div');
     modal.className = 'modal active';
+    modal.id = 'qrModal';
     modal.innerHTML = `
-        <div class="modal-backdrop" onclick="this.parentElement.remove()"></div>
-        <div class="modal-content glass-card-strong" style="max-width: 400px;">
-            <button class="modal-close" onclick="this.closest('.modal').remove()">?</button>
-            <div class="modal-body qr-code-container">
-                <h2>?? Scan to Connect</h2>
-                ${generateQRCodeSVG(vCardData, 200)}
-                <p>Scan with your phone to save contact</p>
-                <p style="font-size: 0.8rem; margin-top: 1rem;">
-                    Or visit: <a href="${window.location.href}" style="color: var(--primary);">
-                        ${window.location.hostname}
-                    </a>
+        <div class="modal-backdrop" onclick="closeQRModal()"></div>
+        <div class="modal-content glass-card-strong" style="max-width: 400px; text-align: center;">
+            <button class="modal-close" onclick="closeQRModal()" aria-label="Close">×</button>
+            <div class="modal-body qr-code-container" style="padding: 2rem;">
+                <h2 style="color: var(--primary); margin-bottom: 1.5rem;">Scan to Connect</h2>
+                <img src="${qrImageUrl}" 
+                     alt="QR Code for Portfolio" 
+                     style="border: 10px solid white; border-radius: 10px; max-width: 200px;"
+                     onerror="this.parentElement.innerHTML='<p style=\\'color:var(--text-muted)\\'>QR Code unavailable. Visit: karthik77-kk.github.io/karthikm-resume</p>'">
+                <p style="color: var(--text-secondary); margin-top: 1.5rem;">Scan with your phone camera</p>
+                <p style="font-size: 0.8rem; margin-top: 1rem; color: var(--text-muted);">
+                    Or visit: <a href="${portfolioUrl}" style="color: var(--primary);">karthik77-kk.github.io</a>
                 </p>
             </div>
         </div>
@@ -472,7 +511,24 @@ END:VCARD`;
     document.body.appendChild(modal);
     document.body.style.overflow = 'hidden';
     
+    // Close on escape key
+    const escHandler = (e) => {
+        if (e.key === 'Escape') {
+            closeQRModal();
+            document.removeEventListener('keydown', escHandler);
+        }
+    };
+    document.addEventListener('keydown', escHandler);
+    
     trackEvent('qr_code_shown');
+}
+
+function closeQRModal() {
+    const modal = document.getElementById('qrModal');
+    if (modal) {
+        modal.remove();
+        document.body.style.overflow = '';
+    }
 }
 
 // ==================== READING TIME FOR PROJECT MODALS ====================
@@ -690,9 +746,71 @@ function initSwipeGestures() {
     }, { passive: true });
 }
 
+// ==================== CONNECTION STATUS INDICATOR ====================
+function initConnectionStatus() {
+    // Create connection status element
+    let statusEl = document.getElementById('connectionStatus');
+    if (!statusEl) {
+        statusEl = document.createElement('div');
+        statusEl.id = 'connectionStatus';
+        statusEl.className = 'connection-status';
+        statusEl.setAttribute('role', 'status');
+        statusEl.setAttribute('aria-live', 'polite');
+        document.body.appendChild(statusEl);
+    }
+    
+    function updateStatus(online) {
+        if (online) {
+            statusEl.innerHTML = '? Back online';
+            statusEl.classList.add('online', 'visible');
+            setTimeout(() => statusEl.classList.remove('visible'), 3000);
+        } else {
+            statusEl.innerHTML = '?? You are offline';
+            statusEl.classList.remove('online');
+            statusEl.classList.add('visible');
+        }
+    }
+    
+    window.addEventListener('online', () => updateStatus(true));
+    window.addEventListener('offline', () => updateStatus(false));
+    
+    // Initial check
+    if (!navigator.onLine) {
+        updateStatus(false);
+    }
+}
+
+// ==================== LIVE REGION FOR SCREEN READERS ====================
+function initLiveRegion() {
+    let liveRegion = document.getElementById('liveRegion');
+    if (!liveRegion) {
+        liveRegion = document.createElement('div');
+        liveRegion.id = 'liveRegion';
+        liveRegion.className = 'live-region';
+        liveRegion.setAttribute('aria-live', 'polite');
+        liveRegion.setAttribute('aria-atomic', 'true');
+        document.body.appendChild(liveRegion);
+    }
+}
+
+function announceToScreenReader(message) {
+    const liveRegion = document.getElementById('liveRegion');
+    if (liveRegion) {
+        liveRegion.textContent = message;
+        // Clear after announcement
+        setTimeout(() => {
+            liveRegion.textContent = '';
+        }, 1000);
+    }
+}
+
 // ==================== MAIN INITIALIZATION ====================
 function initAllPortfolioFeatures() {
-    console.log('?? Initializing portfolio features v4.1.0');
+    console.log('?? Initializing portfolio features v4.1.2');
+    
+    // Accessibility essentials first
+    initLiveRegion();
+    initConnectionStatus();
     
     // Quick wins
     initGitHubStats();
@@ -722,11 +840,11 @@ function initAllPortfolioFeatures() {
     
     // Track initialization
     trackEvent('portfolio_features_initialized', {
-        version: '4.1.0',
-        features_count: 20
+        version: '4.1.2',
+        features_count: 22
     });
     
-    console.log('? Portfolio features initialized');
+    console.log('? Portfolio features initialized (v4.1.2)');
 }
 
 // Auto-initialize when DOM is ready
@@ -743,6 +861,11 @@ window.portfolioFeatures = {
     initSocialShare,
     copyPortfolioLink,
     showQRCode,
+    closeQRModal,
     scrollToTop,
     initAllPortfolioFeatures
 };
+
+// Also expose showQRCode and closeQRModal globally for onclick handlers
+window.showQRCode = showQRCode;
+window.closeQRModal = closeQRModal;
