@@ -1,0 +1,976 @@
+/**
+ * New Features CSS - Portfolio Enhancements
+ * Version 4.1.0
+ */
+
+/* ==================== GITHUB STATS WIDGET ==================== */
+.github-stats-widget {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin: 2rem 0;
+}
+
+.github-stats-card {
+    background: var(--glass);
+    border: 2px solid var(--border-color);
+    border-radius: 15px;
+    overflow: hidden;
+    transition: all 0.3s;
+}
+
+.github-stats-card:hover {
+    border-color: var(--primary);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 255, 255, 0.2);
+}
+
+.github-stats-card img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* ==================== VISITOR COUNTER ==================== */
+.visitor-counter {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: rgba(0, 255, 255, 0.1);
+    border: 1px solid var(--primary);
+    border-radius: 20px;
+    font-size: 0.85rem;
+    color: var(--primary);
+}
+
+.visitor-counter img {
+    height: 20px;
+}
+
+/* ==================== SOCIAL SHARE BUTTONS ==================== */
+.social-share-container {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 1.5rem 0;
+}
+
+.share-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1.2rem;
+    border: 2px solid;
+    border-radius: 25px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-decoration: none;
+    background: transparent;
+}
+
+.share-btn:hover {
+    transform: translateY(-3px);
+}
+
+.share-btn.linkedin {
+    border-color: #0077B5;
+    color: #0077B5;
+}
+
+.share-btn.linkedin:hover {
+    background: #0077B5;
+    color: white;
+}
+
+.share-btn.twitter {
+    border-color: #1DA1F2;
+    color: #1DA1F2;
+}
+
+.share-btn.twitter:hover {
+    background: #1DA1F2;
+    color: white;
+}
+
+.share-btn.whatsapp {
+    border-color: #25D366;
+    color: #25D366;
+}
+
+.share-btn.whatsapp:hover {
+    background: #25D366;
+    color: white;
+}
+
+.share-btn.copy-link {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+.share-btn.copy-link:hover {
+    background: var(--primary);
+    color: var(--dark);
+}
+
+/* ==================== OPEN TO WORK BADGE ==================== */
+.open-to-work-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1.2rem;
+    background: linear-gradient(135deg, rgba(0, 255, 136, 0.2), rgba(0, 255, 255, 0.2));
+    border: 2px solid var(--success);
+    border-radius: 30px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--success);
+    animation: pulse-border 2s ease-in-out infinite;
+    margin: 0.5rem 0;
+}
+
+.open-to-work-badge::before {
+    content: '';
+    width: 10px;
+    height: 10px;
+    background: var(--success);
+    border-radius: 50%;
+    animation: pulse-dot 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse-border {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(0, 255, 136, 0.4); }
+    50% { box-shadow: 0 0 0 10px rgba(0, 255, 136, 0); }
+}
+
+@keyframes pulse-dot {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.2); }
+}
+
+/* ==================== KEYBOARD SHORTCUTS MODAL ==================== */
+.shortcuts-grid {
+    display: grid;
+    gap: 0.75rem;
+}
+
+.shortcut-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    background: rgba(0, 255, 255, 0.05);
+    border-radius: 10px;
+    border: 1px solid var(--border-color);
+}
+
+.shortcut-item kbd {
+    background: var(--dark);
+    border: 1px solid var(--primary);
+    border-radius: 5px;
+    padding: 0.3rem 0.6rem;
+    font-family: monospace;
+    font-size: 0.85rem;
+    color: var(--primary);
+    min-width: 40px;
+    text-align: center;
+}
+
+.shortcut-item span {
+    color: var(--text-secondary);
+}
+
+/* ==================== FLOATING ACTION BUTTON ==================== */
+.fab-container {
+    position: fixed;
+    bottom: 2rem;
+    left: 2rem;
+    z-index: 9996;
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.fab-main {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    border: none;
+    color: var(--dark);
+    font-size: 1.5rem;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(0, 255, 255, 0.4);
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.fab-main:hover {
+    transform: scale(1.1) rotate(45deg);
+}
+
+.fab-main.open {
+    transform: rotate(45deg);
+}
+
+.fab-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+    transition: all 0.3s;
+}
+
+.fab-container.open .fab-actions {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.fab-action {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: var(--bg-card);
+    border: 2px solid var(--primary);
+    color: var(--primary);
+    font-size: 1.2rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s;
+    text-decoration: none;
+}
+
+.fab-action:hover {
+    background: var(--primary);
+    color: var(--dark);
+    transform: scale(1.1);
+}
+
+.fab-action[title]::after {
+    content: attr(title);
+    position: absolute;
+    left: 60px;
+    background: var(--dark);
+    color: var(--text-primary);
+    padding: 0.3rem 0.8rem;
+    border-radius: 5px;
+    font-size: 0.75rem;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.2s;
+}
+
+.fab-action:hover::after {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* ==================== FONT SIZE CONTROLS ==================== */
+.font-size-controls {
+    display: flex;
+    gap: 0.3rem;
+    align-items: center;
+}
+
+.font-size-btn {
+    width: 32px;
+    height: 32px;
+    border: 2px solid var(--primary);
+    background: transparent;
+    color: var(--primary);
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.2s;
+}
+
+.font-size-btn:hover {
+    background: var(--primary);
+    color: var(--dark);
+}
+
+/* ==================== DAILY STREAK DISPLAY ==================== */
+.streak-display {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: linear-gradient(135deg, rgba(255, 165, 0, 0.2), rgba(255, 69, 0, 0.2));
+    border: 2px solid #ff6600;
+    border-radius: 25px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #ff6600;
+}
+
+.streak-display .streak-fire {
+    animation: fire-flicker 0.5s ease-in-out infinite alternate;
+}
+
+@keyframes fire-flicker {
+    from { transform: scale(1); }
+    to { transform: scale(1.2); }
+}
+
+/* ==================== SKELETON LOADING ==================== */
+.skeleton {
+    background: linear-gradient(90deg, 
+        rgba(255, 255, 255, 0.05) 25%, 
+        rgba(255, 255, 255, 0.1) 50%, 
+        rgba(255, 255, 255, 0.05) 75%
+    );
+    background-size: 200% 100%;
+    animation: skeleton-loading 1.5s infinite;
+    border-radius: 5px;
+}
+
+@keyframes skeleton-loading {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+.skeleton-card {
+    padding: 1.5rem;
+    background: var(--glass);
+    border-radius: 15px;
+    border: 1px solid var(--border-color);
+}
+
+.skeleton-image {
+    height: 150px;
+    margin-bottom: 1rem;
+    border-radius: 10px;
+}
+
+.skeleton-title {
+    height: 24px;
+    width: 70%;
+    margin-bottom: 0.75rem;
+}
+
+.skeleton-text {
+    height: 16px;
+    width: 100%;
+    margin-bottom: 0.5rem;
+}
+
+.skeleton-text.short {
+    width: 60%;
+}
+
+.skeleton-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+.skeleton-avatar.small {
+    width: 35px;
+    height: 35px;
+}
+
+.skeleton-activity {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    padding: 1rem;
+    background: var(--glass);
+    border-radius: 10px;
+    margin-bottom: 0.5rem;
+}
+
+/* ==================== READING TIME ==================== */
+.reading-time {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    padding: 0.25rem 0.5rem;
+    background: rgba(0, 255, 255, 0.05);
+    border-radius: 10px;
+}
+
+/* ==================== COPY EMAIL BUTTON ==================== */
+.copy-email-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: transparent;
+    border: 2px solid var(--primary);
+    color: var(--primary);
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.3s;
+}
+
+.copy-email-btn:hover {
+    background: var(--primary);
+    color: var(--dark);
+}
+
+.copy-email-btn.copied {
+    background: var(--success);
+    border-color: var(--success);
+    color: var(--dark);
+}
+
+/* ==================== LAST UPDATED ==================== */
+.last-updated {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    padding: 0.3rem 0.8rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 15px;
+}
+
+/* ==================== QR CODE MODAL ==================== */
+.qr-code-container {
+    text-align: center;
+    padding: 2rem;
+}
+
+.qr-code-container svg {
+    max-width: 200px;
+    margin: 1rem auto;
+    border: 10px solid white;
+    border-radius: 10px;
+}
+
+.qr-code-container p {
+    color: var(--text-secondary);
+    margin-top: 1rem;
+}
+
+/* ==================== MOBILE BOTTOM NAV ==================== */
+@media (max-width: 768px) {
+    .mobile-bottom-nav {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: rgba(10, 10, 10, 0.98);
+        backdrop-filter: blur(20px);
+        border-top: 1px solid var(--border-color);
+        display: flex;
+        justify-content: space-around;
+        padding: 0.5rem 0;
+        z-index: 9998;
+    }
+
+    .mobile-nav-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.2rem;
+        padding: 0.5rem;
+        color: var(--text-muted);
+        text-decoration: none;
+        font-size: 0.7rem;
+        transition: color 0.2s;
+    }
+
+    .mobile-nav-item .icon {
+        font-size: 1.3rem;
+    }
+
+    .mobile-nav-item.active,
+    .mobile-nav-item:hover {
+        color: var(--primary);
+    }
+
+    /* Adjust other elements for bottom nav */
+    .whatsapp-float {
+        bottom: 5rem;
+    }
+
+    .back-to-top {
+        bottom: 5rem;
+    }
+
+    .fab-container {
+        bottom: 5rem;
+    }
+
+    #portfolio {
+        padding-bottom: 4rem;
+    }
+}
+
+@media (min-width: 769px) {
+    .mobile-bottom-nav {
+        display: none;
+    }
+}
+
+/* ==================== HIGH CONTRAST MODE ==================== */
+[data-high-contrast="true"] {
+    --primary: #00ffff;
+    --secondary: #ff00ff;
+    --text-primary: #ffffff;
+    --text-secondary: #ffffff;
+    --bg-card: #000000;
+    --border-color: #ffffff;
+}
+
+[data-high-contrast="true"] .glass-card,
+[data-high-contrast="true"] section {
+    background: #000000;
+    border: 2px solid #ffffff;
+}
+
+/* ==================== CONFETTI STYLES ==================== */
+.confetti-piece {
+    pointer-events: none;
+}
+
+/* ==================== TIME SPENT DISPLAY ==================== */
+.time-spent-display {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    padding: 0.3rem 0.8rem;
+    background: rgba(255, 0, 255, 0.1);
+    border: 1px solid var(--secondary);
+    border-radius: 15px;
+}
+
+/* ==================== SCROLL PROGRESS PER SECTION ==================== */
+.section-progress {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--primary), var(--secondary));
+    width: 0%;
+    transition: width 0.1s;
+    border-radius: 0 3px 3px 0;
+}
+
+/* ==================== PLAYER PROFILE CARD ==================== */
+.player-profile-trigger {
+    cursor: pointer;
+    position: relative;
+}
+
+.player-profile-card {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%) scale(0.9);
+    background: var(--bg-card);
+    border: 2px solid var(--primary);
+    border-radius: 15px;
+    padding: 1.5rem;
+    min-width: 250px;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s;
+    z-index: 1000;
+    box-shadow: 0 10px 40px rgba(0, 255, 255, 0.3);
+}
+
+.player-profile-trigger:hover .player-profile-card {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) scale(1);
+}
+
+.player-profile-card .profile-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.player-profile-card .profile-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+}
+
+.player-profile-card .profile-info h4 {
+    color: var(--primary);
+    margin-bottom: 0.2rem;
+}
+
+.player-profile-card .profile-info p {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+}
+
+.player-profile-card .profile-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+    text-align: center;
+}
+
+.player-profile-card .profile-stat {
+    padding: 0.5rem;
+    background: rgba(0, 255, 255, 0.05);
+    border-radius: 8px;
+}
+
+.player-profile-card .profile-stat-value {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--primary);
+}
+
+.player-profile-card .profile-stat-label {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+}
+
+.player-profile-card .profile-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+    margin-top: 1rem;
+}
+
+.player-profile-card .profile-badge {
+    font-size: 1.2rem;
+    padding: 0.2rem;
+}
+
+/* ==================== ACHIEVEMENT GALLERY STYLES ==================== */
+.achievements-page-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1.5rem;
+}
+
+.achievement-full-card {
+    padding: 1.5rem;
+    background: var(--glass);
+    border: 2px solid var(--border-color);
+    border-radius: 15px;
+    text-align: center;
+    transition: all 0.3s;
+}
+
+.achievement-full-card.unlocked {
+    border-color: var(--accent);
+    background: rgba(255, 255, 0, 0.05);
+}
+
+.achievement-full-card.locked {
+    opacity: 0.5;
+    filter: grayscale(0.8);
+}
+
+.achievement-full-card:hover {
+    transform: translateY(-5px);
+}
+
+.achievement-full-card .icon {
+    font-size: 3rem;
+    margin-bottom: 0.5rem;
+}
+
+.achievement-full-card h3 {
+    color: var(--primary);
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.achievement-full-card p {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+}
+
+.achievement-full-card .xp-value {
+    color: var(--accent);
+    font-weight: bold;
+    margin-top: 0.5rem;
+}
+
+/* ==================== NOW PAGE STYLES ==================== */
+.now-section {
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background: var(--glass);
+    border-left: 4px solid var(--primary);
+    border-radius: 10px;
+}
+
+.now-section h3 {
+    color: var(--primary);
+    margin-bottom: 1rem;
+}
+
+.now-section ul {
+    list-style: none;
+    padding: 0;
+}
+
+.now-section li {
+    padding: 0.5rem 0;
+    padding-left: 1.5rem;
+    position: relative;
+    color: var(--text-secondary);
+}
+
+.now-section li::before {
+    content: '?';
+    position: absolute;
+    left: 0;
+    color: var(--primary);
+}
+
+/* ==================== USES PAGE STYLES ==================== */
+.uses-category {
+    margin-bottom: 2.5rem;
+}
+
+.uses-category h3 {
+    color: var(--primary);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.uses-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1rem;
+}
+
+.uses-item {
+    padding: 1rem;
+    background: var(--glass);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    transition: all 0.3s;
+}
+
+.uses-item:hover {
+    border-color: var(--primary);
+    transform: translateY(-3px);
+}
+
+.uses-item h4 {
+    color: var(--text-primary);
+    margin-bottom: 0.3rem;
+}
+
+.uses-item p {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+}
+
+.uses-item .uses-icon {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+/* ==================== FAQ ACCORDION ==================== */
+.faq-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.faq-item {
+    margin-bottom: 0.5rem;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.faq-question {
+    width: 100%;
+    padding: 1rem 1.5rem;
+    background: var(--glass);
+    border: none;
+    color: var(--text-primary);
+    font-size: 1rem;
+    font-weight: 600;
+    text-align: left;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.3s;
+}
+
+.faq-question:hover {
+    background: rgba(0, 255, 255, 0.1);
+}
+
+.faq-question::after {
+    content: '+';
+    font-size: 1.5rem;
+    color: var(--primary);
+    transition: transform 0.3s;
+}
+
+.faq-item.open .faq-question::after {
+    transform: rotate(45deg);
+}
+
+.faq-answer {
+    padding: 0 1.5rem;
+    max-height: 0;
+    overflow: hidden;
+    transition: all 0.3s;
+    color: var(--text-secondary);
+}
+
+.faq-item.open .faq-answer {
+    padding: 1rem 1.5rem;
+    max-height: 500px;
+}
+
+/* ==================== BOOKSHELF SECTION ==================== */
+.bookshelf-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1.5rem;
+}
+
+.book-card {
+    text-align: center;
+    padding: 1rem;
+    background: var(--glass);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    transition: all 0.3s;
+}
+
+.book-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--primary);
+}
+
+.book-cover {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 5px;
+    margin-bottom: 0.75rem;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+}
+
+.book-card h4 {
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    margin-bottom: 0.3rem;
+}
+
+.book-card .author {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+}
+
+/* ==================== CAREER TIMELINE VISUAL ==================== */
+.career-timeline {
+    position: relative;
+    padding: 2rem 0;
+}
+
+.career-timeline::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: linear-gradient(180deg, var(--primary), var(--secondary), var(--accent));
+    transform: translateX(-50%);
+}
+
+.timeline-node {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    margin: 3rem 0;
+}
+
+.timeline-node::before {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: var(--primary);
+    border-radius: 50%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    box-shadow: 0 0 20px var(--primary);
+}
+
+.timeline-node-content {
+    max-width: 400px;
+    padding: 1.5rem;
+    background: var(--glass);
+    border: 2px solid var(--border-color);
+    border-radius: 15px;
+}
+
+.timeline-node:nth-child(odd) .timeline-node-content {
+    margin-right: calc(50% + 30px);
+}
+
+.timeline-node:nth-child(even) .timeline-node-content {
+    margin-left: calc(50% + 30px);
+}
+
+.timeline-node-content .year {
+    color: var(--accent);
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+.timeline-node-content h4 {
+    color: var(--primary);
+    margin: 0.5rem 0;
+}
+
+.timeline-node-content p {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+    .career-timeline::before {
+        left: 20px;
+    }
+
+    .timeline-node::before {
+        left: 20px;
+    }
+
+    .timeline-node-content {
+        margin-left: 50px !important;
+        margin-right: 0 !important;
+    }
+}

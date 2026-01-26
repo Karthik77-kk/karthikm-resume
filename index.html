@@ -38,8 +38,12 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="KM Portfolio">
     
+    
     <!-- PWA Manifest -->
     <link rel="manifest" href="manifest.json">
+    
+    <!-- New Features CSS -->
+    <link rel="stylesheet" href="assets/css/new-features.css">
     
     <!-- Security Headers (hints for server configuration) -->
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
@@ -3875,6 +3879,11 @@
             <div class="company-badge">
                 🏢 Currently @ Eurofins IT Solutions India Pvt Ltd
             </div>
+            
+            <!-- New Features: Open to Work Badge & Social Share -->
+            <div id="openToWorkBadge"></div>
+            <div id="socialShare"></div>
+            
             <p class="hero-tagline">
                 Passionate software engineer crafting innovative solutions with Python, Machine Learning, and Cloud Technologies. 
                 Transforming complex data into actionable insights.
@@ -4085,6 +4094,12 @@
                     <div class="stat-label">Languages</div>
                 </div>
             </div>
+        </section>
+
+        <!-- GitHub Stats Section - NEW -->
+        <section id="github-stats" aria-labelledby="github-stats-title">
+            <h2 class="section-title" id="github-stats-title">🐙 GITHUB CONTRIBUTIONS</h2>
+            <div id="githubStats"></div>
         </section>
 
         <!-- Projects Section -->
@@ -4395,6 +4410,12 @@
                     or 
                     <a href="https://wa.me/917019880061?text=Hi%20Karthik!%20I%20visited%20your%20portfolio." target="_blank" rel="noopener noreferrer" style="color: #25D366; text-decoration: underline;">WhatsApp</a>
                 </p>
+                
+                <!-- New Features: Copy Email & QR Code -->
+                <div style="text-align: center; margin-top: 1.5rem;">
+                    <button class="copy-email-btn">📧 Copy Email</button>
+                    <button onclick="showQRCode()" class="btn btn-secondary" style="margin-left: 0.5rem;">📱 Show QR Code</button>
+                </div>
             </section>
             </main>
 
@@ -4456,7 +4477,12 @@
             <footer role="contentinfo">
                 <p>© 2025 Karthik M. Crafted with 💙 in Bangalore. All Rights Reserved.</p>
                 <p style="margin-top: 1rem;">Powered by Pure HTML, CSS & JavaScript | Optimized for All Devices</p>
-                <p class="version-info">Version 4.0.0 ULTRA+ | Last Updated: January 2025</p>
+                
+                <!-- New Features: Visitor Counter & Last Updated -->
+                <div id="visitorCounter" style="margin-top: 1rem;"></div>
+                <div class="last-updated-container"></div>
+                
+                <p class="version-info">Version 4.1.0 ULTRA+ | Last Updated: January 2025</p>
                 <p style="margin-top: 0.5rem; font-size: 0.7rem; color: var(--text-muted);">
                     🎮 Try the Konami Code: ↑↑↓↓←→←→BA | 🌊 Wave System | 👹 Boss Shooting | 🧲 Power-ups
                 </p>
@@ -7461,5 +7487,9 @@
             });
         }
     </script>
+    
+    <!-- New Feature Scripts -->
+    <script src="assets/js/utils.js"></script>
+    <script src="assets/js/portfolio.js"></script>
 </body>
 </html>

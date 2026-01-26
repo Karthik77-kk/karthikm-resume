@@ -1,16 +1,20 @@
 // Service Worker for Karthik M Portfolio ULTRA+
-// Version 4.0.0
+// Version 4.1.0
 
-const CACHE_NAME = 'km-portfolio-ultra-v4';
-const STATIC_CACHE = 'km-static-v4';
-const DYNAMIC_CACHE = 'km-dynamic-v4';
+const CACHE_NAME = 'km-portfolio-ultra-v4.1';
+const STATIC_CACHE = 'km-static-v4.1';
+const DYNAMIC_CACHE = 'km-dynamic-v4.1';
 
 const urlsToCache = [
   '/',
   '/index.html',
   '/404.html',
   '/robots.txt',
-  '/sitemap.xml'
+  '/sitemap.xml',
+  '/assets/css/new-features.css',
+  '/assets/js/utils.js',
+  '/assets/js/portfolio.js',
+  '/assets/js/game.js'
 ];
 
 const fontUrls = [
