@@ -1,0 +1,11 @@
+# robots.txt for Karthik M Portfolio
+# https://karthik77-kk.github.io/karthikm-resume/
+
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://karthik77-kk.github.io/karthikm-resume/sitemap.xml
+
+# Crawl-delay (optional, be nice to crawlers)
+Crawl-delay: 1
