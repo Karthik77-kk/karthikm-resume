@@ -63,20 +63,16 @@ function initSocialShare() {
     
     shareContainer.innerHTML = `
         <div class="social-share-container">
-            <button class="share-btn linkedin" onclick="shareOnLinkedIn('${url}', '${title}')" aria-label="Share on LinkedIn">
+            <a href="https://linkedin.com/in/karthik-m-9262a02b4" class="share-btn linkedin" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
                 ?? LinkedIn
-            </button>
-            <button class="share-btn twitter" onclick="shareOnTwitter('${url}', '${text}')" aria-label="Share on Twitter">
-                ?? Twitter
-            </button>
-            <button class="share-btn whatsapp" onclick="shareOnWhatsApp('${url}', '${text}')" aria-label="Share on WhatsApp">
+            </a>
+            <a href="https://wa.me/?text=${encodeURIComponent(text + ' ' + url)}" class="share-btn whatsapp" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
                 ?? WhatsApp
-            </button>
-            <button class="share-btn copy-link" onclick="copyPortfolioLink()" aria-label="Copy link">
-                ?? Copy Link
-            </button>
+            </a>
         </div>
     `;
+    
+    trackEvent('social_share_initialized');
 }
 
 function copyPortfolioLink() {
@@ -309,6 +305,10 @@ function initMobileBottomNav() {
         </nav>
     `;
     
+    // Remove existing mobile nav if present
+    const existing = document.querySelector('.mobile-bottom-nav');
+    if (existing) existing.remove();
+    
     document.body.insertAdjacentHTML('beforeend', navHTML);
     
     // Update active state on scroll
@@ -335,6 +335,7 @@ function initMobileBottomNav() {
     }
     
     window.addEventListener('scroll', throttle(updateActiveNav, 200));
+    updateActiveNav();
 }
 
 // ==================== FONT SIZE CONTROLS ====================
