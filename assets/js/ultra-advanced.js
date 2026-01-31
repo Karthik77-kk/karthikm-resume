@@ -299,8 +299,24 @@ console.log("Doubled:", doubled);</textarea>
             };
 
             try {
-                // Create a safe evaluation context
-                const result = new Function(code)();
+                // Create a sandboxed evaluation context
+                // Restrict access to sensitive APIs by shadowing them
+                const sandboxedCode = `
+                    "use strict";
+                    const window = undefined;
+                    const document = undefined;
+                    const fetch = undefined;
+                    const XMLHttpRequest = undefined;
+                    const localStorage = undefined;
+                    const sessionStorage = undefined;
+                    const indexedDB = undefined;
+                    const navigator = undefined;
+                    const location = undefined;
+                    const history = undefined;
+                    const cookies = undefined;
+                    ${code}
+                `;
+                const result = new Function(sandboxedCode)();
                 if (result !== undefined) {
                     output.push('→ ' + (typeof result === 'object' ? JSON.stringify(result, null, 2) : result));
                 }
