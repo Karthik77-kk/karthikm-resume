@@ -285,15 +285,71 @@
             this.input.value = '';
             this.input.style.height = 'auto';
 
-            // Generate bot response
+            // Generate bot response - try Gemini first, fallback to local
             this.showTypingIndicator();
             
-            const responseDelay = 800 + Math.random() * 700;
-            setTimeout(() => {
+            this.getGeminiResponse(message).then(response => {
+                this.hideTypingIndicator();
+                this.addMessage(response, 'bot');
+            }).catch(() => {
                 this.hideTypingIndicator();
                 const response = this.generateResponse(message);
                 this.addMessage(response, 'bot');
-            }, responseDelay);
+            });
+        }
+
+        async getGeminiResponse(userMessage) {
+            const GEMINI_API_KEY = 'AIzaSyA2bt3kPtC2OEO-r5Rmi9J5SpB9jj92TcE';
+            const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${GEMINI_API_KEY}`;
+            
+            const context = `You are Karthik M's AI portfolio assistant. Here's information about Karthik:
+            - Current Role: Software Developer at Eurofins IT Solutions India Pvt Ltd
+            - Previous: .NET Full Stack Developer at Accenture (Nov 2022 - Nov 2025, 3 years)
+            - Projects at Accenture: E-commerce shopping platforms and Healthcare management systems
+            - Education: BCA from RNS First Grade College, Bangalore University (2020-2023)
+            - Skills: C#, .NET Core, ASP.NET MVC, Angular, React, SQL Server, Azure, Docker, Entity Framework
+            - Location: Bangalore, India
+            - Email: iammrkarthik2002@gmail.com
+            - Phone: +917019880061
+            - GitHub: github.com/Karthik77-kk
+            - LinkedIn: linkedin.com/in/karthik-m-9262a02b4
+            
+            Respond helpfully about Karthik's portfolio, skills, and experience. Keep responses concise and friendly. Use emojis where appropriate.`;
+            
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        contents: [{
+                            parts: [{
+                                text: `${context}\n\nUser question: ${userMessage}`
+                            }]
+                        }],
+                        generationConfig: {
+                            temperature: 0.7,
+                            topK: 40,
+                            topP: 0.95,
+                            maxOutputTokens: 500
+                        }
+                    })
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Gemini API error');
+                }
+                
+                const data = await response.json();
+                if (data.candidates && data.candidates[0]?.content?.parts?.[0]?.text) {
+                    return data.candidates[0].content.parts[0].text;
+                }
+                throw new Error('Invalid response format');
+            } catch (error) {
+                console.warn('Gemini API fallback:', error);
+                throw error; // Fall back to local response
+            }
         }
 
         addMessage(text, type) {
