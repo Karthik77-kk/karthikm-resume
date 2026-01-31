@@ -5,25 +5,26 @@ const CACHE_NAME = 'km-portfolio-ultra-v6.0';
 const STATIC_CACHE = 'km-static-v6.0';
 const DYNAMIC_CACHE = 'km-dynamic-v6.0';
 
+// Use relative paths for GitHub Pages compatibility
 const urlsToCache = [
-  '/',
-  '/index.html',
-  '/404.html',
-  '/robots.txt',
-  '/sitemap.xml',
-  '/assets/css/new-features.css',
-  '/assets/css/ai-chatbot.css',
-  '/assets/css/immersive-effects.css',
-  '/assets/css/advanced-features.css',
-  '/assets/css/ultra-advanced.css',
-  '/assets/css/responsive-design.css',
-  '/assets/js/utils.js',
-  '/assets/js/portfolio.js',
-  '/assets/js/game.js',
-  '/assets/js/ai-chatbot.js',
-  '/assets/js/immersive-effects.js',
-  '/assets/js/advanced-features.js',
-  '/assets/js/ultra-advanced.js'
+  './',
+  './index.html',
+  './404.html',
+  './robots.txt',
+  './sitemap.xml',
+  './assets/css/new-features.css',
+  './assets/css/ai-chatbot.css',
+  './assets/css/immersive-effects.css',
+  './assets/css/advanced-features.css',
+  './assets/css/ultra-advanced.css',
+  './assets/css/responsive-design.css',
+  './assets/js/utils.js',
+  './assets/js/portfolio.js',
+  './assets/js/game.js',
+  './assets/js/ai-chatbot.js',
+  './assets/js/immersive-effects.js',
+  './assets/js/advanced-features.js',
+  './assets/js/ultra-advanced.js'
 ];
 
 const fontUrls = [
