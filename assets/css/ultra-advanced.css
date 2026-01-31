@@ -1,0 +1,970 @@
+/**
+ * Ultra Advanced Features CSS
+ * Version 1.0.0
+ * Voice Commands, Code Playground, Scheduler, and More
+ */
+
+/* ==================== VOICE COMMAND INDICATOR ==================== */
+.voice-command-btn {
+    position: fixed;
+    bottom: 2rem;
+    left: 5rem;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #4CAF50, #2E7D32);
+    border: none;
+    cursor: pointer;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    box-shadow: 0 4px 20px rgba(76, 175, 80, 0.4);
+    transition: all 0.3s ease;
+}
+
+.voice-command-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 30px rgba(76, 175, 80, 0.6);
+}
+
+.voice-command-btn.listening {
+    animation: voice-pulse 1s ease-in-out infinite;
+    background: linear-gradient(135deg, #f44336, #d32f2f);
+}
+
+@keyframes voice-pulse {
+    0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(244, 67, 54, 0.7); }
+    50% { transform: scale(1.1); box-shadow: 0 0 0 20px rgba(244, 67, 54, 0); }
+}
+
+.voice-feedback {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.95);
+    border: 2px solid var(--primary);
+    border-radius: 20px;
+    padding: 2rem 3rem;
+    z-index: 100010;
+    text-align: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.voice-feedback.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.voice-feedback-icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    animation: mic-bounce 0.5s ease infinite;
+}
+
+@keyframes mic-bounce {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+}
+
+.voice-feedback-text {
+    font-size: 1.5rem;
+    color: var(--primary);
+    font-family: var(--font-display);
+}
+
+.voice-waves {
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+    margin-top: 1rem;
+}
+
+.voice-wave {
+    width: 4px;
+    height: 20px;
+    background: var(--primary);
+    border-radius: 2px;
+    animation: wave-animate 0.5s ease infinite;
+}
+
+.voice-wave:nth-child(2) { animation-delay: 0.1s; }
+.voice-wave:nth-child(3) { animation-delay: 0.2s; }
+.voice-wave:nth-child(4) { animation-delay: 0.3s; }
+.voice-wave:nth-child(5) { animation-delay: 0.4s; }
+
+@keyframes wave-animate {
+    0%, 100% { height: 10px; }
+    50% { height: 30px; }
+}
+
+/* ==================== CODE PLAYGROUND ==================== */
+.code-playground {
+    background: #1e1e1e;
+    border-radius: 15px;
+    overflow: hidden;
+    margin: 2rem 0;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+}
+
+.code-playground-header {
+    background: #2d2d2d;
+    padding: 0.75rem 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #3d3d3d;
+}
+
+.code-playground-dots {
+    display: flex;
+    gap: 8px;
+}
+
+.code-playground-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+
+.code-playground-dot.red { background: #ff5f56; }
+.code-playground-dot.yellow { background: #ffbd2e; }
+.code-playground-dot.green { background: #27ca40; }
+
+.code-playground-title {
+    color: #999;
+    font-size: 0.85rem;
+    font-family: monospace;
+}
+
+.code-playground-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.code-playground-btn {
+    padding: 0.4rem 1rem;
+    background: rgba(0, 255, 255, 0.1);
+    border: 1px solid var(--primary);
+    color: var(--primary);
+    border-radius: 5px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.code-playground-btn:hover {
+    background: var(--primary);
+    color: var(--dark);
+}
+
+.code-playground-btn.run {
+    background: rgba(76, 175, 80, 0.2);
+    border-color: #4CAF50;
+    color: #4CAF50;
+}
+
+.code-playground-btn.run:hover {
+    background: #4CAF50;
+    color: white;
+}
+
+.code-playground-editor {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 300px;
+}
+
+.code-playground-input,
+.code-playground-output {
+    padding: 1rem;
+    font-family: 'Fira Code', 'Consolas', monospace;
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+.code-playground-input {
+    background: #1e1e1e;
+    border: none;
+    color: #d4d4d4;
+    resize: none;
+    outline: none;
+    border-right: 1px solid #3d3d3d;
+}
+
+.code-playground-output {
+    background: #252526;
+    color: #4ec9b0;
+    overflow: auto;
+}
+
+.code-playground-output.error {
+    color: #f44336;
+}
+
+@media (max-width: 768px) {
+    .code-playground-editor {
+        grid-template-columns: 1fr;
+    }
+    
+    .code-playground-input {
+        border-right: none;
+        border-bottom: 1px solid #3d3d3d;
+        min-height: 150px;
+    }
+}
+
+/* ==================== MEETING SCHEDULER ==================== */
+.scheduler-widget {
+    position: fixed;
+    bottom: 10rem;
+    right: 2rem;
+    z-index: 9998;
+}
+
+.scheduler-btn {
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #2196F3, #1976D2);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    box-shadow: 0 4px 20px rgba(33, 150, 243, 0.4);
+    transition: all 0.3s ease;
+}
+
+.scheduler-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 30px rgba(33, 150, 243, 0.6);
+}
+
+.scheduler-modal {
+    position: fixed;
+    bottom: 12rem;
+    right: 2rem;
+    width: 350px;
+    max-width: calc(100vw - 2rem);
+    background: rgba(20, 20, 35, 0.98);
+    border: 2px solid rgba(33, 150, 243, 0.3);
+    border-radius: 20px;
+    padding: 1.5rem;
+    z-index: 10001;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px) scale(0.95);
+    transition: all 0.3s ease;
+    backdrop-filter: blur(20px);
+}
+
+.scheduler-modal.open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+}
+
+.scheduler-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+}
+
+.scheduler-header h3 {
+    color: #2196F3;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.scheduler-close {
+    background: none;
+    border: none;
+    color: #999;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.scheduler-close:hover {
+    color: #f44336;
+}
+
+.scheduler-timezone {
+    background: rgba(33, 150, 243, 0.1);
+    border: 1px solid rgba(33, 150, 243, 0.3);
+    border-radius: 10px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.scheduler-timezone-label {
+    font-size: 0.8rem;
+    color: #999;
+    margin-bottom: 0.25rem;
+}
+
+.scheduler-timezone-time {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #2196F3;
+    font-family: var(--font-display);
+}
+
+.scheduler-timezone-location {
+    font-size: 0.85rem;
+    color: #ccc;
+}
+
+.scheduler-options {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.scheduler-option {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-decoration: none;
+    color: inherit;
+}
+
+.scheduler-option:hover {
+    background: rgba(33, 150, 243, 0.1);
+    border-color: rgba(33, 150, 243, 0.3);
+    transform: translateX(5px);
+}
+
+.scheduler-option-icon {
+    font-size: 1.5rem;
+}
+
+.scheduler-option-info h4 {
+    color: #fff;
+    font-size: 0.95rem;
+    margin-bottom: 0.2rem;
+}
+
+.scheduler-option-info p {
+    color: #999;
+    font-size: 0.8rem;
+}
+
+/* ==================== QUICK CONTACT WIDGET ==================== */
+.quick-contact {
+    position: fixed;
+    bottom: 2rem;
+    right: 5rem;
+    z-index: 9997;
+}
+
+.quick-contact-btn {
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #9C27B0, #7B1FA2);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    box-shadow: 0 4px 20px rgba(156, 39, 176, 0.4);
+    transition: all 0.3s ease;
+}
+
+.quick-contact-btn:hover {
+    transform: scale(1.1);
+}
+
+.quick-contact-btn.open {
+    transform: rotate(45deg);
+}
+
+.quick-contact-options {
+    position: absolute;
+    bottom: 65px;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.quick-contact-options.open {
+    opacity: 1;
+    visibility: visible;
+}
+
+.quick-contact-option {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+    transform: scale(0);
+    text-decoration: none;
+}
+
+.quick-contact-options.open .quick-contact-option {
+    transform: scale(1);
+}
+
+.quick-contact-option:nth-child(1) { transition-delay: 0.1s; }
+.quick-contact-option:nth-child(2) { transition-delay: 0.15s; }
+.quick-contact-option:nth-child(3) { transition-delay: 0.2s; }
+.quick-contact-option:nth-child(4) { transition-delay: 0.25s; }
+
+.quick-contact-option.email {
+    background: linear-gradient(135deg, #EA4335, #D32F2F);
+}
+
+.quick-contact-option.phone {
+    background: linear-gradient(135deg, #4CAF50, #388E3C);
+}
+
+.quick-contact-option.linkedin {
+    background: linear-gradient(135deg, #0077B5, #005885);
+}
+
+.quick-contact-option.github {
+    background: linear-gradient(135deg, #333, #24292e);
+}
+
+.quick-contact-option:hover {
+    transform: scale(1.15) !important;
+}
+
+.quick-contact-tooltip {
+    position: absolute;
+    right: 55px;
+    background: rgba(0, 0, 0, 0.9);
+    color: #fff;
+    padding: 0.4rem 0.8rem;
+    border-radius: 5px;
+    font-size: 0.75rem;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.2s;
+    pointer-events: none;
+}
+
+.quick-contact-option:hover .quick-contact-tooltip {
+    opacity: 1;
+}
+
+/* ==================== TYPING SPEED TEST ==================== */
+.typing-test-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.95);
+    z-index: 100010;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.typing-test-modal.open {
+    opacity: 1;
+    visibility: visible;
+}
+
+.typing-test-container {
+    max-width: 800px;
+    width: 90%;
+    padding: 2rem;
+    background: rgba(30, 30, 50, 0.95);
+    border: 2px solid var(--primary);
+    border-radius: 20px;
+    text-align: center;
+}
+
+.typing-test-header {
+    margin-bottom: 2rem;
+}
+
+.typing-test-header h2 {
+    font-size: 2rem;
+    color: var(--primary);
+    margin-bottom: 0.5rem;
+}
+
+.typing-test-stats {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-bottom: 1.5rem;
+}
+
+.typing-stat {
+    text-align: center;
+}
+
+.typing-stat-value {
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: var(--accent);
+    font-family: var(--font-display);
+}
+
+.typing-stat-label {
+    font-size: 0.8rem;
+    color: #999;
+    text-transform: uppercase;
+}
+
+.typing-test-text {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 1.5rem;
+    border-radius: 10px;
+    margin-bottom: 1.5rem;
+    font-size: 1.2rem;
+    line-height: 1.8;
+    text-align: left;
+}
+
+.typing-test-text .correct { color: #4CAF50; }
+.typing-test-text .incorrect { color: #f44336; background: rgba(244, 67, 54, 0.2); }
+.typing-test-text .current { border-bottom: 2px solid var(--primary); }
+.typing-test-text .remaining { color: #666; }
+
+.typing-test-input {
+    width: 100%;
+    padding: 1rem;
+    background: rgba(0, 255, 255, 0.05);
+    border: 2px solid var(--primary);
+    border-radius: 10px;
+    color: #fff;
+    font-size: 1.1rem;
+    font-family: inherit;
+    outline: none;
+}
+
+.typing-test-input:focus {
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+}
+
+.typing-test-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 1.5rem;
+}
+
+/* ==================== SKILL RADAR CHART ==================== */
+.skill-radar-container {
+    max-width: 500px;
+    margin: 2rem auto;
+    aspect-ratio: 1;
+    position: relative;
+}
+
+.skill-radar-svg {
+    width: 100%;
+    height: 100%;
+}
+
+.radar-grid {
+    stroke: rgba(0, 255, 255, 0.2);
+    fill: none;
+}
+
+.radar-axis {
+    stroke: rgba(0, 255, 255, 0.3);
+}
+
+.radar-area {
+    fill: rgba(0, 255, 255, 0.2);
+    stroke: var(--primary);
+    stroke-width: 2;
+    transition: all 0.3s ease;
+}
+
+.radar-area:hover {
+    fill: rgba(0, 255, 255, 0.3);
+}
+
+.radar-point {
+    fill: var(--primary);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.radar-point:hover {
+    r: 8;
+    fill: var(--accent);
+}
+
+.radar-label {
+    fill: var(--text-primary);
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+/* ==================== DYNAMIC THEME GENERATOR ==================== */
+.theme-generator {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(20, 20, 35, 0.98);
+    border: 2px solid var(--primary);
+    border-radius: 20px;
+    padding: 2rem;
+    z-index: 100005;
+    width: 400px;
+    max-width: 90vw;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.theme-generator.open {
+    opacity: 1;
+    visibility: visible;
+}
+
+.theme-generator-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.theme-generator-header h3 {
+    color: var(--primary);
+    font-size: 1.3rem;
+}
+
+.color-picker-group {
+    margin-bottom: 1.5rem;
+}
+
+.color-picker-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+    color: #ccc;
+    font-size: 0.9rem;
+}
+
+.color-picker-input {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+}
+
+.color-picker-input input[type="color"] {
+    width: 50px;
+    height: 40px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    background: transparent;
+}
+
+.color-picker-input input[type="text"] {
+    flex: 1;
+    padding: 0.5rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 5px;
+    color: #fff;
+    font-family: monospace;
+}
+
+.theme-presets {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+}
+
+.theme-preset {
+    aspect-ratio: 1;
+    border-radius: 10px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.theme-preset:hover,
+.theme-preset.active {
+    border-color: #fff;
+    transform: scale(1.1);
+}
+
+.theme-generator-actions {
+    display: flex;
+    gap: 1rem;
+}
+
+/* ==================== CONFETTI EFFECTS ==================== */
+.confetti-container {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 100020;
+    overflow: hidden;
+}
+
+.confetti-piece {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    top: -20px;
+    animation: confetti-fall linear forwards;
+}
+
+@keyframes confetti-fall {
+    to {
+        transform: translateY(100vh) rotate(720deg);
+        opacity: 0;
+    }
+}
+
+/* ==================== SOUND TOGGLE ==================== */
+.sound-toggle-global {
+    position: fixed;
+    top: 4.5rem;
+    right: 1rem;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.5);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    color: #fff;
+    font-size: 1.2rem;
+    cursor: pointer;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.sound-toggle-global:hover {
+    background: rgba(0, 255, 255, 0.2);
+    border-color: var(--primary);
+}
+
+.sound-toggle-global.muted {
+    opacity: 0.5;
+}
+
+/* ==================== READING PROGRESS ==================== */
+.reading-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    z-index: 100000;
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.reading-progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
+    width: 0%;
+    transition: width 0.1s ease;
+}
+
+/* ==================== CURSOR EFFECTS ==================== */
+.cursor-dot {
+    position: fixed;
+    width: 8px;
+    height: 8px;
+    background: var(--primary);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 100030;
+    transition: transform 0.1s ease;
+    mix-blend-mode: difference;
+}
+
+.cursor-ring {
+    position: fixed;
+    width: 40px;
+    height: 40px;
+    border: 2px solid var(--primary);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 100029;
+    transition: all 0.15s ease;
+    mix-blend-mode: difference;
+}
+
+.cursor-ring.hover {
+    width: 60px;
+    height: 60px;
+    border-color: var(--accent);
+}
+
+.cursor-ring.click {
+    transform: scale(0.8);
+}
+
+/* Hide custom cursor on touch devices */
+@media (hover: none) and (pointer: coarse) {
+    .cursor-dot,
+    .cursor-ring {
+        display: none !important;
+    }
+}
+
+/* ==================== ANIMATED ICONS ==================== */
+.animated-icon {
+    display: inline-block;
+    transition: transform 0.3s ease;
+}
+
+.animated-icon:hover {
+    animation: icon-bounce 0.5s ease;
+}
+
+@keyframes icon-bounce {
+    0%, 100% { transform: translateY(0); }
+    25% { transform: translateY(-10px) rotate(-5deg); }
+    50% { transform: translateY(-5px); }
+    75% { transform: translateY(-8px) rotate(5deg); }
+}
+
+/* ==================== LOADING SKELETON ==================== */
+.skeleton {
+    background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0.05) 25%,
+        rgba(255, 255, 255, 0.1) 50%,
+        rgba(255, 255, 255, 0.05) 75%
+    );
+    background-size: 200% 100%;
+    animation: skeleton-loading 1.5s infinite;
+    border-radius: 5px;
+}
+
+@keyframes skeleton-loading {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+.skeleton-text {
+    height: 1em;
+    margin-bottom: 0.5em;
+}
+
+.skeleton-text:last-child {
+    width: 70%;
+}
+
+.skeleton-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+.skeleton-card {
+    height: 200px;
+    border-radius: 15px;
+}
+
+/* ==================== MOBILE RESPONSIVENESS ==================== */
+@media (max-width: 768px) {
+    .voice-command-btn {
+        bottom: 7rem;
+        left: 4rem;
+        width: 45px;
+        height: 45px;
+    }
+    
+    .scheduler-widget {
+        bottom: 14rem;
+    }
+    
+    .scheduler-modal {
+        bottom: 16rem;
+        right: 1rem;
+        width: calc(100vw - 2rem);
+    }
+    
+    .quick-contact {
+        right: 4rem;
+        bottom: 7rem;
+    }
+    
+    .quick-contact-btn {
+        width: 45px;
+        height: 45px;
+    }
+    
+    .typing-test-container {
+        padding: 1.5rem;
+    }
+    
+    .typing-test-stats {
+        gap: 1rem;
+    }
+    
+    .typing-stat-value {
+        font-size: 1.8rem;
+    }
+    
+    .typing-test-text {
+        font-size: 1rem;
+    }
+    
+    .theme-generator {
+        width: calc(100vw - 2rem);
+        max-height: 90vh;
+        overflow-y: auto;
+    }
+    
+    .code-playground-header {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+    
+    .sound-toggle-global {
+        top: auto;
+        bottom: 14rem;
+        right: 1rem;
+    }
+}
+
+/* ==================== REDUCED MOTION ==================== */
+@media (prefers-reduced-motion: reduce) {
+    .voice-command-btn.listening,
+    .voice-wave,
+    .confetti-piece,
+    .animated-icon:hover,
+    .skeleton {
+        animation: none;
+    }
+}

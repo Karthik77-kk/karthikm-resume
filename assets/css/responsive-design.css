@@ -1,0 +1,949 @@
+/**
+ * Responsive Design CSS - Complete Device Optimization
+ * Version 1.0.0
+ * Ensures proper display on all screen sizes and device types
+ */
+
+/* ==================== CSS CUSTOM PROPERTIES FOR RESPONSIVE ==================== */
+:root {
+    --container-padding: clamp(1rem, 5vw, 3rem);
+    --section-spacing: clamp(3rem, 8vw, 6rem);
+    --card-padding: clamp(1rem, 3vw, 2rem);
+    --font-size-xs: clamp(0.7rem, 1.5vw, 0.8rem);
+    --font-size-sm: clamp(0.8rem, 2vw, 0.9rem);
+    --font-size-base: clamp(0.9rem, 2.5vw, 1rem);
+    --font-size-lg: clamp(1rem, 3vw, 1.25rem);
+    --font-size-xl: clamp(1.25rem, 4vw, 1.75rem);
+    --font-size-2xl: clamp(1.75rem, 5vw, 2.5rem);
+    --font-size-3xl: clamp(2rem, 6vw, 3.5rem);
+    --font-size-hero: clamp(2.5rem, 10vw, 5rem);
+}
+
+/* ==================== BASE RESPONSIVE FIXES ==================== */
+html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    min-height: 100vh;
+    min-height: 100dvh; /* Dynamic viewport height for mobile */
+    overflow-x: hidden;
+    width: 100%;
+}
+
+/* Container with fluid padding */
+.container {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 var(--container-padding);
+}
+
+/* ==================== TOUCH TARGET SIZES ==================== */
+/* Ensure all interactive elements are at least 44x44px for touch devices */
+button,
+a,
+input,
+select,
+textarea,
+[role="button"],
+.btn,
+.badge,
+.skill-tag,
+.tech-badge,
+.filter-tag,
+.nav-link,
+.social-link {
+    min-height: 44px;
+    min-width: 44px;
+}
+
+/* Inline links don't need full touch target */
+p a,
+li a,
+.testimonial-text a {
+    min-height: auto;
+    min-width: auto;
+}
+
+/* ==================== HERO SECTION RESPONSIVE ==================== */
+.hero-title {
+    font-size: var(--font-size-hero);
+    line-height: 1.1;
+    word-break: break-word;
+    hyphens: auto;
+}
+
+.hero-subtitle {
+    font-size: var(--font-size-lg);
+}
+
+.hero-tagline {
+    font-size: var(--font-size-base);
+    max-width: 800px;
+    margin: 0 auto;
+    line-height: 1.7;
+}
+
+.hero-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.contact-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+}
+
+/* ==================== SECTION TITLES ==================== */
+.section-title {
+    font-size: var(--font-size-2xl);
+    text-align: center;
+    margin-bottom: var(--section-spacing);
+    word-break: break-word;
+}
+
+/* ==================== GRIDS - RESPONSIVE ==================== */
+.skills-grid,
+.projects-grid,
+.stats-grid,
+.certs-grid {
+    display: grid;
+    gap: clamp(1rem, 3vw, 2rem);
+    width: 100%;
+}
+
+.skills-grid {
+    grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+}
+
+.projects-grid {
+    grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+}
+
+.stats-grid {
+    grid-template-columns: repeat(auto-fit, minmax(min(140px, calc(50% - 1rem)), 1fr));
+}
+
+.certs-grid {
+    grid-template-columns: repeat(auto-fit, minmax(min(150px, calc(50% - 0.5rem)), 1fr));
+}
+
+/* ==================== CARDS - RESPONSIVE ==================== */
+.skill-category,
+.project-card,
+.stat-card,
+.cert-card,
+.timeline-content {
+    padding: var(--card-padding);
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* ==================== NAVIGATION RESPONSIVE ==================== */
+.nav-header {
+    padding: 0.5rem var(--container-padding);
+}
+
+.nav-logo {
+    font-size: clamp(1.2rem, 4vw, 1.5rem);
+}
+
+.nav-links {
+    gap: clamp(0.5rem, 2vw, 1.5rem);
+}
+
+.nav-links a {
+    font-size: var(--font-size-sm);
+    padding: 0.5rem;
+}
+
+/* ==================== TIMELINE RESPONSIVE ==================== */
+.timeline {
+    position: relative;
+    padding: 1rem 0;
+}
+
+/* ==================== IMAGES RESPONSIVE ==================== */
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* ==================== FORM ELEMENTS RESPONSIVE ==================== */
+.contact-form,
+.form-group {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+    width: 100%;
+    font-size: 16px; /* Prevents zoom on iOS */
+    padding: 0.875rem 1rem;
+}
+
+/* ==================== FLOATING ELEMENTS RESPONSIVE ==================== */
+.theme-toggle,
+.back-to-top,
+.whatsapp-float,
+.chatbot-trigger {
+    transform: scale(1);
+}
+
+/* ==================== BREAKPOINT: EXTRA SMALL (< 360px) ==================== */
+@media (max-width: 359px) {
+    :root {
+        --container-padding: 0.75rem;
+    }
+    
+    .hero-title {
+        font-size: 2rem;
+    }
+    
+    .hero-buttons {
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    .hero-buttons .btn {
+        width: 100%;
+    }
+    
+    .contact-badges {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .contact-badges .badge {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .skills-grid,
+    .projects-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .certs-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .skill-tag {
+        font-size: 0.75rem;
+        padding: 0.4rem 0.8rem;
+    }
+    
+    .project-card h3 {
+        font-size: 1rem;
+    }
+    
+    .stat-value {
+        font-size: 1.75rem;
+    }
+    
+    /* Chatbot adjustments */
+    .chatbot-container {
+        width: 100%;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        max-width: 100%;
+        border-radius: 20px 20px 0 0;
+    }
+    
+    .chatbot-trigger {
+        width: 50px;
+        height: 50px;
+        bottom: 5.5rem;
+        left: 0.75rem;
+    }
+    
+    /* Command palette */
+    .command-palette {
+        width: 95vw;
+        max-height: 70vh;
+    }
+}
+
+/* ==================== BREAKPOINT: SMALL (360px - 480px) ==================== */
+@media (min-width: 360px) and (max-width: 479px) {
+    .hero-title {
+        font-size: 2.5rem;
+    }
+    
+    .hero-buttons {
+        flex-direction: column;
+    }
+    
+    .hero-buttons .btn {
+        width: 100%;
+    }
+    
+    .skills-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .projects-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .certs-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    /* 3D Constellation adjustments */
+    .constellation-wrapper {
+        height: 350px;
+    }
+    
+    .skill-planet-inner {
+        width: 50px;
+        height: 50px;
+        font-size: 1.2rem;
+    }
+    
+    .constellation-sun {
+        width: 60px;
+        height: 60px;
+        font-size: 1.5rem;
+    }
+    
+    .constellation-legend {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+    }
+}
+
+/* ==================== BREAKPOINT: MEDIUM PHONE (480px - 640px) ==================== */
+@media (min-width: 480px) and (max-width: 639px) {
+    .hero-title {
+        font-size: 3rem;
+    }
+    
+    .skills-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .projects-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .stats-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .certs-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .constellation-wrapper {
+        height: 400px;
+    }
+}
+
+/* ==================== BREAKPOINT: SMALL TABLET (640px - 768px) ==================== */
+@media (min-width: 640px) and (max-width: 767px) {
+    .hero-title {
+        font-size: 3.5rem;
+    }
+    
+    .skills-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .projects-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .stats-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .certs-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+/* ==================== BREAKPOINT: TABLET (768px - 1024px) ==================== */
+@media (min-width: 768px) and (max-width: 1023px) {
+    .hero-title {
+        font-size: 4rem;
+    }
+    
+    .skills-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .projects-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .stats-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .certs-grid {
+        grid-template-columns: repeat(5, 1fr);
+    }
+    
+    /* Timeline two-column layout */
+    .timeline::before {
+        left: 50%;
+    }
+    
+    .timeline-item {
+        grid-template-columns: 1fr 1fr;
+    }
+    
+    .timeline-content::before {
+        display: block;
+    }
+}
+
+/* ==================== BREAKPOINT: SMALL DESKTOP (1024px - 1280px) ==================== */
+@media (min-width: 1024px) and (max-width: 1279px) {
+    .hero-title {
+        font-size: 4.5rem;
+    }
+    
+    .skills-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .projects-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .stats-grid {
+        grid-template-columns: repeat(6, 1fr);
+    }
+    
+    .certs-grid {
+        grid-template-columns: repeat(5, 1fr);
+    }
+}
+
+/* ==================== BREAKPOINT: LARGE DESKTOP (1280px+) ==================== */
+@media (min-width: 1280px) {
+    .hero-title {
+        font-size: 5rem;
+    }
+    
+    .skills-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .projects-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .stats-grid {
+        grid-template-columns: repeat(6, 1fr);
+    }
+    
+    .certs-grid {
+        grid-template-columns: repeat(5, 1fr);
+    }
+}
+
+/* ==================== MOBILE-SPECIFIC STYLES ==================== */
+@media (max-width: 768px) {
+    /* Mobile bottom navigation spacing */
+    #portfolio {
+        padding-bottom: calc(4.5rem + env(safe-area-inset-bottom, 0px));
+    }
+    
+    /* Timeline mobile layout */
+    .timeline::before {
+        left: 20px;
+    }
+    
+    .timeline-item {
+        grid-template-columns: 1fr;
+    }
+    
+    .timeline-item .timeline-content {
+        margin-left: 50px;
+    }
+    
+    .timeline-content::before {
+        left: -42px !important;
+        right: auto !important;
+        width: 14px;
+        height: 14px;
+    }
+    
+    /* Navigation - mobile menu */
+    .nav-links {
+        display: none;
+    }
+    
+    .nav-links.mobile-open {
+        display: flex;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        flex-direction: column;
+        background: rgba(5, 5, 5, 0.98);
+        padding: 1rem;
+        gap: 0.5rem;
+    }
+    
+    .mobile-menu-btn {
+        display: flex;
+    }
+    
+    /* Fixed elements repositioning */
+    .theme-toggle {
+        top: auto;
+        bottom: calc(6rem + env(safe-area-inset-bottom, 0px));
+        width: 45px;
+        height: 45px;
+    }
+    
+    .back-to-top {
+        bottom: calc(6rem + env(safe-area-inset-bottom, 0px));
+        width: 45px;
+        height: 45px;
+    }
+    
+    .whatsapp-float {
+        bottom: calc(6rem + env(safe-area-inset-bottom, 0px));
+        width: 50px;
+        height: 50px;
+    }
+    
+    .chatbot-trigger {
+        bottom: calc(6rem + env(safe-area-inset-bottom, 0px));
+        left: 1rem;
+        width: 50px;
+        height: 50px;
+    }
+    
+    .chatbot-container {
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        max-width: 100%;
+        height: calc(100vh - 4rem);
+        max-height: calc(100vh - 4rem);
+        border-radius: 20px 20px 0 0;
+    }
+    
+    /* FAB menu adjustments */
+    .fab-container {
+        bottom: calc(6rem + env(safe-area-inset-bottom, 0px));
+        left: 1rem;
+    }
+    
+    /* Skill constellation mobile */
+    .constellation-wrapper {
+        height: 350px;
+    }
+    
+    .constellation-skills {
+        animation: none;
+    }
+    
+    .skill-planet-inner {
+        width: 55px;
+        height: 55px;
+        font-size: 1.3rem;
+    }
+    
+    .constellation-sun {
+        width: 70px;
+        height: 70px;
+        font-size: 1.8rem;
+    }
+    
+    .skill-planet-label {
+        display: none;
+    }
+    
+    /* Testimonials mobile */
+    .testimonials-3d {
+        height: 380px;
+    }
+    
+    .testimonial-card-3d {
+        width: 90vw;
+        max-width: 350px;
+    }
+    
+    .testimonial-card-3d.prev,
+    .testimonial-card-3d.next {
+        display: none;
+    }
+    
+    /* About section cards */
+    .about-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    /* Languages grid */
+    .languages-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    /* Hobbies wrap better */
+    .hobbies-grid {
+        justify-content: center;
+    }
+    
+    .hobby-tag {
+        font-size: 0.9rem;
+        padding: 0.6rem 1rem;
+    }
+    
+    /* Section indicator hidden on mobile */
+    .section-indicator {
+        display: none !important;
+    }
+    
+    /* Scroll indicator hidden */
+    .scroll-indicator {
+        display: none !important;
+    }
+    
+    /* Command palette mobile */
+    .command-palette-overlay {
+        padding-top: 5vh;
+    }
+    
+    .command-palette {
+        width: 95vw;
+        max-height: 80vh;
+    }
+    
+    .command-results {
+        max-height: 60vh;
+    }
+    
+    /* Notification positioning */
+    .notification {
+        left: 1rem;
+        right: 1rem;
+        min-width: auto;
+        max-width: calc(100vw - 2rem);
+    }
+    
+    .notification.show {
+        bottom: calc(6rem + env(safe-area-inset-bottom, 0px));
+    }
+    
+    /* Floating badges smaller on mobile */
+    .floating-badge {
+        font-size: 0.8rem;
+        padding: 0.5rem 0.9rem;
+    }
+}
+
+/* ==================== LANDSCAPE MOBILE ==================== */
+@media (max-height: 500px) and (orientation: landscape) {
+    .hero-title {
+        font-size: 2.5rem;
+    }
+    
+    .hero-tagline {
+        display: none;
+    }
+    
+    .hero-buttons {
+        flex-direction: row;
+    }
+    
+    section {
+        padding: 2rem var(--container-padding);
+    }
+    
+    .constellation-wrapper {
+        height: 250px;
+    }
+    
+    .testimonials-3d {
+        height: 300px;
+    }
+}
+
+/* ==================== TABLET PORTRAIT ==================== */
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
+    .skills-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .projects-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .timeline-item {
+        grid-template-columns: 1fr;
+    }
+    
+    .timeline-item .timeline-content {
+        margin-left: 50px;
+        grid-column: 1;
+    }
+    
+    .timeline::before {
+        left: 20px;
+    }
+}
+
+/* ==================== HIGH DPI DISPLAYS ==================== */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    /* Ensure crisp rendering on retina displays */
+    .hero-title,
+    .section-title {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+}
+
+/* ==================== DARK MODE SYSTEM PREFERENCE ==================== */
+@media (prefers-color-scheme: dark) {
+    :root {
+        color-scheme: dark;
+    }
+}
+
+@media (prefers-color-scheme: light) {
+    :root {
+        color-scheme: light;
+    }
+}
+
+/* ==================== REDUCED MOTION ==================== */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+    
+    .constellation-skills,
+    .blob,
+    .floating-badge,
+    .skill-planet-inner {
+        animation: none !important;
+    }
+}
+
+/* ==================== PRINT STYLES ==================== */
+@media print {
+    * {
+        background: transparent !important;
+        color: black !important;
+        box-shadow: none !important;
+        text-shadow: none !important;
+    }
+    
+    body {
+        font-size: 12pt;
+        line-height: 1.5;
+    }
+    
+    .nav-header,
+    .theme-toggle,
+    .back-to-top,
+    .whatsapp-float,
+    .chatbot-trigger,
+    .chatbot-container,
+    .command-palette-overlay,
+    .mobile-bottom-nav,
+    .fab-container,
+    #gameContainer,
+    .space-bg,
+    .blob-container,
+    .constellation-wrapper,
+    .scroll-indicator,
+    .notification,
+    .cookie-consent {
+        display: none !important;
+    }
+    
+    section {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+    
+    h1, h2, h3, h4, h5, h6 {
+        break-after: avoid;
+        page-break-after: avoid;
+    }
+    
+    a {
+        text-decoration: underline;
+    }
+    
+    a[href^="http"]::after {
+        content: " (" attr(href) ")";
+        font-size: 0.8em;
+    }
+}
+
+/* ==================== SAFE AREA SUPPORT (Notched devices) ==================== */
+@supports (padding: env(safe-area-inset-top)) {
+    body {
+        padding-left: env(safe-area-inset-left);
+        padding-right: env(safe-area-inset-right);
+    }
+    
+    .nav-header {
+        padding-left: calc(var(--container-padding) + env(safe-area-inset-left));
+        padding-right: calc(var(--container-padding) + env(safe-area-inset-right));
+    }
+    
+    .mobile-bottom-nav {
+        padding-bottom: calc(0.5rem + env(safe-area-inset-bottom));
+    }
+}
+
+/* ==================== HOVER MEDIA QUERY (Touch vs Mouse) ==================== */
+@media (hover: hover) and (pointer: fine) {
+    /* Desktop/mouse-specific hover effects */
+    .project-card:hover {
+        transform: translateY(-15px);
+    }
+    
+    .skill-tag:hover {
+        transform: scale(1.1);
+    }
+    
+    .btn:hover {
+        transform: translateY(-3px);
+    }
+}
+
+@media (hover: none) and (pointer: coarse) {
+    /* Touch device optimizations */
+    .project-card:active {
+        transform: scale(0.98);
+    }
+    
+    .skill-tag:active {
+        transform: scale(0.95);
+    }
+    
+    /* Disable complex hover effects */
+    .tilt-card:hover .tilt-card-inner {
+        transform: none;
+    }
+    
+    .magnetic:hover {
+        transform: none;
+    }
+    
+    /* Hide cursor-related elements */
+    .custom-cursor,
+    .cursor-dot {
+        display: none !important;
+    }
+}
+
+/* ==================== CONTRAST PREFERENCES ==================== */
+@media (prefers-contrast: high) {
+    :root {
+        --border-color: rgba(255, 255, 255, 0.5);
+        --text-secondary: #ffffff;
+    }
+    
+    .glass-card,
+    section {
+        border-width: 2px;
+    }
+    
+    a, button {
+        text-decoration: underline;
+    }
+}
+
+/* ==================== ORIENTATION CHANGE FIXES ==================== */
+@media (orientation: portrait) {
+    .constellation-wrapper {
+        max-height: 50vh;
+    }
+}
+
+@media (orientation: landscape) {
+    .constellation-wrapper {
+        max-height: 60vh;
+    }
+    
+    .testimonials-3d {
+        max-height: 70vh;
+    }
+}
+
+/* ==================== SCROLLBAR STYLES ==================== */
+/* Webkit browsers */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(0, 255, 255, 0.3);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 255, 255, 0.5);
+}
+
+/* Firefox */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0, 255, 255, 0.3) rgba(0, 0, 0, 0.1);
+}
+
+/* ==================== SELECTION STYLES ==================== */
+::selection {
+    background: var(--primary);
+    color: var(--dark);
+}
+
+::-moz-selection {
+    background: var(--primary);
+    color: var(--dark);
+}
+
+/* ==================== FOCUS VISIBLE FOR ACCESSIBILITY ==================== */
+:focus-visible {
+    outline: 3px solid var(--primary);
+    outline-offset: 3px;
+}
+
+/* Remove focus outline for mouse users */
+:focus:not(:focus-visible) {
+    outline: none;
+}
