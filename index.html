@@ -50,6 +50,7 @@
     <link rel="stylesheet" href="assets/css/immersive-effects.css">
     <link rel="stylesheet" href="assets/css/advanced-features.css">
     <link rel="stylesheet" href="assets/css/ultra-advanced.css">
+    <link rel="stylesheet" href="assets/css/futuristic-enhancements.css">
     
     <!-- Responsive Design - Must be last to override -->
     <link rel="stylesheet" href="assets/css/responsive-design.css">
@@ -3769,7 +3770,11 @@
     </style>
     </head>
     <body>
-    <!-- Custom Cursor -->
+    <!-- Aurora Background Effect -->
+    <div class="aurora-bg" aria-hidden="true"></div>
+    <div class="cyber-grid" aria-hidden="true"></div>
+    
+    <!-- Custom Cursor (disabled) -->
     <div class="custom-cursor" id="cursor"></div>
     <div class="cursor-dot" id="cursorDot"></div>
 
@@ -3988,8 +3993,8 @@
             <div id="availabilityStatus" style="margin: 1rem 0;"></div>
             
             <p class="hero-tagline">
-                Passionate software engineer crafting innovative solutions with Python, Machine Learning, and Cloud Technologies. 
-                Transforming complex data into actionable insights.
+                Passionate .NET Full Stack Developer building enterprise-grade web applications with C#, ASP.NET Core, Angular, and Azure. 
+                3+ years of experience delivering scalable solutions for e-commerce and healthcare domains.
             </p>
             
             <!-- Hero Buttons -->
@@ -4499,6 +4504,7 @@
                 <div style="text-align: center; margin-top: 1.5rem; display: flex; justify-content: center; gap: 0.5rem; flex-wrap: wrap;">
                     <button class="copy-email-btn" aria-label="Copy email address">Copy Email</button>
                     <button onclick="showQRCode()" class="btn btn-secondary" aria-label="Show QR code to connect">Show QR Code</button>
+                    <button onclick="downloadVCard()" class="btn btn-secondary" aria-label="Download contact card">📇 Save Contact</button>
                 </div>
             </section>
             </main>
@@ -7229,12 +7235,12 @@
         // ==================== TYPEWRITER EFFECT ====================
         function initTypewriter() {
             const phrases = [
-                'SOFTWARE DEVELOPER',
-                'AI ENTHUSIAST',
-                'CLOUD ARCHITECT',
-                'ML ENGINEER',
-                'PROBLEM SOLVER',
-                'TECH INNOVATOR'
+                '.NET FULL STACK DEVELOPER',
+                'C# EXPERT',
+                'AZURE CLOUD ARCHITECT',
+                'SOFTWARE ENGINEER',
+                'ANGULAR DEVELOPER',
+                'PROBLEM SOLVER'
             ];
             let phraseIndex = 0;
             let charIndex = 0;
@@ -7732,5 +7738,6 @@
     <script src="assets/js/immersive-effects.js"></script>
     <script src="assets/js/advanced-features.js"></script>
     <script src="assets/js/ultra-advanced.js"></script>
+    <script src="assets/js/futuristic-features.js"></script>
 </body>
 </html>
