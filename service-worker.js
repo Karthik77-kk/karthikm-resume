@@ -1,9 +1,9 @@
 // Service Worker for Karthik M Portfolio ULTRA+
-// Version 5.0.0
+// Version 5.1.0
 
-const CACHE_NAME = 'km-portfolio-ultra-v5.0';
-const STATIC_CACHE = 'km-static-v5.0';
-const DYNAMIC_CACHE = 'km-dynamic-v5.0';
+const CACHE_NAME = 'km-portfolio-ultra-v5.1';
+const STATIC_CACHE = 'km-static-v5.1';
+const DYNAMIC_CACHE = 'km-dynamic-v5.1';
 
 const urlsToCache = [
   '/',
@@ -14,11 +14,13 @@ const urlsToCache = [
   '/assets/css/new-features.css',
   '/assets/css/ai-chatbot.css',
   '/assets/css/immersive-effects.css',
+  '/assets/css/advanced-features.css',
   '/assets/js/utils.js',
   '/assets/js/portfolio.js',
   '/assets/js/game.js',
   '/assets/js/ai-chatbot.js',
-  '/assets/js/immersive-effects.js'
+  '/assets/js/immersive-effects.js',
+  '/assets/js/advanced-features.js'
 ];
 
 const fontUrls = [

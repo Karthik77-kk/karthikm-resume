@@ -48,6 +48,7 @@
     <!-- AI Chatbot & Immersive Effects CSS -->
     <link rel="stylesheet" href="assets/css/ai-chatbot.css">
     <link rel="stylesheet" href="assets/css/immersive-effects.css">
+    <link rel="stylesheet" href="assets/css/advanced-features.css">
     
     <!-- Security Headers (hints for server configuration) -->
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
@@ -3959,6 +3960,9 @@
             <!-- Status badges container (populated via JS) -->
             <div id="openToWorkBadge"></div>
             
+            <!-- Availability Status Widget -->
+            <div id="availabilityStatus" style="margin: 1rem 0;"></div>
+            
             <p class="hero-tagline">
                 Passionate software engineer crafting innovative solutions with Python, Machine Learning, and Cloud Technologies. 
                 Transforming complex data into actionable insights.
@@ -4098,6 +4102,12 @@
                     </div>
                 </div>
             </div>
+            
+            <!-- 3D Skill Constellation -->
+            <div id="skillConstellation" style="margin-top: 2rem;"></div>
+            
+            <!-- Floating Tech Badges -->
+            <div id="floatingBadges" style="margin-top: 1rem;"></div>
         </section>
 
         <!-- Experience Section -->
@@ -4352,60 +4362,34 @@
                 </div>
             </section>
 
-            <!-- Testimonials Section -->
+            <!-- Testimonials Section - 3D Enhanced -->
             <section id="testimonials" aria-labelledby="testimonials-title">
                 <h2 class="section-title" id="testimonials-title">WHAT PEOPLE SAY</h2>
-                <div class="testimonials-slider">
-                    <div class="testimonial-track" id="testimonialTrack">
-                        <div class="testimonial-card">
-                            <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
-                            <p class="testimonial-text">
-                                "Karthik demonstrated exceptional analytical skills during his internship. His work on data pipelines 
-                                and ML models showed remarkable attention to detail and innovative problem-solving abilities."
-                            </p>
-                            <div class="testimonial-author">
-                                <div class="author-avatar">DS</div>
-                                <div class="author-info">
-                                    <h4>Data Science Team Lead</h4>
-                                    <p>Prinston Smart, Bangalore</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="testimonial-card">
-                            <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
-                            <p class="testimonial-text">
-                                "A dedicated student with strong technical foundations. Karthik's projects in computer vision 
-                                and IoT showcased his ability to apply theoretical knowledge to practical solutions."
-                            </p>
-                            <div class="testimonial-author">
-                                <div class="author-avatar">PF</div>
-                                <div class="author-info">
-                                    <h4>Professor</h4>
-                                    <p>Dayananda Sagar Academy</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="testimonial-card">
-                            <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
-                            <p class="testimonial-text">
-                                "Outstanding coordination skills! Karthik organized our hackathon with 200+ participants flawlessly. 
-                                His leadership and technical expertise made the event a huge success."
-                            </p>
-                            <div class="testimonial-author">
-                                <div class="author-avatar">HC</div>
-                                <div class="author-info">
-                                    <h4>Hackathon Co-Organizer</h4>
-                                    <p>Tech Community</p>
+                
+                <!-- 3D Testimonials Carousel -->
+                <div id="testimonialsCarousel"></div>
+                
+                <!-- Fallback: Original testimonials for browsers without JS -->
+                <noscript>
+                    <div class="testimonials-slider">
+                        <div class="testimonial-track" id="testimonialTrack">
+                            <div class="testimonial-card">
+                                <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
+                                <p class="testimonial-text">
+                                    "Karthik demonstrated exceptional analytical skills during his internship. His work on data pipelines 
+                                    and ML models showed remarkable attention to detail and innovative problem-solving abilities."
+                                </p>
+                                <div class="testimonial-author">
+                                    <div class="author-avatar">DS</div>
+                                    <div class="author-info">
+                                        <h4>Data Science Team Lead</h4>
+                                        <p>Prinston Smart, Bangalore</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="slider-dots">
-                        <span class="dot active" data-index="0"></span>
-                        <span class="dot" data-index="1"></span>
-                        <span class="dot" data-index="2"></span>
-                    </div>
-                </div>
+                </noscript>
             </section>
 
             <!-- GitHub Activity Section -->
@@ -7566,5 +7550,6 @@
     <!-- AI Chatbot & Immersive Effects -->
     <script src="assets/js/ai-chatbot.js"></script>
     <script src="assets/js/immersive-effects.js"></script>
+    <script src="assets/js/advanced-features.js"></script>
 </body>
 </html>
