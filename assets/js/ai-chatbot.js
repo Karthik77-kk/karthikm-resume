@@ -299,6 +299,8 @@
         }
 
         async getGeminiResponse(userMessage) {
+            // Note: For GitHub Pages static hosting, the API key is included client-side.
+            // For production deployment, consider using a backend proxy or serverless function.
             const GEMINI_API_KEY = 'AIzaSyA2bt3kPtC2OEO-r5Rmi9J5SpB9jj92TcE';
             const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${GEMINI_API_KEY}`;
             

@@ -115,7 +115,7 @@ URL:${this.contactData.website}
 X-SOCIALPROFILE;TYPE=linkedin:${this.contactData.linkedin}
 X-SOCIALPROFILE;TYPE=github:${this.contactData.github}
 ADR:;;${this.contactData.address};;;;
-NOTE:Full Stack .NET Developer with 3+ years experience at Accenture. Expert in C#, ASP.NET Core, Angular, SQL Server, and Azure.
+NOTE: Full Stack .NET Developer with 3+ years experience at Accenture. Expert in C#, ASP.NET Core, Angular, SQL Server, and Azure.
 END:VCARD`;
 
             return vcard;
