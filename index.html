@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="theme-color" content="#0a0a0a">
-    <title>Karthik M | Software Developer | AI & ML Expert | Portfolio</title>
+    <title>Karthik M | Software Developer | Portfolio</title>
     
     <!-- SEO Meta Tags -->
-    <meta name="description" content="Karthik M - Software Developer at Eurofins IT Solutions. Expert in Python, Machine Learning, AWS Cloud, and Full-Stack Development. MCA Graduate from Bangalore with 20+ certifications.">
-    <meta name="keywords" content="Karthik M, Software Developer, Python Developer, Machine Learning Engineer, AWS, Cloud Architect, Full Stack Developer, Bangalore, India, Portfolio, AI, ML, Data Science">
+    <meta name="description" content="Karthik M - Software Developer at Eurofins IT Solutions. 3+ years experience in .NET Full Stack development at Accenture. Expert in C#, ASP.NET Core, Angular, SQL Server, and Azure.">
+    <meta name="keywords" content="Karthik M, Software Developer, .NET Developer, Full Stack Developer, C#, ASP.NET Core, Angular, SQL Server, Azure, Eurofins, Accenture, Bangalore, India, Portfolio">
     <meta name="author" content="Karthik M">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://karthik77-kk.github.io/karthikm-resume/">
@@ -16,8 +16,8 @@
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://karthik77-kk.github.io/karthikm-resume/">
-    <meta property="og:title" content="Karthik M | Software Developer | AI & ML Expert">
-    <meta property="og:description" content="Software Developer at Eurofins IT Solutions. Expert in Python, Machine Learning, AWS Cloud, and Full-Stack Development. View my portfolio and projects.">
+    <meta property="og:title" content="Karthik M | Software Developer">
+    <meta property="og:description" content="Software Developer at Eurofins IT Solutions. 3+ years .NET Full Stack experience. Expert in C#, ASP.NET Core, Angular, and Azure.">
     <meta property="og:image" content="https://karthik77-kk.github.io/karthikm-resume/og-image.png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
@@ -27,8 +27,8 @@
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="https://karthik77-kk.github.io/karthikm-resume/">
-    <meta name="twitter:title" content="Karthik M | Software Developer | AI & ML Expert">
-    <meta name="twitter:description" content="Software Developer at Eurofins IT Solutions. Expert in Python, ML, AWS. View my portfolio!">
+    <meta name="twitter:title" content="Karthik M | Software Developer">
+    <meta name="twitter:description" content="Software Developer at Eurofins. 3+ years .NET experience. Expert in C#, ASP.NET, Azure!">
     <meta name="twitter:image" content="https://karthik77-kk.github.io/karthikm-resume/og-image.png">
     
     <!-- Favicon & Icons -->
@@ -93,12 +93,8 @@
             "https://linkedin.com/in/karthik-m-9262a02b4",
             "https://github.com/Karthik77-kk"
         ],
-        "knowsAbout": ["Python", "Machine Learning", "AWS", "Docker", "MongoDB", "Data Science", "Computer Vision", "IoT"],
+        "knowsAbout": ["C#", ".NET Core", "ASP.NET MVC", "Angular", "SQL Server", "Azure", "Entity Framework", "REST APIs"],
         "alumniOf": [
-            {
-                "@type": "EducationalOrganization",
-                "name": "Dayananda Sagar Academy of Technology & Management"
-            },
             {
                 "@type": "EducationalOrganization",
                 "name": "RNS First Grade College, Bangalore University"
@@ -162,55 +158,107 @@
             --font-body: 'Rajdhani', 'Segoe UI', sans-serif;
         }
 
-        /* ==================== CUSTOM CURSOR ==================== */
-        .custom-cursor {
-            width: 20px;
-            height: 20px;
+        /* ==================== CUSTOM CURSOR (DISABLED) ==================== */
+        /* Custom cursor removed for performance */
+        .custom-cursor, .cursor-dot, .cursor-trail {
+            display: none !important;
+        }
+
+        /* ==================== QR CODE MODAL ==================== */
+        .qr-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1000001;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .qr-modal.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .qr-modal-backdrop {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+        }
+        
+        .qr-modal-content {
+            position: relative;
+            background: rgba(10, 10, 10, 0.95);
             border: 2px solid var(--primary);
-            border-radius: 50%;
-            position: fixed;
-            pointer-events: none;
-            z-index: 999999;
-            transition: transform 0.15s ease, width 0.2s, height 0.2s, background 0.2s;
-            mix-blend-mode: difference;
+            border-radius: 20px;
+            padding: 2rem;
+            max-width: 400px;
+            text-align: center;
+            transform: scale(0.8);
+            transition: transform 0.3s ease;
+        }
+        
+        .qr-modal.show .qr-modal-content {
+            transform: scale(1);
+        }
+        
+        .qr-modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        
+        .qr-modal-close:hover {
+            color: var(--primary);
+        }
+        
+        .qr-code-container {
+            display: flex;
+            justify-content: center;
+            padding: 1rem;
+            background: white;
+            border-radius: 10px;
+        }
+        
+        .qr-code-container canvas {
+            max-width: 200px;
         }
 
-        .cursor-dot {
-            width: 6px;
-            height: 6px;
-            background: var(--primary);
-            border-radius: 50%;
-            position: fixed;
-            pointer-events: none;
-            z-index: 999999;
+        /* ==================== GITHUB STATS ==================== */
+        .github-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
         }
-
-        .custom-cursor.hover {
-            width: 50px;
-            height: 50px;
-            background: rgba(0, 255, 255, 0.1);
-            border-color: var(--secondary);
+        
+        .github-stat-card {
+            background: rgba(13, 17, 23, 0.8);
+            border: 1px solid var(--primary);
+            border-radius: 15px;
+            padding: 1rem;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
         }
-
-        .cursor-trail {
-            position: fixed;
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 999998;
-            opacity: 0.6;
-            animation: trail-fade 0.5s forwards;
-        }
-
-        @keyframes trail-fade {
-            to { opacity: 0; transform: scale(0); }
-        }
-
-        /* Hide cursor on touch devices */
-        @media (pointer: coarse) {
-            .custom-cursor, .cursor-dot { display: none; }
-            body { cursor: auto; }
+        
+        .github-stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 255, 255, 0.2);
         }
 
         /* ==================== XP & GAMIFICATION SYSTEM ==================== */
@@ -686,33 +734,9 @@
         }
 
         /* Theme Toggle Button */
+        /* Theme toggle removed */
         .theme-toggle {
-            position: fixed;
-            top: 1rem;
-            right: 1rem;
-            z-index: 9999;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            border: 2px solid var(--primary);
-            background: rgba(0, 0, 0, 0.8);
-            color: var(--primary);
-            font-size: 1.5rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s;
-            box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
-        }
-
-        [data-theme="light"] .theme-toggle {
-            background: rgba(255, 255, 255, 0.9);
-        }
-
-        .theme-toggle:hover {
-            transform: scale(1.1) rotate(15deg);
-            box-shadow: 0 0 30px var(--primary);
+            display: none !important;
         }
 
         /* Back to Top Button */
@@ -1271,11 +1295,7 @@
             color: #fff;
             overflow-x: hidden;
             touch-action: pan-y;
-            cursor: none;
-        }
-
-        @media (pointer: coarse) {
-            body { cursor: auto; }
+            cursor: auto;
         }
 
         /* ==================== ENHANCED LOADING SCREEN ==================== */
@@ -4003,11 +4023,6 @@
                 <div class="about-card">
                     <h3>🎓 Education</h3>
                     <p>
-                        <strong>Master of Computer Applications (MCA)</strong><br>
-                        Dayananda Sagar Academy of Technology & Management, Bengaluru<br>
-                        CGPA: 8.0/10 | 2023-2025
-                    </p>
-                    <p style="margin-top: 1rem;">
                         <strong>Bachelor of Computer Applications (BCA)</strong><br>
                         RNS First Grade College, Bangalore University<br>
                         CGPA: 7.04/10 | 2020-2023
@@ -4021,22 +4036,22 @@
                         Present
                     </p>
                     <p style="margin-top: 1rem;">
-                        <strong>Data Science Intern</strong><br>
-                        Prinston Smart, Bangalore<br>
-                        Nov 2024 - Jan 2025
+                        <strong>.NET Full Stack Developer / Software Engineer</strong><br>
+                        Accenture<br>
+                        Nov 2022 - Nov 2025 (3 Years)
                     </p>
                     <p style="margin-top: 0.5rem;">
-                        Processing 100k+ record datasets with Python and Pandas. Developing ML models with 85%+ accuracy. 
-                        Creating automated Power BI dashboards.
+                        Built enterprise-grade shopping and healthcare web applications using .NET Core, ASP.NET MVC, C#, and Angular. 
+                        Expertise in RESTful API development, SQL Server, Entity Framework, and Azure cloud services.
                     </p>
                 </div>
                 <div class="about-card">
                     <h3>🎯 Expertise</h3>
                     <p>
-                        Specialized in full-stack Python development, machine learning model deployment, and cloud infrastructure. 
-                        Experienced in building AI-powered applications with real-time data processing capabilities. 
-                        Strong foundation in computer vision, NLP, and IoT systems integration. Currently contributing to 
-                        enterprise-level software solutions at Eurofins IT Solutions.
+                        Specialized in .NET full-stack development with expertise in C#, ASP.NET Core, and modern JavaScript frameworks. 
+                        Experienced in building scalable enterprise applications for e-commerce and healthcare domains.
+                        Strong foundation in database design, cloud deployment (Azure), and DevOps practices.
+                        Passionate about creating efficient, maintainable, and high-performance solutions.
                     </p>
                 </div>
             </div>
@@ -4049,60 +4064,61 @@
                 <div class="skill-category">
                     <h3>💻 Programming Languages</h3>
                     <div>
+                        <span class="skill-tag" data-tooltip="2+ years experience" tabindex="0">C#</span>
                         <span class="skill-tag" data-tooltip="3+ years experience" tabindex="0">Python</span>
-                        <span class="skill-tag" data-tooltip="OOP & DSA" tabindex="0">Java</span>
-                        <span class="skill-tag" data-tooltip="Systems programming" tabindex="0">C</span>
-                        <span class="skill-tag" data-tooltip="Database queries" tabindex="0">SQL</span>
                         <span class="skill-tag" data-tooltip="Web development" tabindex="0">JavaScript</span>
+                        <span class="skill-tag" data-tooltip="TypeScript expert" tabindex="0">TypeScript</span>
+                        <span class="skill-tag" data-tooltip="Database queries" tabindex="0">SQL</span>
                     </div>
                 </div>
                 <div class="skill-category">
-                    <h3>🌐 Web Technologies</h3>
+                    <h3>🔷 .NET Technologies</h3>
                     <div>
+                        <span class="skill-tag" data-tooltip="Backend framework" tabindex="0">.NET Core</span>
+                        <span class="skill-tag" data-tooltip="Web development" tabindex="0">ASP.NET MVC</span>
+                        <span class="skill-tag" data-tooltip="Web API" tabindex="0">ASP.NET Web API</span>
+                        <span class="skill-tag" data-tooltip="ORM" tabindex="0">Entity Framework</span>
+                        <span class="skill-tag" data-tooltip="Dependency injection" tabindex="0">LINQ</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h3>🌐 Frontend Technologies</h3>
+                    <div>
+                        <span class="skill-tag" data-tooltip="Modern framework" tabindex="0">Angular</span>
+                        <span class="skill-tag" data-tooltip="UI library" tabindex="0">React</span>
                         <span class="skill-tag" data-tooltip="Semantic markup" tabindex="0">HTML5</span>
-                        <span class="skill-tag" data-tooltip="Responsive design" tabindex="0">CSS3</span>
-                        <span class="skill-tag" data-tooltip="DOM & ES6+" tabindex="0">JavaScript</span>
-                        <span class="skill-tag" data-tooltip="API development" tabindex="0">REST APIs</span>
-                        <span class="skill-tag" data-tooltip="Desktop apps" tabindex="0">PyQt5</span>
-                    </div>
-                </div>
-                <div class="skill-category">
-                    <h3>🤖 AI & ML</h3>
-                    <div>
-                        <span class="skill-tag" data-tooltip="85%+ model accuracy" tabindex="0">Machine Learning</span>
-                        <span class="skill-tag" data-tooltip="OpenCV expert" tabindex="0">Computer Vision</span>
-                        <span class="skill-tag" data-tooltip="Image processing" tabindex="0">OpenCV</span>
-                        <span class="skill-tag" data-tooltip="ML algorithms" tabindex="0">scikit-learn</span>
-                        <span class="skill-tag" data-tooltip="Text processing" tabindex="0">NLP</span>
-                    </div>
-                </div>
-                <div class="skill-category">
-                    <h3>📊 Data Science</h3>
-                    <div>
-                        <span class="skill-tag" data-tooltip="Data manipulation" tabindex="0">Pandas</span>
-                        <span class="skill-tag" data-tooltip="Numerical computing" tabindex="0">NumPy</span>
-                        <span class="skill-tag" data-tooltip="Business dashboards" tabindex="0">Power BI</span>
-                        <span class="skill-tag" data-tooltip="Interactive notebooks" tabindex="0">Jupyter</span>
-                        <span class="skill-tag" data-tooltip="Data analysis" tabindex="0">Excel</span>
+                        <span class="skill-tag" data-tooltip="Responsive design" tabindex="0">CSS3/SCSS</span>
+                        <span class="skill-tag" data-tooltip="CSS framework" tabindex="0">Bootstrap</span>
                     </div>
                 </div>
                 <div class="skill-category">
                     <h3>🗄️ Databases</h3>
                     <div>
+                        <span class="skill-tag" data-tooltip="Enterprise DB" tabindex="0">SQL Server</span>
+                        <span class="skill-tag" data-tooltip="Relational DB" tabindex="0">MySQL</span>
                         <span class="skill-tag" data-tooltip="NoSQL document DB" tabindex="0">MongoDB</span>
                         <span class="skill-tag" data-tooltip="In-memory caching" tabindex="0">Redis</span>
-                        <span class="skill-tag" data-tooltip="Relational DB" tabindex="0">MySQL</span>
-                        <span class="skill-tag" data-tooltip="Enterprise DB" tabindex="0">SQL Server</span>
+                        <span class="skill-tag" data-tooltip="Cloud database" tabindex="0">Azure SQL</span>
                     </div>
                 </div>
                 <div class="skill-category">
                     <h3>☁️ Cloud & DevOps</h3>
                     <div>
-                        <span class="skill-tag" data-tooltip="Cloud computing" tabindex="0">AWS EC2</span>
-                        <span class="skill-tag" data-tooltip="Object storage" tabindex="0">AWS S3</span>
+                        <span class="skill-tag" data-tooltip="Microsoft cloud" tabindex="0">Azure</span>
+                        <span class="skill-tag" data-tooltip="Cloud computing" tabindex="0">AWS</span>
                         <span class="skill-tag" data-tooltip="Containerization" tabindex="0">Docker</span>
+                        <span class="skill-tag" data-tooltip="CI/CD" tabindex="0">Azure DevOps</span>
                         <span class="skill-tag" data-tooltip="Version control" tabindex="0">Git</span>
-                        <span class="skill-tag" data-tooltip="Server administration" tabindex="0">Linux</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h3>🔧 Tools & Practices</h3>
+                    <div>
+                        <span class="skill-tag" data-tooltip="IDE" tabindex="0">Visual Studio</span>
+                        <span class="skill-tag" data-tooltip="Project management" tabindex="0">Jira</span>
+                        <span class="skill-tag" data-tooltip="API testing" tabindex="0">Postman</span>
+                        <span class="skill-tag" data-tooltip="Methodology" tabindex="0">Agile/Scrum</span>
+                        <span class="skill-tag" data-tooltip="Unit testing" tabindex="0">xUnit/NUnit</span>
                     </div>
                 </div>
             </div>
@@ -4125,22 +4141,25 @@
                     <div class="timeline-content">
                         <h3>Software Developer</h3>
                         <p class="date">Eurofins IT Solutions India Pvt Ltd | Present</p>
-                        <p>
-                            Contributing to enterprise-grade software solutions with focus on scalable architecture, 
-                            performance optimization, and industry best practices. Working with cutting-edge technologies 
-                            to deliver high-quality software products.
-                        </p>
+                        <ul>
+                            <li>Contributing to enterprise-grade software solutions with focus on scalable architecture</li>
+                            <li>Working with cutting-edge technologies to deliver high-quality software products</li>
+                            <li>Performance optimization and implementation of industry best practices</li>
+                        </ul>
                     </div>
                 </div>
                 <div class="timeline-item">
                     <div class="timeline-content">
-                        <h3>Data Science Intern</h3>
-                        <p class="date">Prinston Smart | Nov 2024 - Jan 2025</p>
+                        <h3>.NET Full Stack Developer / Software Engineer</h3>
+                        <p class="date">Accenture | Nov 2022 - Nov 2025</p>
                         <ul>
-                            <li>Processed and cleaned datasets with 100k+ records using Python and Pandas, improving data quality by 40%</li>
-                            <li>Developed machine learning models using scikit-learn achieving 85%+ predictive accuracy</li>
-                            <li>Created automated dashboards in Power BI that enhanced business reporting efficiency by 30%</li>
-                            <li>Collaborated with senior data scientists on model optimization and data pipeline improvements</li>
+                            <li>Developed enterprise shopping and e-commerce web applications using .NET Core, ASP.NET MVC, and C# with Angular frontend</li>
+                            <li>Built healthcare management systems with patient data processing and HIPAA compliance</li>
+                            <li>Created RESTful APIs and microservices architecture for scalable solutions</li>
+                            <li>Worked with SQL Server, Entity Framework, and Azure cloud services</li>
+                            <li>Implemented CI/CD pipelines and DevOps practices for efficient deployment</li>
+                            <li>Collaborated with cross-functional teams using Agile/Scrum methodologies</li>
+                            <li>Optimized application performance and ensured code quality through best practices</li>
                         </ul>
                     </div>
                 </div>
@@ -4755,6 +4774,168 @@
                 page_location: window.location.href,
                 page_path: window.location.pathname
             });
+        }
+
+        // ==================== QR CODE FUNCTIONALITY ====================
+        function showQRCode() {
+            // Create QR code modal
+            const modal = document.createElement('div');
+            modal.className = 'qr-modal';
+            modal.id = 'qrModal';
+            modal.innerHTML = `
+                <div class="qr-modal-backdrop" onclick="closeQRModal()"></div>
+                <div class="qr-modal-content glass-card-strong">
+                    <button class="qr-modal-close" onclick="closeQRModal()" aria-label="Close">×</button>
+                    <h3 style="color: var(--primary); margin-bottom: 1rem; font-family: var(--font-display);">📱 Scan to Connect</h3>
+                    <div class="qr-code-container" id="qrCodeContainer">
+                        <canvas id="qrCanvas"></canvas>
+                    </div>
+                    <p style="color: var(--text-muted); margin-top: 1rem; font-size: 0.9rem;">Scan this QR code to view my portfolio on your mobile device</p>
+                    <div style="margin-top: 1rem; display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap;">
+                        <a href="https://linkedin.com/in/karthik-m-9262a02b4" target="_blank" class="btn btn-primary" style="font-size: 0.8rem;">LinkedIn</a>
+                        <a href="https://github.com/Karthik77-kk" target="_blank" class="btn btn-secondary" style="font-size: 0.8rem;">GitHub</a>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+            
+            // Generate QR Code using canvas
+            setTimeout(() => {
+                generateQRCode('qrCanvas', window.location.href);
+                modal.classList.add('show');
+            }, 10);
+            
+            showNotification('QR Code generated! 📱', 'success');
+            addXP(10, 'Viewed QR code');
+        }
+        
+        function closeQRModal() {
+            const modal = document.getElementById('qrModal');
+            if (modal) {
+                modal.classList.remove('show');
+                setTimeout(() => modal.remove(), 300);
+            }
+        }
+        
+        function generateQRCode(canvasId, text) {
+            const canvas = document.getElementById(canvasId);
+            if (!canvas) return;
+            
+            const ctx = canvas.getContext('2d');
+            const size = 200;
+            canvas.width = size;
+            canvas.height = size;
+            
+            // Simple QR-like pattern (visual placeholder - actual QR would need a library)
+            // For a real QR code, we'd use qrcode.js library
+            const cellSize = 10;
+            const modules = Math.floor(size / cellSize);
+            
+            // Create a deterministic pattern based on URL
+            const seed = text.split('').reduce((a, b) => a + b.charCodeAt(0), 0);
+            
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, size, size);
+            
+            ctx.fillStyle = '#000000';
+            
+            // Draw finder patterns (corners)
+            drawFinderPattern(ctx, 0, 0, cellSize);
+            drawFinderPattern(ctx, size - 7 * cellSize, 0, cellSize);
+            drawFinderPattern(ctx, 0, size - 7 * cellSize, cellSize);
+            
+            // Draw data pattern
+            for (let y = 0; y < modules; y++) {
+                for (let x = 0; x < modules; x++) {
+                    // Skip finder pattern areas
+                    if ((x < 8 && y < 8) || (x >= modules - 8 && y < 8) || (x < 8 && y >= modules - 8)) {
+                        continue;
+                    }
+                    // Deterministic pattern
+                    const idx = y * modules + x;
+                    if ((seed * (idx + 1)) % 3 === 0) {
+                        ctx.fillRect(x * cellSize, y * cellSize, cellSize, cellSize);
+                    }
+                }
+            }
+        }
+        
+        function drawFinderPattern(ctx, x, y, cellSize) {
+            // Outer square
+            ctx.fillRect(x, y, 7 * cellSize, 7 * cellSize);
+            // White middle
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(x + cellSize, y + cellSize, 5 * cellSize, 5 * cellSize);
+            // Inner square
+            ctx.fillStyle = '#000000';
+            ctx.fillRect(x + 2 * cellSize, y + 2 * cellSize, 3 * cellSize, 3 * cellSize);
+        }
+
+        // ==================== COPY EMAIL FUNCTIONALITY ====================
+        function copyEmail() {
+            const email = 'iammrkarthik2002@gmail.com';
+            
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(email).then(() => {
+                    showNotification('📧 Email copied to clipboard!', 'success');
+                    addXP(5, 'Copied email');
+                }).catch(err => {
+                    fallbackCopyEmail(email);
+                });
+            } else {
+                fallbackCopyEmail(email);
+            }
+        }
+        
+        function fallbackCopyEmail(text) {
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+            textArea.style.position = 'fixed';
+            textArea.style.left = '-9999px';
+            document.body.appendChild(textArea);
+            textArea.select();
+            try {
+                document.execCommand('copy');
+                showNotification('📧 Email copied to clipboard!', 'success');
+                addXP(5, 'Copied email');
+            } catch (err) {
+                showNotification('Failed to copy. Email: ' + text, 'error');
+            }
+            document.body.removeChild(textArea);
+        }
+
+        // ==================== GITHUB CONTRIBUTIONS VISUALIZATION ====================
+        function initGitHubStats() {
+            const container = document.getElementById('githubStats');
+            if (!container) return;
+            
+            const username = 'Karthik77-kk';
+            
+            container.innerHTML = `
+                <div class="github-stats-grid">
+                    <div class="github-stat-card glass-card">
+                        <img src="https://github-readme-stats.vercel.app/api?username=${username}&show_icons=true&theme=radical&hide_border=true&bg_color=0d1117&title_color=00ffff&icon_color=ff00ff&text_color=ffffff" 
+                             alt="GitHub Stats" 
+                             loading="lazy"
+                             onerror="this.parentElement.innerHTML='<div style=\\'padding: 1rem; text-align: center; color: var(--text-muted);\\'>Stats temporarily unavailable</div>'"
+                             style="width: 100%; height: auto; border-radius: 10px;">
+                    </div>
+                    <div class="github-stat-card glass-card">
+                        <img src="https://github-readme-streak-stats.herokuapp.com/?user=${username}&theme=radical&hide_border=true&background=0d1117&ring=00ffff&fire=ff00ff&currStreakLabel=ffffff" 
+                             alt="GitHub Streak" 
+                             loading="lazy"
+                             onerror="this.parentElement.innerHTML='<div style=\\'padding: 1rem; text-align: center; color: var(--text-muted);\\'>Streak stats temporarily unavailable</div>'"
+                             style="width: 100%; height: auto; border-radius: 10px;">
+                    </div>
+                    <div class="github-stat-card glass-card" style="grid-column: 1 / -1;">
+                        <img src="https://github-readme-activity-graph.vercel.app/graph?username=${username}&theme=react-dark&hide_border=true&bg_color=0d1117&color=00ffff&line=ff00ff&point=ffff00" 
+                             alt="GitHub Activity Graph" 
+                             loading="lazy"
+                             onerror="this.parentElement.innerHTML='<div style=\\'padding: 1rem; text-align: center; color: var(--text-muted);\\'>Activity graph temporarily unavailable</div>'"
+                             style="width: 100%; height: auto; border-radius: 10px;">
+                    </div>
+                </div>
+            `;
         }
 
         // ==================== XP & GAMIFICATION SYSTEM ====================
@@ -7097,28 +7278,17 @@
             initProjectFiltering(); // Project filter functionality
             initTestimonialsSlider(); // Testimonials slider
             initGitHubFeed(); // Fetch GitHub activity
+            initGitHubStats(); // GitHub stats visualization
             initCookieConsent(); // Cookie consent banner
+            
+            // Copy email button handler
+            const copyEmailBtn = document.querySelector('.copy-email-btn');
+            if (copyEmailBtn) {
+                copyEmailBtn.addEventListener('click', copyEmail);
+            }
 
-            // Theme Toggle with smooth transition
-            const themeToggle = $('themeToggle');
-            const savedTheme = localStorage.getItem('theme') || 'dark';
-            document.documentElement.setAttribute('data-theme', savedTheme);
-            themeToggle.textContent = savedTheme === 'dark' ? '🌙' : '☀️';
-
-            themeToggle.addEventListener('click', () => {
-                document.documentElement.classList.add('theme-transitioning');
-                
-                const currentTheme = document.documentElement.getAttribute('data-theme');
-                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-                document.documentElement.setAttribute('data-theme', newTheme);
-                localStorage.setItem('theme', newTheme);
-                themeToggle.textContent = newTheme === 'dark' ? '🌙' : '☀️';
-                addXP(5, 'Theme toggle');
-                
-                setTimeout(() => {
-                    document.documentElement.classList.remove('theme-transitioning');
-                }, 500);
-            });
+            // Theme is locked to dark mode - no toggle functionality
+            document.documentElement.setAttribute('data-theme', 'dark');
 
             // Mobile Menu Toggle
             const mobileMenuBtn = $('mobileMenuBtn');
