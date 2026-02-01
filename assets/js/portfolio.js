@@ -4,6 +4,39 @@
 * Requires: utils.js
 */
 
+// ==================== CLIPBOARD UTILITY ====================
+async function copyToClipboard(text, successMessage = 'Copied!') {
+    try {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            await navigator.clipboard.writeText(text);
+            if (typeof showNotification === 'function') {
+                showNotification(successMessage, 'success');
+            }
+            return true;
+        } else {
+            // Fallback for older browsers
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+            textArea.style.position = 'fixed';
+            textArea.style.left = '-9999px';
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+            if (typeof showNotification === 'function') {
+                showNotification(successMessage, 'success');
+            }
+            return true;
+        }
+    } catch (err) {
+        console.error('Copy failed:', err);
+        if (typeof showNotification === 'function') {
+            showNotification('Failed to copy', 'error');
+        }
+        return false;
+    }
+}
+
 // ==================== GITHUB STATS WIDGET ====================
 function initGitHubStats() {
     const username = 'Karthik77-kk';
@@ -491,7 +524,7 @@ function showQRCode() {
     modal.innerHTML = `
         <div class="modal-backdrop" onclick="closeQRModal()"></div>
         <div class="modal-content glass-card-strong" style="max-width: 400px; text-align: center;">
-            <button class="modal-close" onclick="closeQRModal()" aria-label="Close">×</button>
+            <button class="modal-close" onclick="closeQRModal()" aria-label="Close">ï¿½</button>
             <div class="modal-body qr-code-container" style="padding: 2rem;">
                 <h2 style="color: var(--primary); margin-bottom: 1.5rem;">Scan to Connect</h2>
                 <img src="${qrImageUrl}" 

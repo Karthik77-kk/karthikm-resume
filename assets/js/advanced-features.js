@@ -14,33 +14,27 @@
             if (!this.container) return;
             
             this.skills = [
+                // .NET Technologies
+                { name: '.NET Core', icon: '🔷', category: 'dotnet', level: 95 },
+                { name: 'ASP.NET MVC', icon: '🌐', category: 'dotnet', level: 92 },
+                { name: 'C#', icon: '💜', category: 'dotnet', level: 95 },
+                { name: 'Entity Framework', icon: '🔗', category: 'dotnet', level: 90 },
+                
                 // Frontend
-                { name: 'React', icon: '⚛️', category: 'frontend', level: 95 },
-                { name: 'Vue.js', icon: '💚', category: 'frontend', level: 85 },
+                { name: 'Angular', icon: '🅰️', category: 'frontend', level: 90 },
+                { name: 'React', icon: '⚛️', category: 'frontend', level: 85 },
                 { name: 'TypeScript', icon: '📘', category: 'frontend', level: 90 },
-                { name: 'JavaScript', icon: '🟨', category: 'frontend', level: 95 },
                 { name: 'HTML/CSS', icon: '🎨', category: 'frontend', level: 95 },
                 
-                // Backend
-                { name: 'Python', icon: '🐍', category: 'backend', level: 95 },
-                { name: 'Node.js', icon: '💚', category: 'backend', level: 90 },
-                { name: 'Django', icon: '🎸', category: 'backend', level: 85 },
-                { name: 'FastAPI', icon: '⚡', category: 'backend', level: 88 },
-                
-                // Cloud
-                { name: 'AWS', icon: '☁️', category: 'cloud', level: 90 },
-                { name: 'Docker', icon: '🐳', category: 'cloud', level: 92 },
-                { name: 'Kubernetes', icon: '⚙️', category: 'cloud', level: 80 },
-                
-                // ML
-                { name: 'TensorFlow', icon: '🧠', category: 'ml', level: 85 },
-                { name: 'PyTorch', icon: '🔥', category: 'ml', level: 82 },
-                { name: 'Computer Vision', icon: '👁️', category: 'ml', level: 88 },
+                // Cloud & DevOps
+                { name: 'Azure', icon: '☁️', category: 'cloud', level: 90 },
+                { name: 'Docker', icon: '🐳', category: 'cloud', level: 88 },
+                { name: 'Azure DevOps', icon: '🔄', category: 'cloud', level: 85 },
                 
                 // Database
-                { name: 'MongoDB', icon: '🍃', category: 'database', level: 90 },
-                { name: 'PostgreSQL', icon: '🐘', category: 'database', level: 88 },
-                { name: 'Redis', icon: '🔴', category: 'database', level: 85 }
+                { name: 'SQL Server', icon: '🗄️', category: 'database', level: 92 },
+                { name: 'MongoDB', icon: '🍃', category: 'database', level: 85 },
+                { name: 'Redis', icon: '🔴', category: 'database', level: 82 }
             ];
             
             this.init();
@@ -62,10 +56,9 @@
                         ${this.skills.map((skill, i) => this.createSkillPlanet(skill, i)).join('')}
                     </div>
                     <div class="constellation-legend">
+                        <div class="legend-item"><div class="legend-dot dotnet"></div> .NET</div>
                         <div class="legend-item"><div class="legend-dot frontend"></div> Frontend</div>
-                        <div class="legend-item"><div class="legend-dot backend"></div> Backend</div>
                         <div class="legend-item"><div class="legend-dot cloud"></div> Cloud</div>
-                        <div class="legend-item"><div class="legend-dot ml"></div> AI/ML</div>
                         <div class="legend-item"><div class="legend-dot database"></div> Database</div>
                     </div>
                 </div>
@@ -498,14 +491,14 @@
             if (!this.container) return;
             
             this.technologies = [
-                { name: 'React', icon: '⚛️' },
-                { name: 'Python', icon: '🐍' },
-                { name: 'AWS', icon: '☁️' },
+                { name: '.NET Core', icon: '🔷' },
+                { name: 'C#', icon: '💜' },
+                { name: 'Angular', icon: '🅰️' },
+                { name: 'Azure', icon: '☁️' },
+                { name: 'SQL Server', icon: '🗄️' },
                 { name: 'Docker', icon: '🐳' },
-                { name: 'MongoDB', icon: '🍃' },
-                { name: 'Node.js', icon: '💚' },
-                { name: 'TensorFlow', icon: '🧠' },
-                { name: 'TypeScript', icon: '📘' }
+                { name: 'TypeScript', icon: '📘' },
+                { name: 'Entity Framework', icon: '🔗' }
             ];
             
             this.init();

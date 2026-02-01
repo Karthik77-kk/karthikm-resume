@@ -112,12 +112,11 @@
                 
                 // Actions
                 'download resume': () => this.downloadResume(),
-                'toggle theme': () => this.toggleTheme(),
-                'change theme': () => this.toggleTheme(),
-                'dark mode': () => this.setTheme('dark'),
-                'light mode': () => this.setTheme('light'),
                 'open chat': () => this.openChat(),
                 'close chat': () => this.closeChat(),
+                'copy email': () => { if (typeof copyEmail === 'function') copyEmail(); },
+                'show qr': () => { if (typeof showQRCode === 'function') showQRCode(); },
+                'show qr code': () => { if (typeof showQRCode === 'function') showQRCode(); },
                 
                 // Contact
                 'call': () => window.location.href = 'tel:+917019880061',
@@ -137,12 +136,72 @@
                     action();
                     executed = true;
                     this.showNotification(`Command: ${phrase}`, 'success');
+                    this.speak(`Executing: ${phrase}`);
                     break;
                 }
             }
 
             if (!executed) {
-                this.showNotification('Command not recognized. Try "go to projects" or "download resume"', 'info');
+                // Use Gemini AI for natural language understanding
+                this.processWithAI(transcript);
+            }
+        }
+        
+        async processWithAI(transcript) {
+            // Note: For GitHub Pages static hosting, the API key is included client-side.
+            // For production deployment, consider using a backend proxy or serverless function.
+            const GEMINI_API_KEY = 'AIzaSyA2bt3kPtC2OEO-r5Rmi9J5SpB9jj92TcE';
+            const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${GEMINI_API_KEY}`;
+            
+            try {
+                this.feedbackText.textContent = 'Processing...';
+                
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{
+                            parts: [{
+                                text: `You are a voice assistant for Karthik M's portfolio website. The user said: "${transcript}". 
+                                
+                                Available commands: go to about/skills/projects/experience/contact, download resume, open chat, copy email, show qr code, call, send email, open linkedin, open github, play game.
+                                
+                                If this matches a command, respond with just the command phrase. Otherwise, give a brief helpful response about what you can help with on this portfolio. Keep it under 30 words.`
+                            }]
+                        }],
+                        generationConfig: { temperature: 0.3, maxOutputTokens: 100 }
+                    })
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    const aiResponse = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+                    
+                    // Check if AI recognized a command
+                    const commandMatch = aiResponse.toLowerCase();
+                    if (commandMatch.includes('go to') || commandMatch.includes('download') || commandMatch.includes('open')) {
+                        this.processCommand(commandMatch);
+                    } else {
+                        this.feedbackText.textContent = aiResponse.substring(0, 100);
+                        this.speak(aiResponse);
+                        setTimeout(() => this.feedback.classList.remove('active'), 4000);
+                    }
+                } else {
+                    throw new Error('API error');
+                }
+            } catch (error) {
+                this.showNotification('Try commands like "go to projects" or "download resume"', 'info');
+                this.speak('I can help you navigate. Try saying go to projects or download resume.');
+            }
+        }
+        
+        speak(text) {
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.rate = 1;
+                utterance.pitch = 1;
+                utterance.volume = 0.8;
+                speechSynthesis.speak(utterance);
             }
         }
 
@@ -156,16 +215,6 @@
         downloadResume() {
             const btn = document.querySelector('button[onclick*="generateResume"], a[download]');
             if (btn) btn.click();
-        }
-
-        toggleTheme() {
-            const toggle = document.getElementById('themeToggle');
-            if (toggle) toggle.click();
-        }
-
-        setTheme(theme) {
-            document.documentElement.setAttribute('data-theme', theme);
-            localStorage.setItem('theme', theme);
         }
 
         openChat() {

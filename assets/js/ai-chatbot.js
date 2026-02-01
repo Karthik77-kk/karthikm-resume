@@ -10,64 +10,65 @@
     // ==================== CHATBOT DATA ====================
     const portfolioData = {
         name: "Karthik M",
-        role: "Full Stack Developer",
-        company: "Eurofins IT Solutions",
+        role: "Software Developer",
+        company: "Eurofins IT Solutions India Pvt Ltd",
+        previousCompany: "Accenture",
         email: "iammrkarthik2002@gmail.com",
         phone: "+917019880061",
         location: "Bangalore, India",
         github: "https://github.com/Karthik77-kk",
         linkedin: "https://linkedin.com/in/karthik-m-9262a02b4",
         skills: {
-            frontend: ["React.js", "Vue.js", "Angular", "TypeScript", "JavaScript", "HTML5", "CSS3", "Tailwind CSS", "Bootstrap"],
-            backend: ["Python", "Node.js", "Express.js", "Django", "Flask", "FastAPI", "REST APIs", "GraphQL"],
-            database: ["MongoDB", "PostgreSQL", "MySQL", "Redis", "Firebase", "SQLite"],
-            cloud: ["AWS", "Azure", "GCP", "Docker", "Kubernetes", "CI/CD", "Terraform"],
-            ml: ["Machine Learning", "TensorFlow", "PyTorch", "Computer Vision", "NLP", "Data Science", "Pandas", "NumPy"],
-            tools: ["Git", "GitHub", "VS Code", "Postman", "Jira", "Figma", "Linux"]
+            dotnet: [".NET Core", "ASP.NET MVC", "ASP.NET Web API", "Entity Framework", "C#", "LINQ"],
+            frontend: ["Angular", "React", "TypeScript", "JavaScript", "HTML5", "CSS3", "Bootstrap"],
+            backend: ["C#", "Python", "Node.js", "REST APIs", "Microservices"],
+            database: ["SQL Server", "MySQL", "MongoDB", "Redis", "Azure SQL"],
+            cloud: ["Azure", "AWS", "Docker", "Azure DevOps", "CI/CD"],
+            tools: ["Visual Studio", "Git", "Jira", "Postman", "xUnit/NUnit", "Agile/Scrum"]
         },
         experience: [
             {
                 role: "Software Developer",
                 company: "Eurofins IT Solutions India Pvt Ltd",
-                period: "June 2024 - Present",
-                description: "Full-stack development, API design, cloud deployment, ML integration"
+                period: "Present",
+                description: "Enterprise software development with focus on scalable architecture and best practices"
+            },
+            {
+                role: ".NET Full Stack Developer / Software Engineer",
+                company: "Accenture",
+                period: "Nov 2022 - Nov 2025",
+                description: "Built enterprise shopping and healthcare web applications using .NET Core, ASP.NET MVC, C#, and Angular"
             }
         ],
         projects: [
             {
-                name: "AI-Powered Resume Parser",
-                tech: ["Python", "NLP", "Machine Learning", "Flask"],
-                description: "Intelligent resume parsing system using NLP and ML"
+                name: "E-Commerce Shopping Platform",
+                tech: [".NET Core", "Angular", "SQL Server", "Azure"],
+                description: "Enterprise shopping platform with payment integration and inventory management"
             },
             {
-                name: "Real-time Dashboard",
-                tech: ["React", "Node.js", "Socket.io", "MongoDB"],
-                description: "Live analytics dashboard with real-time data visualization"
+                name: "Healthcare Management System",
+                tech: ["ASP.NET MVC", "C#", "Entity Framework", "Azure"],
+                description: "Patient data management system with HIPAA compliance and reporting"
             },
             {
-                name: "Cloud Deployment Pipeline",
-                tech: ["AWS", "Docker", "Kubernetes", "Terraform"],
-                description: "Automated CI/CD pipeline for cloud deployments"
-            },
-            {
-                name: "Computer Vision System",
-                tech: ["Python", "OpenCV", "TensorFlow", "IoT"],
-                description: "Object detection and tracking for industrial applications"
+                name: "API Gateway & Microservices",
+                tech: [".NET Core", "Docker", "Azure DevOps", "Redis"],
+                description: "Scalable microservices architecture for enterprise applications"
             }
         ],
         certifications: [
             "AWS Certified Cloud Practitioner",
-            "Google Cloud Associate",
+            "Azure Fundamentals",
             "MongoDB Developer",
-            "Python Professional Certificate",
-            "Machine Learning Specialization"
+            ".NET Developer Certificate"
         ],
         education: {
-            degree: "MCA (Master of Computer Applications)",
-            college: "Dayananda Sagar Academy of Technology & Management",
-            year: "2024"
+            degree: "BCA (Bachelor of Computer Applications)",
+            college: "RNS First Grade College, Bangalore University",
+            year: "2023"
         },
-        hobbies: ["Coding", "Gaming", "Reading Tech Blogs", "Open Source Contribution", "Photography"]
+        hobbies: ["Coding", "Gaming", "Reading Tech Blogs", "Open Source Contribution"]
     };
 
     // ==================== RESPONSE TEMPLATES ====================
@@ -75,21 +76,21 @@
         greeting: [
             "Hey there! 👋 I'm Karthik's AI assistant. How can I help you learn more about his work?",
             "Hello! Welcome to Karthik's portfolio. I can tell you about his skills, projects, or how to get in touch!",
-            "Hi! 🚀 Great to meet you! Ask me anything about Karthik's experience as a Full Stack Developer."
+            "Hi! 🚀 Great to meet you! Ask me anything about Karthik's experience as a Software Developer."
         ],
         skills: {
-            general: `Karthik is a versatile Full Stack Developer with expertise in:\n\n🎨 **Frontend:** ${portfolioData.skills.frontend.slice(0, 5).join(', ')}\n\n⚙️ **Backend:** ${portfolioData.skills.backend.slice(0, 5).join(', ')}\n\n☁️ **Cloud & DevOps:** ${portfolioData.skills.cloud.slice(0, 4).join(', ')}\n\n🤖 **AI/ML:** ${portfolioData.skills.ml.slice(0, 4).join(', ')}\n\nWant to know more about any specific area?`,
-            frontend: `For frontend development, Karthik works with:\n\n${portfolioData.skills.frontend.map(s => `• ${s}`).join('\n')}\n\nHe builds responsive, interactive UIs with modern frameworks!`,
-            backend: `On the backend side, Karthik is proficient in:\n\n${portfolioData.skills.backend.map(s => `• ${s}`).join('\n')}\n\nFrom REST APIs to GraphQL, he's got it covered!`,
+            general: `Karthik is a versatile Full Stack Developer with expertise in:\n\n🔷 **.NET:** ${portfolioData.skills.dotnet.slice(0, 4).join(', ')}\n\n🎨 **Frontend:** ${portfolioData.skills.frontend.slice(0, 4).join(', ')}\n\n☁️ **Cloud & DevOps:** ${portfolioData.skills.cloud.slice(0, 4).join(', ')}\n\n🗄️ **Database:** ${portfolioData.skills.database.slice(0, 4).join(', ')}\n\nWant to know more about any specific area?`,
+            dotnet: `For .NET development, Karthik works with:\n\n${portfolioData.skills.dotnet.map(s => `• ${s}`).join('\n')}\n\nHe builds enterprise applications with .NET Core and ASP.NET!`,
+            frontend: `On the frontend side, Karthik is proficient in:\n\n${portfolioData.skills.frontend.map(s => `• ${s}`).join('\n')}\n\nAngular and React for building modern web interfaces!`,
             cloud: `Karthik's cloud & DevOps skills include:\n\n${portfolioData.skills.cloud.map(s => `• ${s}`).join('\n')}\n\nHe can architect and deploy scalable cloud solutions!`,
-            ml: `For AI/ML projects, Karthik uses:\n\n${portfolioData.skills.ml.map(s => `• ${s}`).join('\n')}\n\nFrom computer vision to NLP, he brings AI to applications!`
+            database: `For database work, Karthik uses:\n\n${portfolioData.skills.database.map(s => `• ${s}`).join('\n')}\n\nFrom SQL Server to MongoDB, he's got it covered!`
         },
         projects: `Here are some of Karthik's notable projects:\n\n${portfolioData.projects.map((p, i) => `${i + 1}. **${p.name}**\n   ${p.description}\n   Tech: ${p.tech.join(', ')}`).join('\n\n')}\n\nWant to know more about any specific project?`,
-        experience: `💼 **Current Role:**\n${portfolioData.experience[0].role} at ${portfolioData.experience[0].company}\n(${portfolioData.experience[0].period})\n\n${portfolioData.experience[0].description}\n\nKarthik brings a unique combination of full-stack development and ML expertise!`,
+        experience: `💼 **Current Role:**\n${portfolioData.experience[0].role} at ${portfolioData.experience[0].company}\n(${portfolioData.experience[0].period})\n\n${portfolioData.experience[0].description}\n\n💼 **Previous Role:**\n${portfolioData.experience[1].role} at ${portfolioData.experience[1].company}\n(${portfolioData.experience[1].period})\n\n${portfolioData.experience[1].description}`,
         contact: `📬 **Let's Connect!**\n\n📧 Email: ${portfolioData.email}\n📱 Phone: ${portfolioData.phone}\n💼 LinkedIn: linkedin.com/in/karthik-m\n🐙 GitHub: github.com/Karthik77-kk\n📍 Location: ${portfolioData.location}\n\nFeel free to reach out for collaborations or opportunities!`,
-        education: `🎓 **Education:**\n\n${portfolioData.education.degree}\n${portfolioData.education.college}\nGraduated: ${portfolioData.education.year}\n\nKarthik combines strong academic foundations with practical industry experience!`,
+        education: `🎓 **Education:**\n\n${portfolioData.education.degree}\n${portfolioData.education.college}\nGraduated: ${portfolioData.education.year}\n\nKarthik combines strong academic foundations with 3+ years of industry experience!`,
         certifications: `🏆 **Certifications:**\n\n${portfolioData.certifications.map(c => `✅ ${c}`).join('\n')}\n\nContinuous learning is key to staying current in tech!`,
-        hire: `🎯 **Why Hire Karthik?**\n\n✅ Full Stack expertise (React, Node.js, Python)\n✅ Cloud & DevOps skills (AWS, Docker, K8s)\n✅ AI/ML capabilities for intelligent solutions\n✅ Strong problem-solving abilities\n✅ Quick learner & team player\n✅ 20+ professional certifications\n\n📧 Contact: ${portfolioData.email}\n\nLet's build something amazing together!`,
+        hire: `🎯 **Why Hire Karthik?**\n\n✅ 3+ years .NET Full Stack experience at Accenture\n✅ Currently at Eurofins IT Solutions\n✅ Enterprise e-commerce & healthcare projects\n✅ Cloud & DevOps skills (Azure, Docker)\n✅ Strong problem-solving abilities\n✅ Quick learner & team player\n\n📧 Contact: ${portfolioData.email}\n\nLet's build something amazing together!`,
         resume: `📄 You can download Karthik's resume using the "Download Resume" button on the portfolio, or I can share the key highlights!\n\nWould you like to know about his:\n• Skills & expertise\n• Work experience\n• Projects\n• Certifications`,
         hobbies: `When not coding, Karthik enjoys:\n\n${portfolioData.hobbies.map(h => `• ${h}`).join('\n')}\n\nA balanced developer who stays curious and creative!`,
         fallback: [
@@ -284,15 +285,73 @@
             this.input.value = '';
             this.input.style.height = 'auto';
 
-            // Generate bot response
+            // Generate bot response - try Gemini first, fallback to local
             this.showTypingIndicator();
             
-            const responseDelay = 800 + Math.random() * 700;
-            setTimeout(() => {
+            this.getGeminiResponse(message).then(response => {
+                this.hideTypingIndicator();
+                this.addMessage(response, 'bot');
+            }).catch(() => {
                 this.hideTypingIndicator();
                 const response = this.generateResponse(message);
                 this.addMessage(response, 'bot');
-            }, responseDelay);
+            });
+        }
+
+        async getGeminiResponse(userMessage) {
+            // Note: For GitHub Pages static hosting, the API key is included client-side.
+            // For production deployment, consider using a backend proxy or serverless function.
+            const GEMINI_API_KEY = 'AIzaSyA2bt3kPtC2OEO-r5Rmi9J5SpB9jj92TcE';
+            const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${GEMINI_API_KEY}`;
+            
+            const context = `You are Karthik M's AI portfolio assistant. Here's information about Karthik:
+            - Current Role: Software Developer at Eurofins IT Solutions India Pvt Ltd
+            - Previous: .NET Full Stack Developer at Accenture (Nov 2022 - Nov 2025, 3 years)
+            - Projects at Accenture: E-commerce shopping platforms and Healthcare management systems
+            - Education: BCA from RNS First Grade College, Bangalore University (2020-2023)
+            - Skills: C#, .NET Core, ASP.NET MVC, Angular, React, SQL Server, Azure, Docker, Entity Framework
+            - Location: Bangalore, India
+            - Email: iammrkarthik2002@gmail.com
+            - Phone: +917019880061
+            - GitHub: github.com/Karthik77-kk
+            - LinkedIn: linkedin.com/in/karthik-m-9262a02b4
+            
+            Respond helpfully about Karthik's portfolio, skills, and experience. Keep responses concise and friendly. Use emojis where appropriate.`;
+            
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        contents: [{
+                            parts: [{
+                                text: `${context}\n\nUser question: ${userMessage}`
+                            }]
+                        }],
+                        generationConfig: {
+                            temperature: 0.7,
+                            topK: 40,
+                            topP: 0.95,
+                            maxOutputTokens: 500
+                        }
+                    })
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Gemini API error');
+                }
+                
+                const data = await response.json();
+                if (data.candidates && data.candidates[0]?.content?.parts?.[0]?.text) {
+                    return data.candidates[0].content.parts[0].text;
+                }
+                throw new Error('Invalid response format');
+            } catch (error) {
+                console.warn('Gemini API fallback:', error);
+                throw error; // Fall back to local response
+            }
         }
 
         addMessage(text, type) {
@@ -342,17 +401,17 @@
 
             // Skills
             if (/skill|tech|stack|know|expert|proficient|technology/.test(query)) {
-                if (/front|react|vue|angular|css|html|ui/.test(query)) {
-                    return responses.skills.frontend;
+                if (/\.net|dotnet|csharp|c#|asp\.net|entity/.test(query)) {
+                    return responses.skills.dotnet;
                 }
-                if (/back|node|python|api|server|django|flask/.test(query)) {
-                    return responses.skills.backend;
+                if (/front|react|angular|css|html|ui|typescript/.test(query)) {
+                    return responses.skills.frontend;
                 }
                 if (/cloud|aws|azure|docker|devops|deploy/.test(query)) {
                     return responses.skills.cloud;
                 }
-                if (/ml|machine|learn|ai|artificial|data|tensor|vision/.test(query)) {
-                    return responses.skills.ml;
+                if (/database|sql|mongo|redis/.test(query)) {
+                    return responses.skills.database;
                 }
                 return responses.skills.general;
             }
@@ -363,7 +422,7 @@
             }
 
             // Experience
-            if (/experience|job|work|company|role|career|employ/.test(query)) {
+            if (/experience|job|work|company|role|career|employ|accenture|eurofins/.test(query)) {
                 return responses.experience;
             }
 
@@ -373,7 +432,7 @@
             }
 
             // Education
-            if (/education|study|degree|college|university|school|academic/.test(query)) {
+            if (/education|study|degree|college|university|school|academic|bca/.test(query)) {
                 return responses.education;
             }
 
@@ -394,7 +453,7 @@
 
             // About/Who
             if (/who|about|tell me|introduce|yourself/.test(query)) {
-                return `👋 Karthik M is a passionate **Full Stack Developer** currently working at **${portfolioData.company}** in ${portfolioData.location}.\n\nHe specializes in building end-to-end web applications with modern technologies like React, Node.js, Python, and cloud services.\n\nWith expertise in both development and AI/ML, he creates intelligent, scalable solutions!\n\nWant to know about his skills, projects, or how to contact him?`;
+                return `👋 Karthik M is a passionate **Software Developer** currently working at **${portfolioData.company}** in ${portfolioData.location}.\n\nWith 3+ years of experience as a .NET Full Stack Developer at Accenture, he specializes in building enterprise web applications for e-commerce and healthcare domains.\n\nExpert in C#, ASP.NET Core, Angular, SQL Server, and Azure!\n\nWant to know about his skills, projects, or how to contact him?`;
             }
 
             // Hobbies/Personal
