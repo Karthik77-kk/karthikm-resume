@@ -10,6 +10,8 @@
     // ==================== AI RESUME ANALYZER ====================
     class AIResumeAnalyzer {
         constructor() {
+            // Note: For GitHub Pages static hosting, API key is client-side.
+            // For production, use a backend proxy service.
             this.apiKey = 'AIzaSyA2bt3kPtC2OEO-r5Rmi9J5SpB9jj92TcE';
             this.skills = [
                 'C#', '.NET Core', 'ASP.NET MVC', 'ASP.NET Web API', 'Entity Framework',
@@ -17,6 +19,8 @@
                 'SQL Server', 'Azure', 'Docker', 'Azure DevOps', 'Git',
                 'Python', 'Machine Learning', 'REST APIs', 'Microservices'
             ];
+            // Expected skills for 100% match calculation
+            this.EXPECTED_SKILL_COUNT = 8;
             this.init();
         }
 
@@ -53,7 +57,12 @@
         async analyze() {
             const jobDesc = document.getElementById('jobDescInput').value;
             if (!jobDesc.trim()) {
-                alert('Please paste a job description first!');
+                // Use notification if available, fallback to alert
+                if (typeof showNotification === 'function') {
+                    showNotification('Please paste a job description first!', 'warning');
+                } else {
+                    alert('Please paste a job description first!');
+                }
                 return;
             }
 
@@ -66,7 +75,7 @@
                     jobDesc.toLowerCase().includes(skill.toLowerCase())
                 );
                 
-                const matchPercentage = Math.min(100, Math.round((matchedSkills.length / 8) * 100));
+                const matchPercentage = Math.min(100, Math.round((matchedSkills.length / this.EXPECTED_SKILL_COUNT) * 100));
                 
                 // Get AI analysis
                 const aiAnalysis = await this.getAIAnalysis(jobDesc, matchedSkills);
@@ -126,6 +135,10 @@
     }
 
     // ==================== ENHANCED VOICE ASSISTANT ====================
+    // Note: For GitHub Pages static hosting, API key is client-side.
+    // For production, use a backend proxy service.
+    const GEMINI_API_KEY = 'AIzaSyA2bt3kPtC2OEO-r5Rmi9J5SpB9jj92TcE';
+    
     class EnhancedVoiceAssistant {
         constructor() {
             this.isListening = false;
@@ -230,7 +243,7 @@
         async getAIResponse(query) {
             try {
                 const response = await fetch(
-                    `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=AIzaSyA2bt3kPtC2OEO-r5Rmi9J5SpB9jj92TcE`,
+                    `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${GEMINI_API_KEY}`,
                     {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
@@ -500,6 +513,7 @@
         }
 
         displayInsights() {
+            const MILLISECONDS_PER_DAY = 86400000; // 1000 * 60 * 60 * 24
             const visits = localStorage.getItem('visitCount') || '1';
             const lastVisit = localStorage.getItem('lastVisit');
             
@@ -511,7 +525,7 @@
 
             // Welcome back message for returning visitors
             if (parseInt(visits) > 1 && lastVisit) {
-                const daysSince = Math.floor((Date.now() - new Date(lastVisit).getTime()) / (1000 * 60 * 60 * 24));
+                const daysSince = Math.floor((Date.now() - new Date(lastVisit).getTime()) / MILLISECONDS_PER_DAY);
                 if (daysSince > 0) {
                     this.showWelcomeBack(daysSince);
                 }
@@ -765,10 +779,15 @@
                 }
             });
 
-            // Enter key activates focused elements
+            // Enter key activates focused non-interactive elements only
             document.addEventListener('keydown', (e) => {
                 if (e.key === 'Enter' && document.activeElement) {
-                    document.activeElement.click();
+                    const tag = document.activeElement.tagName.toLowerCase();
+                    const isInteractive = ['button', 'a', 'input', 'textarea', 'select'].includes(tag);
+                    // Only trigger click on non-interactive elements that we made focusable
+                    if (!isInteractive && document.activeElement.hasAttribute('tabindex')) {
+                        document.activeElement.click();
+                    }
                 }
             });
         }

@@ -427,9 +427,11 @@ kbd {
 }
 
 /* ==================== PROFESSIONAL NAV ENHANCEMENT ==================== */
-nav {
+/* Enhanced nav specificity to avoid !important */
+nav.nav-header,
+nav[role="navigation"] {
     backdrop-filter: blur(20px);
-    background: rgba(10, 10, 20, 0.8) !important;
+    background: rgba(10, 10, 20, 0.8);
     border-bottom: 1px solid rgba(0, 255, 255, 0.1);
 }
 
